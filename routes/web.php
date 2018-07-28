@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+//doador
+Route::get('/doador/cadastro','DoadorController@create');
