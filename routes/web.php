@@ -17,3 +17,4 @@ Route::get('/', function () {
 
 //doador
 Route::get('/doador/cadastro','DoadorController@create');
+Route::post('/doador/store','DoadorController@store');

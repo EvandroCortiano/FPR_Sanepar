@@ -5,9 +5,18 @@ namespace App\Controllers;
 use App\doador;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DoadorRequest;
+use App\Repository\DoadorRepository;
 
 class DoadorController extends Controller
 {
+    protected $doador;
+
+    public function __construct(DoadorRepository $doador)
+    {
+        $this->doador = $doador;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -34,9 +43,13 @@ class DoadorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DoadorRequest $request)
     {
-        //
+        $data = $request->all();
+        //realiza o cadastro
+        $cadDdr = $this->doador->store($data);
+
+        return $cadDdr;
     }
 
     /**

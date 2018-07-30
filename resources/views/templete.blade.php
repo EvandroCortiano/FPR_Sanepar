@@ -10,10 +10,20 @@
 
     <!-- BOOTSTRAP CORE STYLE  -->
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" />
+    <!-- TOASTR CORE STYLE  -->
+    <link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet" />
     <!-- FONT AWESOME ICONS  -->
     <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet" />
     <!-- CUSTOM STYLE  -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
+
+    <!-- Scripts -->
+    <!-- CORE JQUERY SCRIPTS -->
+    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+    <!-- BOOTSTRAP SCRIPTS  -->
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+    <!-- TOASTR SCRIPTS  -->
+    <script src="{{ asset('js/toastr.min.js') }}"></script>
 
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -103,14 +113,9 @@
         </div>
     </section>
 
-
-
-
-
 <div class="container">
     @yield('content')
 </div>
-
 
     <!-- CONTENT-WRAPPER SECTION END-->
     <footer>
@@ -123,12 +128,5 @@
             </div>
         </div>
     </footer>
-
-
-    <!-- Scripts -->
-    <!-- CORE JQUERY SCRIPTS -->
-    <script src="{{ asset('js/jquery-1.11.1.js') }}"></script>
-    <!-- BOOTSTRAP SCRIPTS  -->
-    <script src="{{ asset('js/bootstrap.js') }}"></script>
 </body>
 </html>
