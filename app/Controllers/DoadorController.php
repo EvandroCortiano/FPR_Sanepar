@@ -24,7 +24,9 @@ class DoadorController extends Controller
      */
     public function index()
     {
-        //
+        $doadores = $this->doador->findAll();
+        
+        return view('doador.doadores', ['doadores' => $doadores]);
     }
 
     /**

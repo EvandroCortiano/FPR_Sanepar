@@ -59,7 +59,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="../../">
                     <img src="{{ asset('img/pro-renal.png') }}" width="200" />
                 </a>
             </div>
@@ -102,7 +102,7 @@
                 <div class="col-md-12">
                     <div class="navbar-collapse collapse ">
                         <ul id="menu-top" class="nav navbar-nav navbar-right">
-                            <li><a href="/doador/cadastro">Doador</a></li>
+                            <li><a href="/doador/doadores" id="doadorMenu">Doador</a></li>
                             {{-- <li><a class="menu-top-active" href="index.html">Dashboard</a></li>
                             <li><a href="table.html">Data Tables</a></li>
                             <li><a href="forms.html">Forms</a></li>
@@ -124,7 +124,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    &copy; 2018 Fundação Pró-Renal | By : <a href="evandrocortiano@gmail.com" target="_blank">evandrocortiano@gmail.com </a> (41) 99980-6992
+                    &copy; 2018 Fundação Pró-Renal | By : <a href="mailto:evandrocortiano@gmail.com" target="_blank">evandrocortiano@gmail.com </a> (41) 99980-6992
                 </div>
 
             </div>

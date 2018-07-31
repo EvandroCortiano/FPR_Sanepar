@@ -4,9 +4,16 @@ namespace App\Controllers;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
+use App\Repository\DoacaoRepository;
 
 class DoacaoController extends Controller
 {
+    protected $doacaoRepository;
+
+    public function __construct(DoacaoRepository $doacaoRepository)
+    {
+        $this->doacaoRepository = $doacaoRepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +42,9 @@ class DoacaoController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
+        $data = $request->all();
+        $cadDoacao = $this->doacaoRepository->store($data);
+        return $cadDoacao;
     }
 
     /**

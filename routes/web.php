@@ -17,11 +17,12 @@ Route::get('/', function () {
 
 //doador
 Route::get('/doador/cadastro','DoadorController@create');
+Route::get('/doador/doadores','DoadorController@index');
 Route::post('/doador/store','DoadorController@store');
 Route::get('/doador/edit/{ddr_id}','DoadorController@edit');
 
 //doacao
-Route::get('/doacao/store','DoacaoController@store');
+Route::post('/doacao/store','DoacaoController@store');
 
 
 Auth::routes();

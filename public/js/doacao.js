@@ -7,7 +7,7 @@ $("#modalCadDoacao #submitStoreDoacao").on('click', function(){
     data = $("form#formStoreDoacao").serialize();
 
     $.ajax({
-        type: 'get',
+        type: 'post',
         data: data,
         dataType: 'json',
         url: '../../doacao/store'
@@ -34,13 +34,31 @@ $("#modalCadDoacao #submitStoreDoacao").on('click', function(){
     });
 });
 
-//Atualiza valor mensal
+//Atualiza valor mensal atraves do campo da parcela
 $("#formStoreDoacao #doa_qtde_parcela").change(function(){
     var parcela = $("#formStoreDoacao #doa_qtde_parcela").val();
     var valorTotal = $("#formStoreDoacao #doa_valor").val();
+    var vlMensal = $("#formStoreDoacao #doa_valor_mensal").val();
 
-    if(parcela != '' && valorTotal != ''){
+    //se valor parcela vazio
+    if(parcela != '' && valorTotal != '' && vlMensal == ''){
         vlMensal = parseFloat(valorTotal) / parseFloat(parcela);
+        vlMensal = (vlMensal).toLocaleString("pt-BR", {
+            // Ajustando casas decimais
+            minimumFractionDigits: 2,  
+            maximumFractionDigits: 2
+          });
         $("#formStoreDoacao #doa_valor_mensal").val(vlMensal);
+    }
+
+    //se valor total vazio
+    if(parcela != '' && valorTotal == '' && vlMensal != ''){
+        valorTotal = parseFloat(vlMensal) * parseFloat(parcela);
+        valorTotal = (valorTotal).toLocaleString("pt-BR", {
+            // Ajustando casas decimais
+            minimumFractionDigits: 2,  
+            maximumFractionDigits: 2
+          });
+        $("#formStoreDoacao #doa_valor").val(valorTotal);
     }
 });

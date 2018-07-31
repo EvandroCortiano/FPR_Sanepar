@@ -4,8 +4,16 @@ namespace App\Repository;
 
 use App\Models\doador;
 
-
 class DoadorRepository{
+
+    //busca todos os doadores
+    public function findAll(){
+        try{
+            return doador::paginate(15);
+        } catch(\Exception $e){
+            return $e;
+        }
+    }
 
     //cadastra doador no banco de dados
     public function store($data){
