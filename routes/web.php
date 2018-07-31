@@ -18,3 +18,11 @@ Route::get('/', function () {
 //doador
 Route::get('/doador/cadastro','DoadorController@create');
 Route::post('/doador/store','DoadorController@store');
+Route::get('/doador/edit/{ddr_id}','DoadorController@edit');
+
+//doacao
+Route::get('/doacao/store','DoacaoController@store');
+
+
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');

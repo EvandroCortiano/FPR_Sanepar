@@ -14,7 +14,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-12">
 					<div class="panel panel-default">
 						<div class="panel-heading"> CADASTRO DOADOR </div>
 						<div class="panel-body">
@@ -42,13 +42,6 @@
 					</div>
 				</div>
 
-				<div class="col-md-6">
-					<div class="panel panel-default">
-						<div class="panel-heading"> DOAÇÃO </div>
-						<div class="panel-body">
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>

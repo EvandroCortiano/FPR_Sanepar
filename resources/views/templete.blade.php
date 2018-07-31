@@ -24,6 +24,8 @@
     <script src="{{ asset('js/bootstrap.js') }}"></script>
     <!-- TOASTR SCRIPTS  -->
     <script src="{{ asset('js/toastr.min.js') }}"></script>
+    <!-- MASK SCRIPTS  -->
+    <script src="{{ asset('js/mask.js') }}"></script>
 
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -35,7 +37,7 @@
 </head>
 <body>
 
-    <header>
+    {{-- <header>
         <div class="container")
             <div class="row">
                 <div class="col-md-12">
@@ -46,7 +48,7 @@
 
             </div>
         </div>
-    </header>
+    </header> --}}
     <!-- HEADER END-->
 
     <div class="navbar navbar-inverse set-radius-zero">
@@ -101,11 +103,11 @@
                     <div class="navbar-collapse collapse ">
                         <ul id="menu-top" class="nav navbar-nav navbar-right">
                             <li><a href="/doador/cadastro">Doador</a></li>
-                            <li><a class="menu-top-active" href="index.html">Dashboard</a></li>
+                            {{-- <li><a class="menu-top-active" href="index.html">Dashboard</a></li>
                             <li><a href="table.html">Data Tables</a></li>
                             <li><a href="forms.html">Forms</a></li>
-                             <li><a href="login.html">Login Page</a></li>
-                            <li><a href="blank.html">Blank Page</a></li>
+                            <li><a href="login.html">Login Page</a></li>
+                            <li><a href="blank.html">Blank Page</a></li> --}}
                         </ul>
                     </div>
                 </div>
@@ -122,7 +124,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    &copy; 2015 YourCompany | By : <a href="http://www.designbootstrap.com/" target="_blank">DesignBootstrap</a>
+                    &copy; 2018 Fundação Pró-Renal | By : <a href="evandrocortiano@gmail.com" target="_blank">evandrocortiano@gmail.com </a> (41) 99980-6992
                 </div>
 
             </div>

@@ -69,9 +69,11 @@ class DoadorController extends Controller
      * @param  \App\doador  $doador
      * @return \Illuminate\Http\Response
      */
-    public function edit(doador $doador)
+    public function edit($ddr_id)
     {
-        //
+        $ddr = $this->doador->find($ddr_id);
+
+        return view('doador.edit')->with(compact('ddr'));
     }
 
     /**
