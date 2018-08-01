@@ -14,8 +14,8 @@
                             {{ Form::date('doa_data', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'doa_data']) }}
                         </div>
                         <div class="col-sm-6">
-                            {{ Form::label('doaValor', 'Valor doação:') }}
-                            {{ Form::text('doa_valor', '', ['class' => 'form-control', 'id' => 'doa_valor', 'data-mask-type' => 'money']) }}
+                            {{ Form::label('doaValorMensal', 'Valor mensal:') }}
+                            {{ Form::text('doa_valor_mensal', '', ['class' => 'form-control', 'id' => 'doa_valor_mensal', 'data-mask-type' => 'money']) }}
                         </div>
                     </div>
                     <div class="row">
@@ -24,8 +24,8 @@
                             {{ Form::number('doa_qtde_parcela', '', ['class' => 'form-control', 'id' => 'doa_qtde_parcela']) }}
                         </div>
                         <div class="col-sm-6">
-                            {{ Form::label('doaValorMensal', 'Valor mensal:') }}
-                            {{ Form::text('doa_valor_mensal', '', ['class' => 'form-control', 'id' => 'doa_valor_mensal', 'data-mask-type' => 'money']) }}
+                            {{ Form::label('doaValor', 'Valor doação:') }}
+                            {{ Form::text('doa_valor', '', ['class' => 'form-control', 'id' => 'doa_valor', 'data-mask-type' => 'money']) }}
                         </div>
                     </div>
                     <div class="row">

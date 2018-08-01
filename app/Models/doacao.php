@@ -17,6 +17,11 @@ class doacao extends Model
         'doa_valor',
         'doa_qtde_parcela',
         'doa_motivo',
+        'doa_smt_id',
         'doa_valor_mensal'
     ];
+
+    public function motivo(){
+        return $this->belongsTo(status_motivo::class, 'doa_smt_id', 'smt_id');
+    }
 }

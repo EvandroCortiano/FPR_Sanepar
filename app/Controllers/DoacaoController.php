@@ -14,6 +14,7 @@ class DoacaoController extends Controller
     {
         $this->doacaoRepository = $doacaoRepository;
     }
+
     /**
      * Display a listing of the resource.
      *

@@ -7,14 +7,16 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DoadorRequest;
 use App\Repository\DoadorRepository;
+use App\Repository\DoacaoRepository;
 
 class DoadorController extends Controller
 {
-    protected $doador;
+    protected $doador, $doacao;
 
-    public function __construct(DoadorRepository $doador)
+    public function __construct(DoadorRepository $doador, DoacaoRepository $doacao)
     {
         $this->doador = $doador;
+        $this->doacao = $doacao;
     }
 
     /**
@@ -73,9 +75,20 @@ class DoadorController extends Controller
      */
     public function edit($ddr_id)
     {
+        //dados do doador
         $ddr = $this->doador->find($ddr_id);
+        //dados de doacao do doador
+        $doa = $this->doacao->findDdr($ddr->ddr_id);
+        
+        if(count($doa) > 0){
+            foreach($doa as $d){
+                $d->motivo;
+            }
+            return view('doador.edit')->with(compact('ddr','doa'));
+        } else {
+            return view('doador.edit')->with(compact('ddr'));
+        }
 
-        return view('doador.edit')->with(compact('ddr'));
     }
 
     /**

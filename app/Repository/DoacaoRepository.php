@@ -15,4 +15,13 @@ class DoacaoRepository{
             return $e;
         }
     }
+
+    //pesquisa doacoes do paciaente
+    public function findDdr($ddr_id){
+        try{
+            return doacao::where('doa_ddr_id',$ddr_id)->get();
+        } catch(\Exception $e){
+            return $e;
+        }
+    }
 }

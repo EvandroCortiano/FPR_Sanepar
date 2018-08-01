@@ -50,6 +50,75 @@ Cadastro de Doador e suas Doa��es
 					</div>
 				</div>
 				<div class="panel-body">
+					@if(isset($doa))
+						<div class="table-responsive">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Data Ini.</th>
+										<th>Valor M�s</th>
+										<th>Qtde Parc.</th>
+										<th>Valor</th>
+										<th>Motivo</th>
+										<th>Data Fim</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach ($doa as $d)
+										<tr>
+											<td>{{ $d->doa_data }}</td>
+											<td>{{ $d->doa_valor_mensal }}</td>
+											<td>{{ $d->doa_qtde_parcela }}</td>
+											<td>{{ $d->doa_valor }}</td>
+											<td>{{ $d->motivo->smt_nome }}</td>
+											<td>{{ $d->doa_data_final }}</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+						</div>
+					@else
+						<div id="formDoadorDoador">
+							{!! Form::open(['id' => 'formStoreDoadorDoacao']) !!}
+								<div class="modal-body">
+									{{ Form::hidden('doa_ddr_id', $ddr['ddr_id'],['id'=>'doa_ddr_id']) }}
+									<div class="row">
+										<div class="col-sm-6">
+											{{ Form::label('doaData', 'Data doação:') }}
+											{{ Form::date('doa_data', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'doa_data']) }}
+										</div>
+										<div class="col-sm-6">
+											{{ Form::label('doaValorMensal', 'Valor mensal:') }}
+											{{ Form::text('doa_valor_mensal', '', ['class' => 'form-control', 'id' => 'doa_valor_mensal', 'data-mask-type' => 'money']) }}
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-6">
+											{{ Form::label('doaQtdeParcela', 'Quantidade de Parcelas:') }}
+											{{ Form::number('doa_qtde_parcela', '', ['class' => 'form-control', 'id' => 'doa_qtde_parcela']) }}
+										</div>
+										<div class="col-sm-6">
+											{{ Form::label('doaValor', 'Valor doação:') }}
+											{{ Form::text('doa_valor', '', ['class' => 'form-control', 'id' => 'doa_valor', 'data-mask-type' => 'money']) }}
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-6">
+											{{ Form::label('doaDataFinal', 'Data última parcela:') }}
+											{{ Form::date('doa_data_final', '', ['class' => 'form-control', 'id' => 'doa_data_final']) }}
+										</div>
+										<div class="col-sm-6">
+											{{ Form::label('doaMotivo', 'Motivo:') }}
+											{{ Form::select('doa_motivo', ['0' => 'Inclusão'], null, ['class' => 'form-control', 'id' => 'doa_motivo', 'placeholder' => 'Selecione motivo...']) }}
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									{!! Form::button('<span class="glyphicon glyphicon-ok"></span> Cadastrar', ['class'=>'btn btn-sm btn-success', 'id' => 'submitStoreDoacao', 'name' => 'submitStoreDoacao']) !!}
+								</div>
+							{{ Form::close() }}
+						</div>
+					@endif
 				</div>
 			</div>
 		</div>
