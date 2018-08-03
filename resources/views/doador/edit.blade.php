@@ -1,7 +1,7 @@
 @extends('templete')
 
 @section(`title`)
-Cadastro de Doador e suas Doações
+Cadastro de Doador e suas DoaÃ§Ãµes
 @stop
 
 @section('content')
@@ -56,7 +56,7 @@ Cadastro de Doador e suas Doações
 								<thead>
 									<tr>
 										<th>Data Ini.</th>
-										<th>Valor Mês</th>
+										<th>Valor MÃªs</th>
 										<th>Qtde Parc.</th>
 										<th>Valor</th>
 										<th>Motivo</th>
@@ -70,7 +70,7 @@ Cadastro de Doador e suas Doações
 											<td>{{ $d->doa_valor_mensal }}</td>
 											<td>{{ $d->doa_qtde_parcela }}</td>
 											<td>{{ $d->doa_valor }}</td>
-											<td>{{ $d->motivo->smt_nome }}</td>
+											<td>{{ $d->smt_nome }}</td>
 											<td>{{ $d->doa_data_final }}</td>
 										</tr>
 									@endforeach
@@ -109,7 +109,7 @@ Cadastro de Doador e suas Doações
 										</div>
 										<div class="col-sm-6">
 											{{ Form::label('doaMotivo', 'Motivo:') }}
-											{{ Form::select('doa_motivo', ['0' => 'InclusÃ£o'], null, ['class' => 'form-control', 'id' => 'doa_motivo', 'placeholder' => 'Selecione motivo...']) }}
+											{{ Form::select('doa_motivo', $mtdoa, null, ['class' => 'form-control', 'id' => 'doa_motivo', 'placeholder' => 'Selecione motivo...']) }}
 										</div>
 									</div>
 								</div>

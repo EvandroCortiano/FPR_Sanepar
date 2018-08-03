@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DoadorRequest;
 use App\Repository\DoadorRepository;
 use App\Repository\DoacaoRepository;
+use App\Models\status_motivo;
 
 class DoadorController extends Controller
 {
@@ -62,9 +63,15 @@ class DoadorController extends Controller
      * @param  \App\doador  $doador
      * @return \Illuminate\Http\Response
      */
-    public function show(doador $doador)
+    public function show()
     {
-        //
+        $doador = $this->doador->findAll();
+
+        foreach($doador as $ddr){
+            $ddr['link'] = "<a href='/doador/edit/".$ddr->ddr_id."'><span class='glyphicon glyphicon-edit'></span>Editar/Doação</a>";
+        }
+
+        return $doador;
     }
 
     /**
@@ -79,14 +86,21 @@ class DoadorController extends Controller
         $ddr = $this->doador->find($ddr_id);
         //dados de doacao do doador
         $doa = $this->doacao->findDdr($ddr->ddr_id);
+
+        //Motivo
+        $mtdoa = status_motivo::pluck('smt_nome','smt_id');
         
         if(count($doa) > 0){
             foreach($doa as $d){
-                $d->motivo;
+                if(!$d->motivo){
+                    $d['smt_nome'] = 'Não especificado!';
+                } else {
+                    $d['smt_nome'] = $d->motivo['smt_nome'];
+                }
             }
-            return view('doador.edit')->with(compact('ddr','doa'));
+            return view('doador.edit')->with(compact('ddr','mtdoa','doa'));
         } else {
-            return view('doador.edit')->with(compact('ddr'));
+            return view('doador.edit')->with(compact('ddr','mtdoa'));
         }
 
     }

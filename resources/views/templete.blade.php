@@ -26,6 +26,9 @@
     <script src="{{ asset('js/toastr.min.js') }}"></script>
     <!-- MASK SCRIPTS  -->
     <script src="{{ asset('js/mask.js') }}"></script>
+    <!-- DATATABLE SCRIPTS  -->
+    <script src="{{ asset('js/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/datatables/dataTables.bootstrap.min.js') }}"></script>
 
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->

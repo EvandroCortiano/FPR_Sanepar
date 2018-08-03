@@ -20,6 +20,7 @@ Route::get('/doador/cadastro','DoadorController@create');
 Route::get('/doador/doadores','DoadorController@index');
 Route::post('/doador/store','DoadorController@store');
 Route::get('/doador/edit/{ddr_id}','DoadorController@edit');
+Route::get('/doador/show','DoadorController@show');
 
 //doacao
 Route::post('/doacao/store','DoacaoController@store');

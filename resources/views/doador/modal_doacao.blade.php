@@ -35,7 +35,7 @@
                         </div>
                         <div class="col-sm-6">
                             {{ Form::label('doaMotivo', 'Motivo:') }}
-                            {{ Form::select('doa_motivo', ['0' => 'Inclusão'], null, ['class' => 'form-control', 'id' => 'doa_motivo', 'placeholder' => 'Selecione motivo...']) }}
+                            {{ Form::select('doa_motivo', $mtdoa, null, ['class' => 'form-control', 'id' => 'doa_motivo', 'placeholder' => 'Selecione motivo...']) }}
                         </div>
                     </div>
                 </div>

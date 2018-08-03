@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Repository\DoacaoRepository;
+use App\Http\Requests\DoacaoRequest;
 
 class DoacaoController extends Controller
 {
@@ -41,7 +42,7 @@ class DoacaoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DoacaoRequest $request)
     {
         $data = $request->all();
         $cadDoacao = $this->doacaoRepository->store($data);

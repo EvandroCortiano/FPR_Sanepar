@@ -15,7 +15,21 @@
         </div>
         <div class="row">
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table id="tableDoadores" class="table table-striped" style="width:98%;margin-bottom:0px;">
+                    <thead>
+                        <tr>
+                            <th>Cód. FPR</th>
+                            <th>Nome Doador</th>
+                            <th>Telefone</th>
+                            <th>Matrícula</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+                {{-- <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>Cód. FPR</th>
@@ -36,17 +50,22 @@
                             </tr>
                         @endforeach
                     </tbody>
-                </table>
+                </table> --}}
+
             </div>
         </div>
     </div>
-    {{ $doadores->links() }}
+
+    {{-- {{ $doadores->links() }} --}}
 
     <!-- SCRIPT DOADOR  -->
     <script src="{{ asset('js/doador.js') }}"></script>
     <script type='text/javascript'>
         $(document).ready(function() {
             $("#menu-top #doadorMenu").addClass('menu-top-active');
+
+tdListDadosVitais();
+          
         });
     </script>
 @stop

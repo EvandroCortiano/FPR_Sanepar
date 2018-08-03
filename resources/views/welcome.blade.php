@@ -25,10 +25,12 @@ Bem vindo ao Blog Code-Laravel
                 </a>
             </div>
             <div class="col-md-3 col-sm-3 col-xs-6">
-                <div class="dashboard-div-wrapper bk-clr-one">
-                    <i class="fa fa-child dashboard-div-icon" ></i>
-                    <h5>Cadastrar Doação </h5>
-                </div>
+                <a href="../../doador/doadores">
+                    <div class="dashboard-div-wrapper bk-clr-one">
+                        <i class="fa fa-child dashboard-div-icon" ></i>
+                        <h5>Cadastrar DoaÃ§Ã£o </h5>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
