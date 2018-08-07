@@ -9,6 +9,7 @@ use App\Http\Requests\DoadorRequest;
 use App\Repository\DoadorRepository;
 use App\Repository\DoacaoRepository;
 use App\Models\status_motivo;
+use App\Models\status_contato;
 
 class DoadorController extends Controller
 {
@@ -28,8 +29,10 @@ class DoadorController extends Controller
     public function index()
     {
         $doadores = $this->doador->findAll();
+        //Buscar Status do Contato com o Doador
+        $stc = status_contato::pluck('stc_nome','stc_id');
         
-        return view('doador.doadores', ['doadores' => $doadores]);
+        return view('doador.doadores')->with(compact('doadores','stc'));
     }
 
     /**
@@ -68,7 +71,11 @@ class DoadorController extends Controller
         $doador = $this->doador->findAll();
 
         foreach($doador as $ddr){
-            $ddr['link'] = "<a href='/doador/edit/".$ddr->ddr_id."'><span class='glyphicon glyphicon-edit'></span>Editar/Doação</a>";
+            $ddr['link'] = "<a href='/doador/edit/".$ddr->ddr_id."' class='btn btn-sm btn-info' data-toggle='tooltip' title='Editar Doador, Cadastrar Doação'>
+                <span class='glyphicon glyphicon-usd'></span></a> &nbsp;&nbsp;
+                <a onclick='registrarContato($ddr->ddr_id)' class='btn btn-sm btn-primary' data-toggle='tooltip' title='Registra Contato'>
+                <span class='glyphicon glyphicon-earphone'></span></a>";
+            $ddr['status'] = '...';
         }
 
         return $doador;
@@ -126,5 +133,13 @@ class DoadorController extends Controller
     public function destroy(doador $doador)
     {
         //
+    }
+
+    /**
+     * Find the doador
+     */
+    public function find($ddr_id){
+        $ddr = $this->doador->find($ddr_id);
+        return $ddr;
     }
 }

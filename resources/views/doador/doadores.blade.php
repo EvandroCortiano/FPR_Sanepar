@@ -20,9 +20,10 @@
                         <tr>
                             <th>Cód. FPR</th>
                             <th>Nome Doador</th>
-                            <th>Telefone</th>
                             <th>Matrícula</th>
+                            <th>Telefone</th>
                             <th>Ações</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,15 +58,14 @@
     </div>
 
     {{-- {{ $doadores->links() }} --}}
+    @include('doador.modal_contato')
 
     <!-- SCRIPT DOADOR  -->
     <script src="{{ asset('js/doador.js') }}"></script>
     <script type='text/javascript'>
         $(document).ready(function() {
             $("#menu-top #doadorMenu").addClass('menu-top-active');
-
-tdListDadosVitais();
-          
+            tdListDadosVitais();
         });
     </script>
 @stop
