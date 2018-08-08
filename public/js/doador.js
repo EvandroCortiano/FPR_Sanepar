@@ -86,10 +86,10 @@ function registrarContato(ddr_id){
     }).done(function(data){
         if(data){
             $("#modalContato .doadorName").html(data.ddr_nome);
-            $("#modalContato #formStoreDoacao #ccs_ddr_id").val(data.ddr_id);
+            $("#modalContato #formStoreContato #ccs_ddr_id").val(data.ddr_id);
         } else {
             $("#modalContato .doadorName").html(' ');
-            $("#modalContato #formStoreDoacao #ccs_ddr_id").val(0);
+            $("#modalContato #formStoreContato #ccs_ddr_id").val(0);
         }
     }).fail(function(){
         toastr.remove();
@@ -99,7 +99,12 @@ function registrarContato(ddr_id){
 }
 
 //Cadastrar Status do Contato
-$("#modalContato #formStoreDoacao #submitStoreDoacao").confirmation({
-    rootSelector: '[data-toggle=confirmation]',
-    // other options
-  });
+$("#modalContato #formStoreContato #btnModalStore").confirmation({
+    rootSelector: '[data-toggle=modalStore]',
+    container: 'body',
+    onConfirm: function(){ 
+        data = $("form#formStoreContato").serialize();
+
+        console.log(data);
+    }
+});
