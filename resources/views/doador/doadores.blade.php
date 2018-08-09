@@ -18,7 +18,7 @@
                 <table id="tableDoadores" class="table table-striped" style="width:98%;margin-bottom:0px;">
                     <thead>
                         <tr>
-                            <th>Cód. FPR</th>
+                            <th>Status</th>
                             <th>Nome Doador</th>
                             <th>Matrícula</th>
                             <th>Telefone</th>

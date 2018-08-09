@@ -109,7 +109,7 @@ Cadastro de Doador e suas Doações
 										</div>
 										<div class="col-sm-6">
 											{{ Form::label('doaMotivo', 'Motivo:') }}
-											{{ Form::select('doa_motivo', $mtdoa, null, ['class' => 'form-control', 'id' => 'doa_motivo', 'placeholder' => 'Selecione motivo...']) }}
+											{{ Form::select('doa_smt_id', $mtdoa, null, ['class' => 'form-control', 'id' => 'doa_smt_id', 'placeholder' => 'Selecione motivo...']) }}
 										</div>
 									</div>
 								</div>

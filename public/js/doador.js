@@ -64,7 +64,7 @@ function tdListDadosVitais(){
         },
         "data" :   [],   
         "columns": [
-            {data: 'ddr_id' },
+            {data: 'flag' },
             {data: 'ddr_nome' },
             {data: 'ddr_matricula'},
             {data: 'ddr_telefone_principal' },
@@ -105,6 +105,35 @@ $("#modalContato #formStoreContato #btnModalStore").confirmation({
     onConfirm: function(){ 
         data = $("form#formStoreContato").serialize();
 
+        $.ajax({
+            type: 'post',
+            url: '../../doador/contatoStore',
+            data: data,
+            dataType: 'json',
+        }).done(function(data){
+            console.log(data);
+        }).fail(function(){
+            toastr.remove();
+            toastr.error("Erro ao cadastrar Contato com o Doador!");
+        });
         console.log(data);
     }
 });
+
+toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-full-width",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }

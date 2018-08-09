@@ -23,6 +23,9 @@ Route::get('/doador/edit/{ddr_id}','DoadorController@edit');
 Route::get('/doador/show','DoadorController@show');
 Route::get('/doador/find/{ddr_id}', 'DoadorController@find');
 
+//doador/contato
+Route::post('/doador/contatoStore', 'DoadorController@contatoStore');
+
 //doacao
 Route::post('/doacao/store','DoacaoController@store');
 

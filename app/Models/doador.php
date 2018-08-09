@@ -15,4 +15,9 @@ class doador extends Model
         'ddr_matricula',
         'ddr_telefone_principal'
     ];
+
+    public function contato(){
+        // return $this->hasMany(contato_status::class, 'ccs_ddr_id', 'ddr_id');
+        return $this->hasOne(contato_status::class, 'ccs_ddr_id', 'ddr_id')->latest();
+    }
 }

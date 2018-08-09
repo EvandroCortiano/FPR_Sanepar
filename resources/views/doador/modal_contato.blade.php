@@ -12,7 +12,7 @@
                         <div class="col-sm-12">
                             {{ Form::label('stcContato', 'Status Contato:') }}
                             {{ Form::select('ccs_stc_id', $stc, null, ['class' => 'form-control', 'id' => 'ccs_stc_id', 'placeholder' => 'Selecione um status...']) }}
-                        </div>
+                        </div>  
                         <div class="col-sm-12">
                             {{ Form::label('ccsObservation', 'Observação:') }}
                             {{ Form::textarea('ccs_obs', '', ['class' => 'form-control', 'id' => 'ccs_obs', 'rows' => '4']) }}
