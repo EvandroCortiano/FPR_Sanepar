@@ -152,3 +152,47 @@ CREATE TABLE IF NOT EXISTS `sanepar_fpr`.`cad_contato_status` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
   
+CREATE TABLE IF NOT EXISTS `sanepar_fpr`.`cad_pessoas` (
+  `pes_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `pes_nome` VARCHAR(120) NULL,
+  `pes_cpf` VARCHAR(15) NULL,
+  `pes_sexo` VARCHAR(15) NULL,
+  `pes_nascimento` DATE NULL,
+  `pes_mae` VARCHAR(100) NULL,
+  `pes_endereco` VARCHAR(80) NULL,
+  `pes_numero` VARCHAR(5) NULL,
+  `pes_complemento` VARCHAR(40) NULL,
+  `pes_bairro` VARCHAR(45) NULL,
+  `pes_cidade` VARCHAR(60) NULL,
+  `pes_estado` VARCHAR(2) NULL,
+  `pes_cep` VARCHAR(10) NULL,
+  `pes_tel1` VARCHAR(15) NULL,
+  `pes_tel2` VARCHAR(15) NULL,
+  `pes_tel3` VARCHAR(15) NULL,
+  `pes_tel4` VARCHAR(15) NULL,
+  `pes_tel5` VARCHAR(15) NULL,
+  `pes_email` VARCHAR(60) NULL,
+  PRIMARY KEY (`pes_id`))
+ENGINE = InnoDB
+COMMENT = 'Tabela com os posiveis doadores';
+
+
+ALTER TABLE `cad_doador` 
+ADD COLUMN `ddr_titular_conta` VARCHAR(120) NULL DEFAULT NULL AFTER `ddr_telefone_principal`,
+ADD COLUMN `ddr_endereco` VARCHAR(80) NULL DEFAULT NULL AFTER `ddr_titular_conta`,
+ADD COLUMN `ddr_numero` VARCHAR(5) NULL DEFAULT NULL AFTER `ddr_endereco`,
+ADD COLUMN `ddr_complemento` VARCHAR(45) NULL DEFAULT NULL AFTER `ddr_numero`,
+ADD COLUMN `ddr_bairro` VARCHAR(60) NULL DEFAULT NULL AFTER `ddr_complemento`,
+ADD COLUMN `ddr_cid_id` INT NULL DEFAULT NULL AFTER `ddr_bairro`,
+ADD COLUMN `ddr_cep` VARCHAR(10) NULL DEFAULT NULL AFTER `ddr_cid_id`,
+ADD COLUMN `ddr_nascimento` DATE NULL DEFAULT NULL AFTER `ddr_cep`,
+ADD COLUMN `ddr_cpf` VARCHAR(15) NULL DEFAULT NULL AFTER `ddr_nascimento`,
+CHANGE COLUMN `updated_at` `updated_at` TIMESTAMP NULL DEFAULT NULL AFTER `ddr_cpf`;
+
+CREATE TABLE IF NOT EXISTS `cad_telefone` (
+  `tel_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `tel_numero` VARCHAR(20) NOT NULL,
+  `tel_obs` VARCHAR(100) NULL,
+  PRIMARY KEY (`tel_id`))
+ENGINE = InnoDB
+COMMENT = 'Telefones dos doadores.';

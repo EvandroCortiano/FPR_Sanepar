@@ -29,6 +29,9 @@ Route::post('/doador/contatoStore', 'DoadorController@contatoStore');
 //doacao
 Route::post('/doacao/store','DoacaoController@store');
 
+//pessoas
+Route::get('/pessoas','PessoasController@index');
+Route::get('/pessoas/show','PessoasController@show');
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

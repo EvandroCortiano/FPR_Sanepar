@@ -23,7 +23,7 @@
                             <th>Matrícula</th>
                             <th>Telefone</th>
                             <th>Ações</th>
-                            <th>Status</th>
+                            <th>Informações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,7 +65,7 @@
     <script type='text/javascript'>
         $(document).ready(function() {
             $("#menu-top #doadorMenu").addClass('menu-top-active');
-            tdListDadosVitais();
+            tdListDoadores();
         });
     </script>
 @stop

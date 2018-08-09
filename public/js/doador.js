@@ -33,7 +33,7 @@ $("#formStoreDoador #submitStoreDoador").click(function(){
     });
 });
 
-function tdListDadosVitais(){
+function tdListDoadores(){
 	//Datatable Modal List Ddv
     tableListDdv = $('#tableDoadores').DataTable({
         "destroy": true,
@@ -69,7 +69,7 @@ function tdListDadosVitais(){
             {data: 'ddr_matricula'},
             {data: 'ddr_telefone_principal' },
             {data: 'link' },
-            {data: 'status' },
+            {data: 'info' },
             ], 
     });
     $("#tableDoadores_wrapper").css("width","98%");

@@ -17,10 +17,10 @@ Bem vindo ao Blog Code-Laravel
         
         <div class="row">
             <div class="col-md-3 col-sm-3 col-xs-6">
-                <a href="../../doador/cadastro">
+                <a href="../../pessoas/">
                     <div class="dashboard-div-wrapper bk-clr-three">
-                        <i class="fa fa-edit dashboard-div-icon" ></i>
-                        <h5>Cadastrar Doador </h5>
+                        <i class="fa fa-phone dashboard-div-icon" ></i>
+                        <h3 style="margin:0px;">Lista para Contato</h3>
                     </div>
                 </a>
             </div>
@@ -28,7 +28,7 @@ Bem vindo ao Blog Code-Laravel
                 <a href="../../doador/doadores">
                     <div class="dashboard-div-wrapper bk-clr-one">
                         <i class="fa fa-child dashboard-div-icon" ></i>
-                        <h5>Cadastrar Doação </h5>
+                        <h3 style="margin:0px;">Cadastrar Doação</h3>
                     </div>
                 </a>
             </div>

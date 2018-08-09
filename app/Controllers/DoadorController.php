@@ -78,13 +78,14 @@ class DoadorController extends Controller
                 <a onclick='registrarContato($ddr->ddr_id)' class='btn btn-sm btn-primary' data-toggle='tooltip' title='Registra Contato'>
                 <span class='glyphicon glyphicon-earphone'></span></a>";
 
-            $ddr['status'] = '';
+            $ddr['info'] = '';
             $ddr['flag'] = '';
 
             $ccsDt = $ddr->contato;
             if($ccsDt){
-                $ddr['status'] .= $ccsDt['ccs_obs'];
-                $ddr['status'] .= $ccsDt['ccs_data'];
+                $ddr['info'] .= "<div>Obs.: " . $ccsDt['ccs_obs'] . "</div>";
+                $ddr['info'] .= "<div>Data: " . $ccsDt['ccs_data'] . "</div>";
+                $ddr['info'] .= "<div>Status: " . $ccsDt->statusContato->stc_nome . "</div>";
                 if($ccsDt['ccs_stc_id'] == 1){
                     $ddr['flag'] = '<a class="btn btn-xs btn-danger" style="width:50px;height:25px;" data-toggle="tooltip" title="Não deseja ser Doador!"></a>';
                 } else if ($ccsDt['ccs_stc_id'] == 2){
@@ -92,7 +93,7 @@ class DoadorController extends Controller
                 }
             } else {
                 $ddr['flag'] = '<a class="btn btn-xs btn-default" style="width:50px;height:25px;  data-toggle="tooltip" title="Não houve contato!""></a>';
-                $ddr['status'] .= '';
+                $ddr['info'] .= '';
             }
             
         }

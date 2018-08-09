@@ -106,7 +106,8 @@
                 <div class="col-md-12">
                     <div class="navbar-collapse collapse ">
                         <ul id="menu-top" class="nav navbar-nav navbar-right">
-                            <li><a href="/doador/doadores" id="doadorMenu">Doador</a></li>
+                            <li><a href="/pessoas/" id="pessoasMenu">Pessoas</a></li>
+                            <li><a href="/doador/doadores" id="doadorMenu">Doadores</a></li>
                             {{-- <li><a class="menu-top-active" href="index.html">Dashboard</a></li>
                             <li><a href="table.html">Data Tables</a></li>
                             <li><a href="forms.html">Forms</a></li>
