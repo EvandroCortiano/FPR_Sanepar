@@ -11,7 +11,7 @@ class DoadorRepository{
     //busca todos os doadores
     public function findAll(){
         try{
-            return doador::paginate(15);
+            return doador::all();
         } catch(\Exception $e){
             return $e;
         }

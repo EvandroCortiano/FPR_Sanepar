@@ -23,7 +23,6 @@ $(document).ajaxStart(function() {
     $(document.body).css({'cursor' : 'default'});
 });
 
-
 function tdListPessoas(){
 	//Datatable Modal List Ddv
     tablePessoas = $('#tablePessoas').DataTable({

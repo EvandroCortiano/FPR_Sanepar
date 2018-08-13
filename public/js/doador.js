@@ -55,6 +55,11 @@ $("#formupdateDoador #btnModalEdit").confirmation({
     }
 });
 
+$(document).ajaxStart(function() {
+    $(document.body).css({'cursor' : 'wait'});
+}).ajaxStop(function() {
+    $(document.body).css({'cursor' : 'default'});
+});
 
 // Carrega pessoas
 function tdListDoadores(){
@@ -80,7 +85,7 @@ function tdListDoadores(){
         "ajax": {      
             "url": '../../doador/show',
             "dataSrc": function(json) {
-                return json.data;
+                return json;
             },
             "error": function ( settings, helpPage, message ){
                 toastr.error("Erro ao receber Doadores."+message);
