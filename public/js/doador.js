@@ -2,7 +2,6 @@
  * Script for Doador
  * by Evandro C Cortiano
  */
-
 $("#formStoreDoador #submitStoreDoador").click(function(){
     data = $("form#formStoreDoador").serialize();
 
@@ -13,7 +12,8 @@ $("#formStoreDoador #submitStoreDoador").click(function(){
         url: '../doador/store'
     }).done(function(data){
         if(data){
-            toastr.success('Doador ' + data.ddr_nome + ' cadastrado com sucesso!');
+            toastr.success("Dados atualizado com sucesso!")
+            window.location.replace("../../doador/edit/"+data.ddr_id);
         }
     }).fail(function(data){
         if(data.hasOwnProperty('responseText')){
@@ -33,6 +33,30 @@ $("#formStoreDoador #submitStoreDoador").click(function(){
     });
 });
 
+// Atualizar os dados do doador
+$("#formupdateDoador #btnModalEdit").confirmation({
+    rootSelector: '[data-toggle=modalStore]',
+    container: 'body',
+    onConfirm: function(){ 
+        data = $("form#formupdateDoador").serialize();
+        console.log(data);
+        $.ajax({
+            type: 'put',
+            url: '../../doador/update',
+            data: data,
+            dataType: 'json',
+        }).done(function(data){
+            console.log(data);
+        }).fail(function(){
+            toastr.remove();
+            toastr.error("Erro ao atualizar dados do Doador!");
+        });
+       
+    }
+});
+
+
+// Carrega pessoas
 function tdListDoadores(){
 	//Datatable Modal List Ddv
     tableListDdv = $('#tableDoadores').DataTable({
@@ -119,21 +143,3 @@ $("#modalContato #formStoreContato #btnModalStore").confirmation({
         console.log(data);
     }
 });
-
-toastr.options = {
-    "closeButton": false,
-    "debug": false,
-    "newestOnTop": false,
-    "progressBar": false,
-    "positionClass": "toast-top-full-width",
-    "preventDuplicates": false,
-    "onclick": null,
-    "showDuration": "300",
-    "hideDuration": "1000",
-    "timeOut": "5000",
-    "extendedTimeOut": "1000",
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
-  }

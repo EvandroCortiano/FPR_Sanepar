@@ -9,11 +9,11 @@ Bem vindo ao Blog Code-Laravel
 <!-- MENU SECTION END-->
 <div class="content-wrapper">
     <div class="container">
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-12">
                 <h4 class="page-head-line">Dashboard</h4>
             </div>
-        </div>
+        </div> --}}
         
         <div class="row">
             <div class="col-md-3 col-sm-3 col-xs-6">

@@ -9,8 +9,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="pull-right"><a href="../../doador/cadastro">{!! Form::button('<span class="glyphicon glyphicon-plus"></span>', ['class'=>'btn btn-lg btn-success', 'style' => 'margin-top: -15px;padding: 7px 11px;']) !!}</a></h1>
-                <h1 class="page-head-line">Doadores cadastrados no Sistema</h1>
+                <h1 class="page-head-line" style="margin-bottom:20px;">Lista para contato!</h1>
             </div>
         </div>
         <div class="row">
@@ -20,7 +19,10 @@
                         <tr>
                             <th>Status</th>
                             <th>Nome Doador</th>
-                            <th>Matrícula</th>
+                            <th>Nome da Mãe</th>
+                            <th>Data Nascimento</th>
+                            <th>Endereço</th>
+                            <th>Cidade</th>
                             <th>Telefone</th>
                             <th>Ações</th>
                             <th>Informações</th>
@@ -33,8 +35,8 @@
         </div>
     </div>
 
-    {{-- {{ $doadores->links() }} --}}
-    @include('doador.modal_contato')
+    @include('pessoas.modal_pessoas')
+    @include('pessoas.modal_pessoas_doacao')
 
     <!-- SCRIPT DOADOR  -->
     <script src="{{ asset('js/pessoas.js') }}"></script>

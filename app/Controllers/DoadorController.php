@@ -90,6 +90,10 @@ class DoadorController extends Controller
                     $ddr['flag'] = '<a class="btn btn-xs btn-danger" style="width:50px;height:25px;" data-toggle="tooltip" title="Não deseja ser Doador!"></a>';
                 } else if ($ccsDt['ccs_stc_id'] == 2){
                     $ddr['flag'] = '<a class="btn btn-xs btn-warning" style="width:50px;height:25px;" data-toggle="tooltip" title="Não Atendeu a ligação!"></a>';
+                } else if ($ccsDt['ccs_stc_id'] == 3){
+                    $ddr['flag'] = '<a class="btn btn-xs btn-info" style="width:50px;height:25px;" data-toggle="tooltip" title="Pediu para ligar mais tarde!"></a>';
+                } else if ($ccsDt['ccs_stc_id'] == 4){
+                    $ddr['flag'] = '<a class="btn btn-xs btn-success" style="width:50px;height:25px;" data-toggle="tooltip" title="Já é doador!"></a>';
                 }
             } else {
                 $ddr['flag'] = '<a class="btn btn-xs btn-default" style="width:50px;height:25px;  data-toggle="tooltip" title="Não houve contato!""></a>';
@@ -111,6 +115,7 @@ class DoadorController extends Controller
     {
         //dados do doador
         $ddr = $this->doador->find($ddr_id);
+
         //dados de doacao do doador
         $doa = $this->doacao->findDdr($ddr->ddr_id);
 
@@ -139,9 +144,12 @@ class DoadorController extends Controller
      * @param  \App\doador  $doador
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, doador $doador)
+    public function update(DoadorRequest $request)
     {
-        //
+        $data = $request->all();
+        $ddrUpd = $this->doador->update($data, $data['ddr_id']);
+
+        return $ddrUpd;
     }
 
     /**

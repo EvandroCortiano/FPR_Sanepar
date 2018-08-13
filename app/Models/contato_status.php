@@ -14,7 +14,8 @@ class contato_status extends Model
         'ccs_ddr_id',
         'ccs_obs',
         'ccs_stc_id',
-        'ccs_data'
+        'ccs_data',
+        'ccs_pes_id'
     ];
 
     public function doador(){
@@ -23,5 +24,9 @@ class contato_status extends Model
 
     public function statusContato(){
         return $this->belongsTo(status_contato::class, 'ccs_stc_id', 'stc_id');
+    }
+
+    public function pessoas(){
+        return $this->belongsTo(pessoas::class, 'ccs_pes_id', 'pes_id');
     }
 }

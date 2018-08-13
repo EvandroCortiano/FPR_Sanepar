@@ -1,6 +1,26 @@
-function tdListDoadores(){
+// Padrao do Toastr
+toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-full-width",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+}
+
+
+function tdListPessoas(){
 	//Datatable Modal List Ddv
-    tableListDdv = $('#tablePessoas').DataTable({
+    tablePessoas = $('#tablePessoas').DataTable({
         "destroy": true,
         "paging": true,
         "searching": true,
@@ -21,7 +41,7 @@ function tdListDoadores(){
         "ajax": {      
             "url": '../../pessoas/show',
             "dataSrc": function(json) {
-                return json.data;
+                return json;
             },
             "error": function ( settings, helpPage, message ){
                 toastr.error("Erro ao receber Doadores."+message);
@@ -31,8 +51,11 @@ function tdListDoadores(){
         "columns": [
             {data: 'flag' },
             {data: 'pes_nome' },
-            {data: 'ddr_matricula'},
-            {data: 'ddr_telefone_principal' },
+            {data: 'pes_mae'},
+            {data: 'pes_nascimento'},
+            {data: 'pes_endereco'},
+            {data: 'pes_cidade'},
+            {data: 'telefones' },
             {data: 'link' },
             {data: 'info' },
             ], 
@@ -41,3 +64,174 @@ function tdListDoadores(){
     $('.dataTables_filter [type="search"]').css({'width':'350px','display':'inline-block'});
     $("#tableDoadores_paginate").css("margin","-10px 25px 0px 0px");
 }
+
+//Registrar contato para evitar contatos repetidos
+function registrarContatoPessoas(pes_id){
+    $.ajax({
+        type: 'get',
+        url: '../../pessoas/find/' + pes_id,
+        dataType: 'json',
+    }).done(function(data){
+        if(data){
+            $("#modalContatoPessoas .doadorName").html(data.pes_nome);
+            $("#modalContatoPessoas #formStoreContatoPessoas #ccs_pes_id").val(data.pes_id);
+        } else {
+            $("#modalContatoPessoas .doadorName").html(' ');
+            $("#modalContatoPessoas #formStoreContatoPessoas #ccs_pes_id").val(0);
+        }
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("Erro ao pesquisar doador!");
+    });
+    $('#modalContatoPessoas').modal('show');
+}
+
+//Cadastrar Status do Contato (pessoas)
+$("#modalContatoPessoas #formStoreContatoPessoas #btnModalStore").confirmation({
+    rootSelector: '[data-toggle=modalStore]',
+    container: 'body',
+    onConfirm: function(){ 
+        data = $("form#formStoreContatoPessoas").serialize();
+        
+        $.ajax({
+            type: 'post',
+            url: '../../pessoas/contatoStorePessoas',
+            data: data,
+            dataType: 'json',
+        }).done(function(data){
+            if(data){
+                $("[data-dismiss=modal]").trigger({ type: "click" });
+                toastr.remove();
+                toastr.success("Contato adicionado com sucesso!")
+                tablePessoas.ajax.url('../../pessoas/show').load();
+            }
+        }).fail(function(){
+            toastr.remove();
+            toastr.error("Erro ao cadastrar Contato!");
+        });
+    }
+});
+
+//Registrar doacao e cadastra doador
+function cadastrarDoadorDoacao(pes_id){
+    $.ajax({
+        type: 'get',
+        url: '../../pessoas/find/' + pes_id,
+        dataType: 'json',
+    }).done(function(data){
+        if(data){
+            $("#modalPessoasDoacao .doadorName").html(data.pes_nome);
+            $("#modalPessoasDoacao #formStoreDoacaoPessoas #pes_id").val(data.pes_id);
+        } else {
+            $("#modalPessoasDoacao .doadorName").html(' ');
+            $("#modalPessoasDoacao #formStoreDoacaoPessoas #ccs_pes_id").val(0);
+        }
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("Erro ao pesquisar doador!");
+    });
+    $('#modalPessoasDoacao').modal('show');
+}
+
+//Cadastrar Doador e Doacao
+$("#modalPessoasDoacao #formStoreDoacaoPessoas #btnModalStore").confirmation({
+    rootSelector: '[data-toggle=modalStore]',
+    container: 'body',
+    onConfirm: function(){ 
+        data = $("form#formStoreDoacaoPessoas").serialize();
+
+        $.ajax({
+            type: 'post',
+            url: '../../pessoas/doacaoDoador',
+            data: data,
+            dataType: 'json',
+        }).done(function(data){
+            console.log(data);
+            if(data){
+                toastr.success("Doação e Doador cadastrado com sucesso!")
+                window.location.replace("../../doador/edit/"+data.ddr_id);
+            } 
+        }).fail(function(data){
+            console.log(data);
+            toastr.remove();
+            toastr.error("Erro ao cadastrar Doador e Doação!<br/>"+data.responseText);
+        });
+    }
+});
+
+//**     Modal  Valores    **//
+//Atualiza valor mensal atraves do campo da parcela
+$("#modalPessoasDoacao #doa_qtde_parcela").change(function(){
+    var parcela = $("#formStoreDoacaoPessoas #doa_qtde_parcela").val();
+    var valorTotal = $("#formStoreDoacaoPessoas #doa_valor").val();
+    var vlMensal = $("#formStoreDoacaoPessoas #doa_valor_mensal").val();
+    var dt = $("#formStoreDoacaoPessoas #doa_data").val();
+
+    //se valor parcela vazio
+    if(vlMensal == ''){
+        vlMensal = parseFloat(valorTotal) / parseFloat(parcela);
+        vlMensal = (vlMensal).toLocaleString("pt-BR", {
+            // Ajustando casas decimais
+            minimumFractionDigits: 2,  
+            maximumFractionDigits: 2
+          });
+        $("#formStoreDoacaoPessoas #doa_valor_mensal").val(vlMensal);
+    } else if (vlMensal != ''){
+        valorTotal = parseFloat(vlMensal) * parseFloat(parcela);
+        valorTotal = (valorTotal).toLocaleString("pt-BR", {
+            // Ajustando casas decimais
+            minimumFractionDigits: 2,  
+            maximumFractionDigits: 2
+        });
+        $("#formStoreDoacaoPessoas #doa_valor").val(valorTotal);
+    }  
+
+    if(dt != ''){   
+        var data = new Date(dt);
+    
+        data.setDate(data.getDate() + 1);
+        data.setMonth(data.getMonth() + parseInt(parcela)); 
+
+        data = data.getFullYear() + "-" + ("0" + data.getMonth()).substr(-2) 
+                                + "-" + ("0" + data.getDate()).substr(-2);
+    
+        $("#formStoreDoacaoPessoas #doa_data_final").val(data);
+    }
+});
+
+//Atualiza valor mensal atraves do campo da valor mensal
+$("#modalPessoasDoacao #doa_valor_mensal").change(function(){
+    var parcela = $("#formStoreDoacaoPessoas #doa_qtde_parcela").val();
+    var valorTotal = $("#formStoreDoacaoPessoas #doa_valor").val();
+    var vlMensal = $("#formStoreDoacaoPessoas #doa_valor_mensal").val();
+
+    //se valor parcela vazio
+    if(parcela != ''){
+        valorTotal = parseFloat(vlMensal) * parseFloat(parcela);
+        valorTotal = (valorTotal).toLocaleString("pt-BR", {
+            // Ajustando casas decimais
+            minimumFractionDigits: 2,  
+            maximumFractionDigits: 2
+        });
+        $("#formStoreDoacaoPessoas #doa_valor").val(valorTotal);
+    }   
+});
+
+//Atualiza valor mensal atraves do campo da valor total
+$("#modalPessoasDoacao #doa_valor").change(function(){
+    var parcela = $("#formStoreDoacaoPessoas #doa_qtde_parcela").val();
+    var valorTotal = $("#formStoreDoacaoPessoas #doa_valor").val();
+    var vlMensal = $("#formStoreDoacaoPessoas #doa_valor_mensal").val();
+
+    //se valor parcela vazio
+    if(parcela != ''){
+        vlMensal = parseFloat(valorTotal) / parseFloat(parcela);
+        vlMensal = (vlMensal).toLocaleString("pt-BR", {
+            // Ajustando casas decimais
+            minimumFractionDigits: 2,  
+            maximumFractionDigits: 2
+          });
+        $("#formDoacaoDoador #doa_valor_mensal").val(vlMensal);
+    }   
+});
+// Fim modal

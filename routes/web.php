@@ -12,16 +12,17 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 //doador
 Route::get('/doador/cadastro','DoadorController@create');
 Route::get('/doador/doadores','DoadorController@index');
-Route::post('/doador/store','DoadorController@store');
 Route::get('/doador/edit/{ddr_id}','DoadorController@edit');
 Route::get('/doador/show','DoadorController@show');
 Route::get('/doador/find/{ddr_id}', 'DoadorController@find');
+Route::post('/doador/store','DoadorController@store');
+Route::put('/doador/update', 'DoadorController@update');
 
 //doador/contato
 Route::post('/doador/contatoStore', 'DoadorController@contatoStore');
@@ -30,8 +31,13 @@ Route::post('/doador/contatoStore', 'DoadorController@contatoStore');
 Route::post('/doacao/store','DoacaoController@store');
 
 //pessoas
-Route::get('/pessoas','PessoasController@index');
-Route::get('/pessoas/show','PessoasController@show');
+Route::group(['prefix'=>'pessoas','as'=>'pessoas.'], function(){
+    Route::get('/', ['as' => 'index', 'uses' => 'PessoasController@index']);
+    Route::get('/show', ['as' => 'show', 'uses' => 'PessoasController@show']);
+    Route::get('/find/{pes_id}', ['as' => 'find/{pes_id}', 'uses' => 'PessoasController@find']);
+    Route::post('/contatoStorePessoas', ['as' => 'contatoStorePessoas', 'uses' => 'PessoasController@contatoStorePessoas']);
+    Route::post('/doacaoDoador', ['as' => 'doacaoDoador', 'uses' => 'PessoasController@doacaoDoador']);
+});
 
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('welcome');

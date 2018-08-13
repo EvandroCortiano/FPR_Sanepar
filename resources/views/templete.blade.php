@@ -71,25 +71,31 @@
                 <div class="user-settings-wrapper">
                     <ul class="nav">
 
-                        <li class="dropdown">
+                        <li class="dropdown pull-right">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
                                 <span class="glyphicon glyphicon-user" style="font-size: 25px;"></span>
                             </a>
                             <div class="dropdown-menu dropdown-settings">
                                 <div class="media">
-                                    <a class="media-left" href="#">
-                                        <img src="{{ asset('img/64-64.jpg') }}" alt="" class="img-rounded" />
+                                    {{ Auth::user()->name }}
+                                    {{-- <a class="media-left" href="#">
+                                        <img src="{ { asset('img/64-64.jpg') }}" alt="" class="img-rounded" />
                                     </a>
                                     <div class="media-body">
                                         <h4 class="media-heading">Evandro</h4>
                                         <h5>Developer & Designer</h5>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <hr />
-                                <h5><strong>Personal Bio : </strong></h5>
+                                {{-- <h5><strong>Personal Bio : </strong></h5>
                                 Anim pariatur cliche reprehen derit.
-                                <hr />
-                                <a href="#" class="btn btn-info btn-sm">Full Profile</a>&nbsp; <a href="login.html" class="btn btn-danger btn-sm">Logout</a>
+                                <hr /> --}}
+                                <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="btn btn-danger btn-sm">
+                                    Sair do Sistema
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
                             </div>
                         </li>
 
@@ -131,7 +137,6 @@
                 <div class="col-md-12">
                     &copy; 2018 Fundação Pró-Renal | By : <a href="mailto:evandrocortiano@gmail.com" target="_blank">evandrocortiano@gmail.com </a> (41) 99980-6992
                 </div>
-
             </div>
         </div>
     </footer>

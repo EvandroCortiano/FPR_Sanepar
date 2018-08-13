@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,4 +30,8 @@ class pessoas extends Model
         'pes_tel5',
         'pes_email'
     ];
+
+    public function contato(){
+        return $this->hasOne(contato_status::class, 'ccs_pes_id', 'pes_id')->latest();
+    }
 }

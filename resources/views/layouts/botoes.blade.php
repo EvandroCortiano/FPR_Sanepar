@@ -23,7 +23,11 @@
     		'data-title' => 'Deseja limpar o formulário?']) }}
     @endif
     @if(in_array('btnEdit',$buttons))
-    	{{ Form::button('<span class="glyphicon glyphicon-edit"></span> Editar', ['class' => 'btn btn-sm btn-info', 'id' => 'btnModalEdit', 'name' => 'btnModalEdit', 'style' => '']) }}
+        {{ Form::button('<span class="glyphicon glyphicon-edit"></span> Atualizar', ['class' => 'btn btn-sm btn-success', 
+            'id' => 'btnModalEdit', 'name' => 'btnModalEdit', 'style' => 'float:right; margin: 0px 0px 0px 10px;', 'data-toggle' => 'modalStore',
+            'data-btn-ok-label' => ' Sim', 'data-btn-ok-icon' => 'glyphicon glyphicon-ok-circle', 'data-btn-ok-class' => 'btn-sm btn-success', 
+            'data-btn-cancel-label' => ' Não', 'data-btn-cancel-icon' => 'glyphicon glyphicon-ban-circle', 'data-btn-cancel-class' => 'btn-sm btn-danger',
+            'data-title' => 'Confirma atualização da(s) informação(ões)?']) }}
     @endif
     @if(in_array('btnBack',$buttons))
     	{{ Form::button('<span class="fa fa-mail-reply"></span> Voltar', ['class' => 'btn btn-sm btn-default', 'id' => 'btnModalBack', 'name' => 'btnModalBack', 'style' => '']) }}

@@ -20,23 +20,63 @@ Cadastro de Doador e suas Doações
 					{{ Form::open(['id' => 'formupdateDoador']) }}
 					{{ Form::hidden('ddr_id', $ddr['ddr_id'],['id'=>'ddr_id']) }}
 					<div class="form-group">
-						{{ Form::label('ddrNome', 'Nome do Doador') }}
-						{{ Form::text('ddr_nome', $ddr['ddr_nome'], ['class' => 'form-control', 'id' => 'ddr_nome']) }}
-					</div>
-					<div class="form-group">
 						<div class="row">
-							<div class="col-sm-6">
+							<div class="col-sm-12">
+								{{ Form::label('ddrNome', 'Nome do Doador') }}
+								{{ Form::text('ddr_nome', $ddr['ddr_nome'], ['class' => 'form-control', 'id' => 'ddr_nome']) }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-4">
 								{{ Form::label('ddrMatricula', 'Matricula') }}
 								{{ Form::text('ddr_matricula', $ddr['ddr_matricula'], ['class' => 'form-control', 'id' => 'ddr_matricula']) }}
 							</div>
+							<div class="col-sm-8">
+								{{ Form::label('ddrTitularConta', 'Titular da Conta') }}
+								{{ Form::text('ddr_titular_conta', $ddr['ddr_titular_conta'], ['class' => 'form-control', 'id' => 'ddr_titular_conta']) }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-7">
+								{{ Form::label('ddrEndereco', 'Endereço') }}
+								{{ Form::text('ddr_endereco', $ddr['ddr_endereco'], ['class' => 'form-control', 'id' => 'ddr_endereco']) }}
+							</div>
+							<div class="col-sm-2">
+								{{ Form::label('ddrNumero', 'Numero') }}
+								{{ Form::text('ddr_numero', $ddr['ddr_numero'], ['class' => 'form-control', 'id' => 'ddr_numero']) }}
+							</div>
+							<div class="col-sm-3">
+								{{ Form::label('ddrComplemento', 'Complemento') }}
+								{{ Form::text('ddr_complemento', $ddr['ddr_complemento'], ['class' => 'form-control', 'id' => 'ddr_complemento']) }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-4">
+								{{ Form::label('ddrCep', 'Cep') }}
+								{{ Form::text('ddr_cep', $ddr['ddr_cep'], ['class' => 'form-control', 'id' => 'ddr_cep']) }}
+							</div>
+							<div class="col-sm-4">
+								{{ Form::label('ddrBairro', 'Bairro') }}
+								{{ Form::text('ddr_bairro', $ddr['ddr_bairro'], ['class' => 'form-control', 'id' => 'ddr_bairro']) }}
+							</div>
+							<div class="col-sm-4">
+								{{ Form::label('ddrCidade', 'Cidade - Estado') }}
+								{{ Form::text('ddr_cidade', $ddr['ddr_cidade'], ['class' => 'form-control', 'id' => 'ddr_cidade']) }}
+							</div>
+						</div>
+						<div class="row">
 							<div class="col-sm-6">
-								{{ Form::label('ddrTelefone', 'Telefone') }}
-								{{ Form::text('ddr_telefone_principal', $ddr['ddr_telefone_principal'], ['class' => 'form-control', 'id' => 'ddr_telefone_principal']) }}
+								{{ Form::label('ddrNascimento', 'Data Nascimento') }}
+								{{ Form::date('ddr_nascimento', $ddr['ddr_nascimento'], ['class' => 'form-control', 'id' => 'ddr_nascimento']) }}
+							</div>
+							<div class="col-sm-6">
+								{{ Form::label('ddrCpf', 'CPF') }}
+								{{ Form::text('ddr_cpf', $ddr['ddr_cpf'], ['class' => 'form-control', 'id' => 'ddr_cpf']) }}
 							</div>
 						</div>
 					</div>
 					<hr />
-					{!! Form::button('<span class="glyphicon glyphicon-ok"></span> Atualizar', ['class'=>'btn btn-sm btn-success', 'id' => 'submitStoreDoador', 'name' => 'submitStoreDoador']) !!}
+					@include('layouts.botoes',['buttons' => ['btnEdit']])
 					{{ Form::close() }}
 				</div>
 			</div>
