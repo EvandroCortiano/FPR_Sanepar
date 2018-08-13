@@ -49,16 +49,16 @@ function tdListPessoas(){
         },
         "data" :   [],   
         "columns": [
-            {data: 'flag' },
-            {data: 'pes_nome' },
-            {data: 'pes_mae'},
-            {data: 'pes_nascimento'},
-            {data: 'pes_endereco'},
-            {data: 'pes_cidade'},
-            {data: 'telefones' },
-            {data: 'link' },
-            {data: 'info' },
-            ], 
+            {data: 'flag',"width": "6%" },
+            {data: 'pes_nome',"width": "16%" },
+            {data: 'pes_mae',"width": "11%"},
+            {data: 'pes_nascimento',"width": "10%"},
+            {data: 'pes_endereco',"width": "11%"},
+            {data: 'pes_cidade',"width": "9%"},
+            {data: 'telefones',"width": "11%"},
+            {data: 'link',"width": "11%"},
+            {data: 'info',"width": "12%" },
+            ]
     });
     $("#tableDoadores_wrapper").css("width","98%");
     $('.dataTables_filter [type="search"]').css({'width':'350px','display':'inline-block'});
