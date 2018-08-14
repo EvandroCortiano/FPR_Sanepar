@@ -24,6 +24,9 @@ $(document).ajaxStart(function() {
 });
 
 function tdListPessoas(){
+    inicial = $("form#formNumberPessoasWhere #numberInicial").val();
+    final = $("form#formNumberPessoasWhere #numberFinal").val();
+
 	//Datatable Modal List Ddv
     tablePessoas = $('#tablePessoas').DataTable({
         "destroy": true,
@@ -44,7 +47,9 @@ function tdListPessoas(){
             }
         },
         "ajax": {      
+            "type":'GET',
             "url": '../../pessoas/show',
+            "data": {"inicial":inicial,"final":final},
             "dataSrc": function(json) {
                 return json;
             },
@@ -240,3 +245,7 @@ $("#modalPessoasDoacao #doa_valor").change(function(){
     }   
 });
 // Fim modal
+
+$("#formNumberPessoasWhere #wherePessoasDT").click(function(){
+    tdListPessoas();
+});

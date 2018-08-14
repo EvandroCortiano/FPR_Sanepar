@@ -39,9 +39,11 @@ class PessoasController extends Controller
     }
 
     // Retorna a lista de pessoas para o contato telefonico
-    public function show()
+    public function show(Request $request)
     {
-        $pessoas = $this->pessoas->show();
+        $data = $request->all();  
+
+        $pessoas = $this->pessoas->show($data['inicial'], $data['final']);
 
         foreach($pessoas as $pes){
             $pes['pes_nascimento'] = date('d/m/Y', strtotime($pes['pes_nascimento']));
