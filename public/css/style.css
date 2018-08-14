@@ -313,3 +313,11 @@ footer {
 .btn-google {
     background-color: #c32f10;
 }
+
+.inputNumber{
+    width: 70px;
+    padding: 0px 8px;
+    height: 30px;
+    border-radius: 5px;
+    border: solid 1px #999;
+}
