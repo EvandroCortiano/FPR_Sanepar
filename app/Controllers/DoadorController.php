@@ -131,6 +131,9 @@ class DoadorController extends Controller
                 } else {
                     $d['smt_nome'] = $d->motivo['smt_nome'];
                 }
+                //formata datas
+                $d['doa_data'] = date('d/m/Y', strtotime($d['doa_data']));
+                $d['doa_data_final'] = date('d/m/Y', strtotime($d['doa_data_final']));
             }
             return view('doador.edit')->with(compact('ddr','mtdoa','doa'));
         } else {

@@ -15,6 +15,10 @@
             'data-btn-cancel-label' => ' Não', 'data-btn-cancel-icon' => 'glyphicon glyphicon-ban-circle', 'data-btn-cancel-class' => 'btn-sm btn-danger',
             'data-title' => 'Confirma a exclusão do registro?']) }}
     @endif
+    @if(in_array('btnDeleted',$buttons))
+    	{{ Form::button('<span class="glyphicon glyphicon-trash"></span> Excluir', ['class' => 'btn btn-sm btn-danger', 
+    		'id' => 'btnModalDeleted', 'name' => 'btnModalDeleted', 'style' => 'float:right; margin: 0px 0px 0px 10px;']) }}
+    @endif
     @if(in_array('btnClear',$buttons))
     	{{ Form::button('<span class="glyphicon glyphicon-erase"></span> Limpar', ['class' => 'btn btn-sm btn-warning',
     		'id' => 'btnModalClear', 'name' => 'btnModalClear', 'style' => '', 'data-toggle' => 'modalClear',

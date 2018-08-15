@@ -246,6 +246,35 @@ $("#modalPessoasDoacao #doa_valor").change(function(){
 });
 // Fim modal
 
+//filtra lista de pessoas
 $("#formNumberPessoasWhere #wherePessoasDT").click(function(){
     tdListPessoas();
+});
+
+//remove telefone
+function retirarTelefonePessoas(pes_id, numero, pes_idNumero){
+    $('#deleteTelefone').modal('show');
+    $('#deleteTelefone .numberTel').html(numero);
+    $('#deleteTelefone #formDeleteTelefone #pes_id').val(pes_id);
+    $('#deleteTelefone #formDeleteTelefone #pes_idNumero').val(pes_idNumero);
+}
+$("#deleteTelefone #formDeleteTelefone #btnModalDeleted").click(function(){
+    data = $("form#formDeleteTelefone").serialize();
+
+    $.ajax({
+        type: 'put',
+        url: '../../pessoas/deleteTelefonePessoas',
+        data: data,
+        dataType: 'json',
+    }).done(function(data){
+        if(data){
+            $("[data-dismiss=modal]").trigger({ type: "click" });
+            toastr.remove();
+            toastr.success("Numero do Telefone deletado com sucesso!")
+            tablePessoas.ajax.url('../../pessoas/show').load();
+        }
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("Erro ao excluir telefone!");
+    });
 });

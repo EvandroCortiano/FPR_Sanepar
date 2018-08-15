@@ -56,19 +56,19 @@ class PessoasController extends Controller
             // Telefones
             $pes['telefones'] = '';
             if($pes['pes_tel1']){
-                $pes['telefones'] .= $pes['pes_tel1'];
+                $pes['telefones'] .= "<a onclick='retirarTelefonePessoas($pes->pes_id, \"$pes->pes_tel1\", \"pes_tel1\")' data-toggle='tooltip' title='Apagar telefone da lista!' style='margin:3px;color:red;font-size:11px;'><span class='glyphicon glyphicon-remove'></span></a>" . $pes['pes_tel1'];
             } 
             if ($pes['pes_tel2']) {
-                $pes['telefones'] .= '</br>'.$pes['pes_tel2'];
+                $pes['telefones'] .= "</br><a onclick='retirarTelefonePessoas($pes->pes_id, \"$pes->pes_tel2\", \"pes_tel2\")' data-toggle='tooltip' title='Apagar telefone da lista!' style='margin:3px;color:red;font-size:11px;'><span class='glyphicon glyphicon-remove'></span></a>" . $pes['pes_tel2'];
             } 
             if ($pes['pes_tel3']) {
-                $pes['telefones'] .= '</br>'.$pes['pes_tel3'];
+                $pes['telefones'] .= "</br><a onclick='retirarTelefonePessoas($pes->pes_id, \"$pes->pes_tel3\", \"pes_tel3\")' data-toggle='tooltip' title='Apagar telefone da lista!' style='margin:3px;color:red;font-size:11px;'><span class='glyphicon glyphicon-remove'></span></a>" . $pes['pes_tel3'];
             } 
             if ($pes['pes_tel4']) {
-                $pes['telefones'] .= '</br>'.$pes['pes_tel4'];
+                $pes['telefones'] .= "</br><a onclick='retirarTelefonePessoas($pes->pes_id, \"$pes->pes_tel4\", \"pes_tel4\")' data-toggle='tooltip' title='Apagar telefone da lista!' style='margin:3px;color:red;font-size:11px;'><span class='glyphicon glyphicon-remove'></span></a>" . $pes['pes_tel4'];
             } 
             if ($pes['pes_tel5']){
-                $pes['telefones'] .='</br>'. $pes['pes_tel5'];
+                $pes['telefones'] .= "</br><a onclick='retirarTelefonePessoas($pes->pes_id, \"$pes->pes_tel5\", \"pes_tel5\")' data-toggle='tooltip' title='Apagar telefone da lista!' style='margin:3px;color:red;font-size:11px;'><span class='glyphicon glyphicon-remove'></span></a>" . $pes['pes_tel5'];
             }
 
             $pes['info'] = '';
@@ -198,5 +198,16 @@ class PessoasController extends Controller
         } else {
             return $error;
         }
+    }
+
+    //exclui telefone
+    function deleteTelefonePessoas(Request $request){
+        $data = $request->all();
+        //altera valor
+        $data[$data['pes_idNumero']] = null;
+        //realiza a atualizacao removendo o telefone do contato
+        $updData = $this->pessoas->update($data['pes_id'], $data);
+
+        return $updData;
     }
 }

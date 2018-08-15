@@ -44,6 +44,7 @@
 
     @include('pessoas.modal_pessoas')
     @include('pessoas.modal_pessoas_doacao')
+    @include('pessoas.modal_del_telefone')
 
     <!-- SCRIPT DOADOR  -->
     <script src="{{ asset('js/pessoas.js') }}"></script>

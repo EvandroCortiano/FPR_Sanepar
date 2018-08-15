@@ -32,4 +32,26 @@ class PessoasRepository{
         }
     }
 
+    // atualizar dados
+    public function update($pes_id, $data){
+        try{
+            $updPes = pessoas::find($pes_id);
+            if($updPes){
+                try{
+                    $upd = $updPes->update($data);
+                    if($upd){
+                        return pessoas::find($pes_id);
+                    } else {
+                        return 'Error';
+                    }
+                } catch(\Exception $e){
+                    return $e;
+                }
+            } else {
+                return 'Error';
+            }
+        } catch(\Exception $e){
+            return $e;
+        }
+    }
 }
