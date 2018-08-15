@@ -94,6 +94,8 @@ class DoadorController extends Controller
                     $ddr['flag'] = '<a class="btn btn-xs btn-info" style="width:50px;height:25px;" data-toggle="tooltip" title="Pediu para ligar mais tarde!"></a>';
                 } else if ($ccsDt['ccs_stc_id'] == 4){
                     $ddr['flag'] = '<a class="btn btn-xs btn-success" style="width:50px;height:25px;" data-toggle="tooltip" title="Já é doador!"></a>';
+                } else if ($ccsDt['ccs_stc_id'] == 5){
+                    $pes['flag'] = '<a class="btn btn-xs btn-danger2" style="width:50px;height:25px;" data-toggle="tooltip" title="Já é doador!"></a>';
                 }
             } else {
                 $ddr['flag'] = '<a class="btn btn-xs btn-default" style="width:50px;height:25px;  data-toggle="tooltip" title="Não houve contato!""></a>';
