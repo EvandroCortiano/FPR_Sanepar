@@ -32,6 +32,6 @@ class doador extends Model
     }
 
     public function telefone(){
-        return $this->hasMany(telefone::class, 'ddr_tel_id', 'tel_id');
+        return $this->hasMany(telefones::class, 'tel_ddr_id', 'ddr_id');
     }
 }

@@ -117,13 +117,15 @@ class DoadorController extends Controller
     {
         //dados do doador
         $ddr = $this->doador->find($ddr_id);
+        //telefone
+        $telefones = $ddr->telefone;
 
         //dados de doacao do doador
         $doa = $this->doacao->findDdr($ddr->ddr_id);
 
         //Motivo
         $mtdoa = status_motivo::pluck('smt_nome','smt_id');
-        
+
         if(count($doa) > 0){
             foreach($doa as $d){
                 if(!$d->motivo){
@@ -135,9 +137,9 @@ class DoadorController extends Controller
                 $d['doa_data'] = date('d/m/Y', strtotime($d['doa_data']));
                 $d['doa_data_final'] = date('d/m/Y', strtotime($d['doa_data_final']));
             }
-            return view('doador.edit')->with(compact('ddr','mtdoa','doa'));
+            return view('doador.edit')->with(compact('ddr','telefones','mtdoa','doa'));
         } else {
-            return view('doador.edit')->with(compact('ddr','mtdoa'));
+            return view('doador.edit')->with(compact('ddr','telefones','mtdoa'));
         }
 
     }
