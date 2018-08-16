@@ -83,6 +83,10 @@ class DoadorController extends Controller
 
             $ccsDt = $ddr->contato;
             if($ccsDt){
+                // formata data
+                if($ccsDt['ccs_data']){
+                    $ccsDt['ccs_data'] = date('d/m/Y', strtotime($ccsDt['ccs_data']));
+                }
                 $ddr['info'] .= "<div>Obs.: " . $ccsDt['ccs_obs'] . "</div>";
                 $ddr['info'] .= "<div>Data: " . $ccsDt['ccs_data'] . "</div>";
                 $ddr['info'] .= "<div>Status: " . $ccsDt->statusContato->stc_nome . "</div>";
