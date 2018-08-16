@@ -156,13 +156,17 @@ $("#modalPessoasDoacao #formStoreDoacaoPessoas #btnModalStore").confirmation({
             data: data,
             dataType: 'json',
         }).done(function(data){
-            console.log(data);
-            if(data){
-                toastr.success("Doação e Doador cadastrado com sucesso!")
+            if(data.Error == "Novo"){
+                toastr.success("Doação e Doador cadastrado com sucesso!");
                 window.location.replace("../../doador/edit/"+data.ddr_id);
-            } 
+            } else if(data.Error == 'Existe') {
+                toastr.warning("Doador já cadastrado na lista de doadores!");
+                $('#doadorExisteEncaminhar').modal('show');
+                $("#doadorExisteEncaminhar #formDoadorEncaminhar #doador_pes_id").val(data.ddr_pes_id);
+                $("#doadorExisteEncaminhar #formDoadorEncaminhar #doador_id").val(data.ddr_id);
+                $("#doadorExisteEncaminhar .nomeDoador").html(data.ddr_nome);
+            }
         }).fail(function(data){
-            console.log(data);
             toastr.remove();
             toastr.error("Erro ao cadastrar Doador e Doação!<br/>"+data.responseText);
         });
@@ -278,3 +282,9 @@ $("#deleteTelefone #formDeleteTelefone #btnModalDeleted").click(function(){
         toastr.error("Erro ao excluir telefone!");
     });
 });
+
+// encaminha usuario para tela de edição do usuario
+$("#doadorExisteEncaminhar #formDoadorEncaminhar #irCadastro").click(function(){
+    ddrId = $("#doadorExisteEncaminhar #formDoadorEncaminhar #doador_id").val();
+    window.location.replace("../../doador/edit/"+ddrId);
+});  

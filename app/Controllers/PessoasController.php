@@ -123,80 +123,92 @@ class PessoasController extends Controller
         $auxCount = 0;
         $error = '';
 
-        //Pesquisa e retorna os dados da pessoa
-        $pes = $this->pessoas->find($data['pes_id']);
-
-        //Cadastra o Doador
-        if($pes){
-            $dtDdr['ddr_nome'] = $pes['pes_nome'];
-            $dtDdr['ddr_matricula'] = '';
-            $dtDdr['ddr_telefone_principal'] = '';
-            $dtDdr['ddr_titular_conta'] = $pes['pes_nome'];
-            $dtDdr['ddr_endereco'] = $pes['pes_endereco'];
-            $dtDdr['ddr_numero'] = $pes['pes_numero'];
-            $dtDdr['ddr_complemento'] = $pes['pes_complemento'];
-            $dtDdr['ddr_bairro'] = $pes['pes_bairro'];
-            $dtDdr['ddr_cep'] = $pes['pes_cep'];
-            $dtDdr['ddr_nascimento'] = $pes['pes_nascimento'];
-            $dtDdr['ddr_cpf'] = $pes['pes_cpf'];
-            $dtDdr['ddr_cidade'] = $pes['pes_cidade'] . " - " . $pes['pes_estado'];
-            $dtDdr['ddr_cid_id'] = 0;
-            
-            // realiza o cadastro do doador
-            $ddr = $this->doador->store($dtDdr);
-
+        // Verifica se nao existe o cadastro para o doador
+        $countDoador = $this->doador->findWhere('ddr_pes_id', $data['pes_id'])->get();
+        
+        if(count($countDoador) > 0){
+            $countDoador[0]['Error'] = 'Existe';
+            return $countDoador[0];
         } else {
-            $error .= 'Pessoa contato não encontrado no sistema!!<br/>';
-        }
 
-        if($ddr){
-            //cadastrar telefone
-            $telDdr['tel_ddr_id'] = $ddr->ddr_id;
-            for($i=1;$i<=5;$i++){
-                if($pes['pes_tel'.$i]){
-                    $telDdr['tel_numero'] = $pes['pes_tel'.$i];
-                    $this->doador->storeTelefone($telDdr);
-                    $auxCount++;
-                }
+            //Pesquisa e retorna os dados da pessoa
+            $pes = $this->pessoas->find($data['pes_id']);
+
+            //Cadastra o Doador
+            if($pes){
+                $dtDdr['ddr_nome'] = $pes['pes_nome'];
+                $dtDdr['ddr_matricula'] = '';
+                $dtDdr['ddr_telefone_principal'] = '';
+                $dtDdr['ddr_titular_conta'] = $pes['pes_nome'];
+                $dtDdr['ddr_endereco'] = $pes['pes_endereco'];
+                $dtDdr['ddr_numero'] = $pes['pes_numero'];
+                $dtDdr['ddr_complemento'] = $pes['pes_complemento'];
+                $dtDdr['ddr_bairro'] = $pes['pes_bairro'];
+                $dtDdr['ddr_cep'] = $pes['pes_cep'];
+                $dtDdr['ddr_nascimento'] = $pes['pes_nascimento'];
+                $dtDdr['ddr_cpf'] = $pes['pes_cpf'];
+                $dtDdr['ddr_cidade'] = $pes['pes_cidade'] . " - " . $pes['pes_estado'];
+                $dtDdr['ddr_cid_id'] = 0;
+                $dtDdr['ddr_pes_id'] = $pes['pes_id'];
+                
+                // realiza o cadastro do doador
+                $ddr = $this->doador->store($dtDdr);
+
+            } else {
+                $error .= 'Pessoa contato não encontrado no sistema!!<br/>';
             }
-           
-            //Cadastra a doacao
-            $data['doa_ddr_id'] = $ddr->ddr_id;
-            $doa = $this->doacao->store($data);
-        } else {
-            $error .= 'Ocorreu um erro ao salvar o Doador!!<br/>';
-        }
 
-        if(!$doa){
-            $error .= 'Ocorreu um erro ao salvar a doação do Sr(a) ' . $ddr->ddr_nome . '!!<br/>';
-        }
-        if($auxCount == 0){
-            $error .= 'Ocorreu um erro ao salvar os telefone(s) do Sr(a) ' . $ddr->ddr_nome . '!!<br/>';
-        }
-
-        //vincular os contato com o novo cadastro do doador
-        $ccsDdr['ccs_ddr_id'] = $ddr->ddr_id;
-        $contatoDdr = $this->doador->updateContatoPesDdr($ccsDdr, $data['pes_id']);
-        if($contatoDdr == 'Error'){
-            $error .= 'Ocorreu um erro ao salvar contatos realizados do Sr(a) ' . $ddr->ddr_nome . '!!<br/>';         
-        } else {
-            // Cadastra contato de doacao
-            $ccsNew['ccs_ddr_id'] = $ddr->ddr_id;
-            $ccsNew['ccs_data'] = Carbon::now()->toDateTimeString();
-            $ccsNew['ccs_obs'] = 'Cadastro de doacao';
-            $ccsNew['ccs_pes_id'] = $data['pes_id'];
-            $ccsNew['ccs_stc_id'] = 4;
+            if($ddr){
+                //cadastrar telefone
+                $telDdr['tel_ddr_id'] = $ddr->ddr_id;
+                for($i=1;$i<=5;$i++){
+                    if($pes['pes_tel'.$i]){
+                        $telDdr['tel_numero'] = $pes['pes_tel'.$i];
+                        $this->doador->storeTelefone($telDdr);
+                        $auxCount++;
+                    }
+                }
             
-            $cadCcs = $this->doador->contatoStore($ccsNew);
-        }
-        if(!$cadCcs){
-            $error .= 'Ocorreu um erro ao salvar status do doador no contato ao doadores';
-        }
+                //Cadastra a doacao
+                $data['doa_ddr_id'] = $ddr->ddr_id;
+                $doa = $this->doacao->store($data);
+            } else {
+                $error .= 'Ocorreu um erro ao salvar o Doador!!<br/>';
+            }
 
-        if($error == ''){
-            return $ddr;
-        } else {
-            return $error;
+            if(!$doa){
+                $error .= 'Ocorreu um erro ao salvar a doação do Sr(a) ' . $ddr->ddr_nome . '!!<br/>';
+            }
+            if($auxCount == 0){
+                $error .= 'Ocorreu um erro ao salvar os telefone(s) do Sr(a) ' . $ddr->ddr_nome . '!!<br/>';
+            }
+
+            //vincular os contato com o novo cadastro do doador
+            $ccsDdr['ccs_ddr_id'] = $ddr->ddr_id;
+            $contatoDdr = $this->doador->updateContatoPesDdr($ccsDdr, $data['pes_id']);
+            if($contatoDdr == 'Error'){
+                $error .= 'Ocorreu um erro ao salvar contatos realizados do Sr(a) ' . $ddr->ddr_nome . '!!<br/>';         
+            } else {
+                // Cadastra contato de doacao
+                $ccsNew['ccs_ddr_id'] = $ddr->ddr_id;
+                $ccsNew['ccs_data'] = Carbon::now()->toDateTimeString();
+                $ccsNew['ccs_obs'] = 'Cadastro de doacao';
+                $ccsNew['ccs_pes_id'] = $data['pes_id'];
+                $ccsNew['ccs_stc_id'] = 4;
+                
+                $cadCcs = $this->doador->contatoStore($ccsNew);
+            }
+            if(!$cadCcs){
+                $error .= 'Ocorreu um erro ao salvar status do doador no contato ao doadores';
+            }
+
+            if($error == ''){
+                $ddr['Error'] = "Novo";
+                return $ddr;
+            } else {
+                $error['Error'] = "Error";
+                return $error;
+            }
         }
     }
 

@@ -88,4 +88,14 @@ class DoadorRepository{
             return $e;
         }
     }
+
+    // verifica se ja nao foi cadastrado o doador pela lista
+    public function findWhere($campo, $valor){
+        try{
+            $pesq = doador::where($campo, $valor);
+            return $pesq;
+        } catch(\Exception $e){
+            return $e;
+        }
+    }
 }

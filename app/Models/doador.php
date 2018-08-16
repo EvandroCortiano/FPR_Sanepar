@@ -23,7 +23,8 @@ class doador extends Model
         'ddr_cep',
         'ddr_nascimento',
         'ddr_cpf',
-        'ddr_cidade'
+        'ddr_cidade',
+        'ddr_pes_id'
     ];
 
     public function contato(){
