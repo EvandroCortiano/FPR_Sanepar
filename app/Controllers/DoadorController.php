@@ -18,7 +18,7 @@ class DoadorController extends Controller
 
     public function __construct(DoadorRepository $doador, DoacaoRepository $doacao)
     {
-        // $this->middleware('auth');
+        $this->middleware('auth');
         $this->doador = $doador;
         $this->doacao = $doacao;
     }
@@ -73,6 +73,7 @@ class DoadorController extends Controller
         $doador = $this->doador->findAll();
 
         foreach($doador as $ddr){
+            $ddr['ddr_nome'] = '<b>'. strtoupper($ddr['ddr_nome']) . '</b>';
             $ddr['link'] = "<a href='/doador/edit/".$ddr->ddr_id."' class='btn btn-sm btn-info' data-toggle='tooltip' title='Editar Doador, Cadastrar Doação'>
                 <span class='glyphicon glyphicon-usd'></span></a> &nbsp;&nbsp;
                 <a onclick='registrarContato($ddr->ddr_id)' class='btn btn-sm btn-primary' data-toggle='tooltip' title='Registra Contato'>
@@ -81,29 +82,28 @@ class DoadorController extends Controller
             $ddr['info'] = '';
             $ddr['flag'] = '';
 
-            $ccsDt = $ddr->contato;
-            if($ccsDt){
-                // formata data
-                if($ccsDt['ccs_data']){
-                    $ccsDt['ccs_data'] = date('d/m/Y', strtotime($ccsDt['ccs_data']));
+            // telefones
+            $tel = $ddr->telefone;
+            $telefones = '';
+            $aux = 0;
+            if($tel){
+                foreach($tel as $t){
+                    if($aux >= 1){
+                        $telefones .= '<br/>';
+                    }
+                    if($t['tel_numero']){
+                        $telefones .= $t['tel_numero'];
+                    }
+                    $aux++;
                 }
-                $ddr['info'] .= "<div>Obs.: " . $ccsDt['ccs_obs'] . "</div>";
-                $ddr['info'] .= "<div>Data: " . $ccsDt['ccs_data'] . "</div>";
-                $ddr['info'] .= "<div>Status: " . $ccsDt->statusContato->stc_nome . "</div>";
-                if($ccsDt['ccs_stc_id'] == 1){
-                    $ddr['flag'] = '<a class="btn btn-xs btn-danger" style="width:50px;height:25px;" data-toggle="tooltip" title="Não deseja ser Doador!"></a>';
-                } else if ($ccsDt['ccs_stc_id'] == 2){
-                    $ddr['flag'] = '<a class="btn btn-xs btn-warning" style="width:50px;height:25px;" data-toggle="tooltip" title="Não Atendeu a ligação!"></a>';
-                } else if ($ccsDt['ccs_stc_id'] == 3){
-                    $ddr['flag'] = '<a class="btn btn-xs btn-info" style="width:50px;height:25px;" data-toggle="tooltip" title="Pediu para ligar mais tarde!"></a>';
-                } else if ($ccsDt['ccs_stc_id'] == 4){
-                    $ddr['flag'] = '<a class="btn btn-xs btn-success" style="width:50px;height:25px;" data-toggle="tooltip" title="Já é doador!"></a>';
-                } else if ($ccsDt['ccs_stc_id'] == 5){
-                    $pes['flag'] = '<a class="btn btn-xs btn-danger2" style="width:50px;height:25px;" data-toggle="tooltip" title="Já é doador!"></a>';
-                }
-            } else {
-                $ddr['flag'] = '<a class="btn btn-xs btn-default" style="width:50px;height:25px;  data-toggle="tooltip" title="Não houve contato!""></a>';
-                $ddr['info'] .= '';
+                $ddr['ddr_telefone_principal'] = $telefones; 
+            }
+
+            // Informacoes sobre a doacao
+            $doacao = $ddr->doacao;
+            if($doacao){
+                $ddr['info'] .= 'Data inicio doação: <b>' . date('d/m/Y', strtotime($doacao['doa_data']));
+                $ddr['info'] .= '</b><br/>Data final: <b>' . date('d/m/Y', strtotime($doacao['doa_data_final'])) . '</b>';
             }
             
         }
@@ -155,10 +155,16 @@ class DoadorController extends Controller
      * @param  \App\doador  $doador
      * @return \Illuminate\Http\Response
      */
-    public function update(DoadorRequest $request)
+    public function update(Request $request)
     {
         $data = $request->all();
-        $ddrUpd = $this->doador->update($data, $data['ddr_id']);
+        $count = count($this->doador->findUniqueMatricula($data['ddr_id'], $data['ddr_matricula']));
+
+        if($count == 0){
+            $ddrUpd = $this->doador->update($data, $data['ddr_id']);
+        } else {
+            return "Error2";
+        }
 
         return $ddrUpd;
     }
@@ -193,4 +199,14 @@ class DoadorController extends Controller
 
         return $dataContato;
     }
+
+    /**
+     * Cadastra Telefone
+     */
+    public function foneStore(Request $request){
+        $data = $request->all();
+        $cadTel = $this->doador->storeTelefone($data);
+        return $cadTel;
+    }
+
 }

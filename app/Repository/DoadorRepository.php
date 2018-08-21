@@ -98,4 +98,15 @@ class DoadorRepository{
             return $e;
         }
     }
+
+    // verificar matricula se ja esta cadastrado
+    public function findUniqueMatricula($ddr_id, $ddr_matricula){
+        try{
+            $pesq = doador::where('ddr_matricula', $ddr_matricula)
+                            ->where('ddr_id','!=',$ddr_id)->get();
+            return $pesq;
+        } catch(\Exception $e){
+            return $e;
+        }
+    }
 }

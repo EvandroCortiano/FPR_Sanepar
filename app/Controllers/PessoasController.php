@@ -15,6 +15,7 @@ class PessoasController extends Controller
     protected $pessoas, $doador, $doacao;
     public function __construct(PessoasRepository $pessoas, DoadorRepository $doador, DoacaoRepository $doacao)
     {
+        $this->middleware('auth');
         $this->pessoas = $pessoas;
         $this->doador = $doador;
         $this->doacao = $doacao;

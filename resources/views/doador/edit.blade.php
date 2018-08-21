@@ -9,7 +9,7 @@ Cadastro de Doador e suas Doações
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<h1 class="page-head-line">Cadastro do Doador e suas doações</h1>
+			<h1 class="page-head-line titlePrimary">Cadastro do Doador e suas doações</h1>
 		</div>
 	</div>
 	<div class="row">
@@ -75,13 +75,15 @@ Cadastro de Doador e suas Doações
 							</div>
 						</div>
 					</div>
-					<div class="table-responsive">
-							<table class="table table-striped">
-								<thead>
+					<div class="table-responsive-sm">
+							<table class="table table-bordered">
+								<thead style="background-color: #f5f5f5;">
 									<tr>
 										<th>Telefone</th>
 										<th>Obs.:</th>
-										<th>Ações</th>
+										<th>Ações
+											{{ Form::button('<span class="glyphicon glyphicon-plus"></span>', ['class'=>'btn btn-xs btn-success pull-right', 'id' => 'addFone', 'name' => 'addFone']) }}	
+										</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -185,8 +187,10 @@ Cadastro de Doador e suas Doações
 	</div>
 </div>
 <!-- SCRIPT DOADOR  -->
-<script src="{{ asset('js/doador.js') }}"></script>
 @include('doador.modal_doacao')
+@include('doador.modal_fone')
+
+<script src="{{ asset('js/doador.js') }}"></script>
 <script type='text/javascript'>
 	$(document).ready(function() {
 		$("#menu-top #doadorMenu").addClass('menu-top-active');

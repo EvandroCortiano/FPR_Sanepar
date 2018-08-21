@@ -2,36 +2,59 @@
  * Script for Doador
  * by Evandro C Cortiano
  */
-$("#formStoreDoador #submitStoreDoador").click(function(){
-    data = $("form#formStoreDoador").serialize();
 
-    $.ajax({
-        type: 'post',
-        data: data,
-        dataType: 'json',
-        url: '../doador/store'
-    }).done(function(data){
-        if(data){
-            toastr.success("Dados atualizado com sucesso!")
-            window.location.replace("../../doador/edit/"+data.ddr_id);
-        }
-    }).fail(function(data){
-        if(data.hasOwnProperty('responseText')){
-            html = '';
-            if(data.responseText){
-                var error = JSON.parse(data.responseText);
-                if(error){
-                    $.each(error, function(i, obj){
-                        html += obj + "<br/>";
-                    });
-                }
+// Padrao do Toastr
+toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-full-width",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+}
+
+$("#formStoreDoador #btnModalStore").confirmation({
+    rootSelector: '[data-toggle=modalStore]',
+    container: 'body',
+    onConfirm: function(){
+        data = $("form#formStoreDoador").serialize();
+
+        $.ajax({
+            type: 'post',
+            data: data,
+            dataType: 'json',
+            url: '../doador/store'
+        }).done(function(data){
+            if(data){
+                toastr.success("Dados atualizado com sucesso!")
+                window.location.replace("../../doador/edit/"+data.ddr_id);
             }
-            toastr.remove();
-            toastr.error("<b>Falha ao cadastrar:</b><br/>" + html);
-            return false;	
-        }
-    });
-});
+        }).fail(function(data){
+            if(data.hasOwnProperty('responseText')){
+                html = '';
+                if(data.responseText){
+                    var error = JSON.parse(data.responseText);
+                    if(error){
+                        $.each(error, function(i, obj){
+                            html += "<h4>"+obj + "</h4>";
+                        });
+                    }
+                }
+                toastr.remove();
+                toastr.error("<b>Falha ao cadastrar:</b><br/>" + html);
+                return false;	
+            }
+        });
+}});
 
 // Atualizar os dados do doador
 $("#formupdateDoador #btnModalEdit").confirmation({
@@ -39,17 +62,20 @@ $("#formupdateDoador #btnModalEdit").confirmation({
     container: 'body',
     onConfirm: function(){ 
         data = $("form#formupdateDoador").serialize();
-        console.log(data);
         $.ajax({
             type: 'put',
             url: '../../doador/update',
             data: data,
             dataType: 'json',
         }).done(function(data){
-            console.log(data);
-        }).fail(function(){
+            window.location.replace("../../doador/edit/"+data.ddr_id);
+        }).fail(function(data){
             toastr.remove();
-            toastr.error("Erro ao atualizar dados do Doador!");
+            if(data.responseText == 'Error2'){
+                toastr.error("<h4>Matricula já existe para outro doador!</h4>");
+            } else {
+                toastr.error("Erro ao atualizar dados do Doador!");
+            }
         });
        
     }
@@ -93,17 +119,18 @@ function tdListDoadores(){
         },
         "data" :   [],   
         "columns": [
-            {data: 'flag' },
             {data: 'ddr_nome' },
-            {data: 'ddr_matricula'},
-            {data: 'ddr_telefone_principal' },
-            {data: 'link' },
+            {data: 'ddr_cep'},
+            {data: 'ddr_cidade'},
+            {data: 'ddr_telefone_principal'},
             {data: 'info' },
+            {data: 'link' },
             ], 
     });
     $("#tableDoadores_wrapper").css("width","98%");
     $('.dataTables_filter [type="search"]').css({'width':'350px','display':'inline-block'});
-    $("#tableDoadores_paginate").css("margin","-10px 25px 0px 0px");
+    $('.dataTables_filter').css({'margin-bottom':'-10px'});
+    $("#tableDoadores_paginate").css("margin","-10px 25px 0px 0px"); 
 }
 
 //Registrar contato para evitar contatos repetidos
@@ -146,5 +173,31 @@ $("#modalContato #formStoreContato #btnModalStore").confirmation({
             toastr.error("Erro ao cadastrar Contato com o Doador!");
         });
         console.log(data);
+    }
+});
+
+// cadastra novo telefone - carrega modal
+$("#formupdateDoador #addFone").click(function(){
+    ddrId = $("#formupdateDoador #ddr_id").val();
+    $("#formStoreFone #tel_ddr_id").val(ddrId);
+    $('#modalCadFone').modal('show');
+});
+$("#modalCadFone #formStoreFone #btnModalStore").confirmation({
+    rootSelector: '[data-toggle=modalStore]',
+    container: 'body',
+    onConfirm: function(){ 
+        data = $("form#formStoreFone").serialize();
+
+        $.ajax({
+            type: 'post',
+            url: '../../doador/foneStore',
+            data: data,
+            dataType: 'json',
+        }).done(function(data){
+            window.location.replace("../../doador/edit/"+data.tel_ddr_id);
+        }).fail(function(){
+            toastr.remove();
+            toastr.error("Erro ao cadastrar Contato com o Doador!");
+        });
     }
 });

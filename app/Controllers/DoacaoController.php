@@ -13,6 +13,7 @@ class DoacaoController extends Controller
 
     public function __construct(DoacaoRepository $doacaoRepository)
     {
+        $this->middleware('auth');
         $this->doacaoRepository = $doacaoRepository;
     }
 

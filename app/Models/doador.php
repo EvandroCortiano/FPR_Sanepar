@@ -35,4 +35,8 @@ class doador extends Model
     public function telefone(){
         return $this->hasMany(telefones::class, 'tel_ddr_id', 'ddr_id');
     }
+
+    public function doacao(){
+        return $this->hasOne(doacao::class, 'doa_ddr_id', 'ddr_id')->latest();
+    }
 }

@@ -24,4 +24,9 @@ class doacao extends Model
     public function motivo(){
         return $this->belongsTo(status_motivo::class, 'doa_smt_id', 'smt_id');
     }
+
+    public function doador(){
+        return $this->belongsTo(doador::class, 'ddr_id', 'doa_ddr_id');
+    }
+
 }

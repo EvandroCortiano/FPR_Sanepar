@@ -335,3 +335,7 @@ footer {
     line-height: 10px;
     margin-top: 13px;
 }
+.titlePrimary{
+    color: #337ab7;
+    border-color: #337ab7;
+}

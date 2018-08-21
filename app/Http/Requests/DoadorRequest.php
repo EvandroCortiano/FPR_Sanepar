@@ -24,7 +24,8 @@ class DoadorRequest extends FormRequest
     public function rules()
     {
         return [
-            'ddr_nome' => 'required',
+            'ddr_nome' => 'required|max:150',
+            'ddr_matricula' => 'unique:cad_doador'
         ];
     }
 
@@ -32,6 +33,8 @@ class DoadorRequest extends FormRequest
 	public function messages(){
 		return[
             'ddr_nome.required' => 'O Nome do doador e obrigatorio!',
+            'ddr_nome.max' => 'Nome inserido é muito extenso, favor abreviar!',
+            'ddr_matricula.unique' => 'Matricula ja cadastrada ao sistema, favor pesquisar doador com esta matricula!',
         ];
     }
 }

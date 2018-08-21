@@ -1,3 +1,7 @@
+/**
+ * Script for Pessoas
+ * by Evandro C Cortiano
+ */
 // Padrao do Toastr
 toastr.options = {
     "closeButton": false,
