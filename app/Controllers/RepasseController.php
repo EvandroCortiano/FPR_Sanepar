@@ -25,13 +25,10 @@ class RepasseController extends Controller
     {
         //recebe doacoes
         $doa = $this->doacao->findRepasse();
-        
         foreach($doa as $d){
             $d->doador;
         }
 
-        return $doa;
-
-        return view('repasse.dashboard');
+        return view('repasse.dashboard')->with(compact('doa'));
     }
 }

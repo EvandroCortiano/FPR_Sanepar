@@ -26,7 +26,7 @@ class doacao extends Model
     }
 
     public function doador(){
-        return $this->belongsTo(doador::class, 'ddr_id', 'doa_ddr_id');
+        return $this->belongsTo(doador::class, 'doa_ddr_id', 'ddr_id');
     }
 
 }

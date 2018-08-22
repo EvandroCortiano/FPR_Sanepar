@@ -76,27 +76,27 @@ Cadastro de Doador e suas Doações
 						</div>
 					</div>
 					<div class="table-responsive-sm">
-							<table class="table table-bordered">
-								<thead style="background-color: #f5f5f5;">
+						<table class="table table-bordered">
+							<thead style="background-color: #f5f5f5;">
+								<tr>
+									<th>Telefone</th>
+									<th>Obs.:</th>
+									<th>Ações
+										{{ Form::button('<span class="glyphicon glyphicon-plus"></span>', ['class'=>'btn btn-xs btn-success pull-right', 'id' => 'addFone', 'name' => 'addFone']) }}	
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach ($telefones as $tel)
 									<tr>
-										<th>Telefone</th>
-										<th>Obs.:</th>
-										<th>Ações
-											{{ Form::button('<span class="glyphicon glyphicon-plus"></span>', ['class'=>'btn btn-xs btn-success pull-right', 'id' => 'addFone', 'name' => 'addFone']) }}	
-										</th>
+										<td>{{ $tel->tel_numero }}</td>
+										<td>{{ $tel->tel_obs }}</td>
+										<td></td>
 									</tr>
-								</thead>
-								<tbody>
-									@foreach ($telefones as $tel)
-										<tr>
-											<td>{{ $tel->tel_numero }}</td>
-											<td>{{ $tel->tel_obs }}</td>
-											<td></td>
-										</tr>
-									@endforeach
-								</tbody>
-							</table>
-						</div>
+								@endforeach
+							</tbody>
+						</table>
+					</div>
 
 					<hr />
 					@include('layouts.botoes',['buttons' => ['btnEdit']])
