@@ -24,4 +24,16 @@ class DoacaoRepository{
             return $e;
         }
     }
+
+    //pesquisar doacoes para o repasse
+    public function findRepasse(){
+        try{
+            $doacoes = doacao::all();
+
+            return $doacoes;
+
+        } catch(\Exception $e){
+            return $e;
+        }   
+    }
 }

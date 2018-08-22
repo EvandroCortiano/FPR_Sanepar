@@ -35,8 +35,6 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/contatoStore', ['as' => 'contatoStore', 'uses' => 'DoadorController@contatoStore']);
     });
 
-    
-
     //doacao
     Route::post('/doacao/store','DoacaoController@store');
 
@@ -50,6 +48,12 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/contatoStorePessoas', ['as' => 'contatoStorePessoas', 'uses' => 'PessoasController@contatoStorePessoas']);
         Route::post('/doacaoDoador', ['as' => 'doacaoDoador', 'uses' => 'PessoasController@doacaoDoador']);
         Route::put('/deleteTelefonePessoas', ['as' => 'deleteTelefonePessoas', 'uses' => 'PessoasController@deleteTelefonePessoas']);
+    });
+
+    //doador
+    Route::group(['prefix'=>'repasse','as'=>'repasse.'], function(){
+        //get
+        Route::get('/', ['as' => 'index', 'uses' => 'RepasseController@index']);
     });
 
     // Auth::routes();
