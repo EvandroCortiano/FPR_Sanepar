@@ -11,13 +11,18 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            {{ Form::label('delObs', 'Justificativa:') }}
+                            {{ Form::label('delObs', '* Justificativa:') }}
                             {{ Form::textarea('doa_justifica_cancelamento', '', ['class' => 'form-control', 'id' => 'doa_justifica_cancelamento', 'rows' => '3']) }}
                         </div>
                     </div>
+                    <br/>
+                    <div class="alert alert-danger">
+                        ATENÇÃO: ao suspender a doação, a mesma não pode ser reativada.<br/>
+                        Caso o doador volte a realizar doação, uma nova doação deve ser Cadastrada!
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    @include('layouts.botoes',['buttons' => ['btnDeleted', 'btnCancel']])
+                    @include('layouts.botoes',['buttons' => ['btnDestroy', 'btnCancel']])
                 </div>
             {{ Form::close() }}
         </div>

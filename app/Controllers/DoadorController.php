@@ -181,6 +181,20 @@ class DoadorController extends Controller
     }
 
     /**
+     * Remove the specified doacao.
+     */
+    public function destroyDoacao(Request $request)
+    {
+        // recebe dados
+        $data = $request->all();
+        $data['deleted_at'] = Carbon::now()->toDateTimeString();
+        
+        $updDoa = $this->doacao->updDoa($data, $data['doa_id']);
+
+        return $updDoa;
+    }
+
+    /**
      * Find the doador
      */
     public function find($ddr_id){

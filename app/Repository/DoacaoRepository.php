@@ -25,6 +25,29 @@ class DoacaoRepository{
         }
     }
 
+    //atualiza/suspende doacao
+    public function updDoa($data, $doa_id){
+        try{
+            $doa = doacao::find($doa_id);
+            if($doa){
+                try{
+                    $upd = $doa->update($data);
+                    if($upd){
+                        return doacao::withTrashed()->find($doa_id);
+                    } else {
+                        return "Error";
+                    }
+                } catch(zException $e){
+                    return $e;
+                }
+            } else {
+                return "Error";
+            }
+        } catch(\Exception $e){
+            return $e;
+        }
+    }
+
     //pesquisar doacoes para o repasse
     public function findRepasse(){
         try{

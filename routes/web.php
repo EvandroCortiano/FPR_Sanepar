@@ -30,9 +30,10 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/store', ['as' => 'store', 'uses' => 'DoadorController@store']);
         Route::post('/foneStore', ['as' => 'foneStore', 'uses' => 'DoadorController@foneStore']);
         Route::put('/update', ['as' => 'update', 'uses' => 'DoadorController@update']);
-        
         //doador/contato
         Route::post('/contatoStore', ['as' => 'contatoStore', 'uses' => 'DoadorController@contatoStore']);
+        //delete doacao
+        Route::put('/destroyDoacao', ['as' => 'destroyDoacao', 'uses' => 'DoadorController@destroyDoacao']);
     });
 
     //doacao

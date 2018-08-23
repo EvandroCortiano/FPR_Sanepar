@@ -208,3 +208,28 @@ function deletedDoacao(doa_id, doa_ddr_id){
     $("#modalDeletedDoacao #formDeletedDoa #doa_ddr_id").val(doa_ddr_id);
     $("#modalDeletedDoacao").modal("show");
 }
+$("#modalDeletedDoacao #formDeletedDoa #btnModalDestroy").confirmation({
+    rootSelector: '[data-toggle=modalDestroy]',
+    container: 'body',
+    onConfirm: function(){ 
+        data = $("form#formDeletedDoa").serialize();
+
+        just = $("#formDeletedDoa #doa_justifica_cancelamento").val();
+        if(just != ''){
+            $.ajax({
+                type: 'put',
+                url: '../../doador/destroyDoacao',
+                data: data,
+                dataType: 'json',
+            }).done(function(data){
+                window.location.replace("../../doador/edit/"+data.doa_ddr_id);
+            }).fail(function(){
+                toastr.remove();
+                toastr.error("Erro ao suspender doação!");
+            });
+        } else {
+            toastr.remove();
+            toastr.error("<h4>Favor inserir uma justificativa para suspender a doação!</h4>");
+        }
+    }
+});

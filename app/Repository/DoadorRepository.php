@@ -30,7 +30,6 @@ class DoadorRepository{
     public function update($data, $ddr_id){
         try{ 
             $ddr = doador::find($ddr_id);
-
             if($ddr){
                 $updDdr = $ddr->update($data);
                 if($updDdr){
