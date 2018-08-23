@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class doacao extends Model
 {
+    use SoftDeletes;
+    
     protected $table = 'cad_doacao';
 
     protected $primaryKey = 'doa_id';
@@ -20,6 +23,9 @@ class doacao extends Model
         'doa_smt_id',
         'doa_valor_mensal'
     ];
+
+    //softDelete
+    protected $dates = ['deleted_at'];
 
     public function motivo(){
         return $this->belongsTo(status_motivo::class, 'doa_smt_id', 'smt_id');

@@ -124,6 +124,7 @@ Cadastro de Doador e suas Doações
 										<th>Valor</th>
 										<th>Motivo</th>
 										<th>Data Fim</th>
+										<th style="text-align: center;">Ação</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -135,6 +136,7 @@ Cadastro de Doador e suas Doações
 											<td>{{ $d->doa_valor }}</td>
 											<td>{{ $d->smt_nome }}</td>
 											<td>{{ $d->doa_data_final }}</td>
+											<td style="text-align: center;">{{ Form::button('<span class="glyphicon glyphicon-remove"></span>', ['class'=>'btn btn-ss btn-danger', 'id' => 'deletedDoa', 'name' => 'deletedDoa', 'onclick' => 'deletedDoacao('.$d->doa_id.', '.$d->doa_ddr_id.')']) }}</td>
 										</tr>
 									@endforeach
 								</tbody>
@@ -189,6 +191,7 @@ Cadastro de Doador e suas Doações
 <!-- SCRIPT DOADOR  -->
 @include('doador.modal_doacao')
 @include('doador.modal_fone')
+@include('doador.modal_deleted_doacao')
 
 <script src="{{ asset('js/doador.js') }}"></script>
 <script type='text/javascript'>

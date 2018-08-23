@@ -201,3 +201,10 @@ $("#modalCadFone #formStoreFone #btnModalStore").confirmation({
         });
     }
 });
+
+//supender doacao
+function deletedDoacao(doa_id, doa_ddr_id){
+    $("#modalDeletedDoacao #formDeletedDoa #doa_id").val(doa_id);
+    $("#modalDeletedDoacao #formDeletedDoa #doa_ddr_id").val(doa_ddr_id);
+    $("#modalDeletedDoacao").modal("show");
+}

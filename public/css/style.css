@@ -339,3 +339,10 @@ footer {
     color: #337ab7;
     border-color: #337ab7;
 }
+.btn-ss,
+.btn-group-ss > .btn {
+  padding: 0px 3px;
+  font-size: 11px;
+  line-height: 1.1;
+  border-radius: 2px;
+}
