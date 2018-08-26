@@ -55,6 +55,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['prefix'=>'repasse','as'=>'repasse.'], function(){
         //get
         Route::get('/', ['as' => 'index', 'uses' => 'RepasseController@index']);
+        Route::get('/findAllDoacao', ['as' => 'findAllDoacao', 'uses' => 'RepasseController@findAllDoacao']);
+        Route::get('/downloadExcel/{type}', ['as' => 'downloadExcel', 'uses' => 'RepasseController@downloadExcel']);
     });
 
     // Auth::routes();

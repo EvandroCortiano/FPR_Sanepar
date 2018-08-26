@@ -18,6 +18,7 @@
                 <table id="tableDoadores" class="table table-striped" style="margin-bottom:0px;">
                     <thead>
                         <tr>
+                            <th>ID FPR</th>
                             <th>Nome Doador</th>
                             <th>Cep</th>
                             <th>Cidade</th>

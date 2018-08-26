@@ -5,28 +5,32 @@
 @stop
 
 @section('content')
-    <div class="container">
+    <div class="container" style="min-height: 450px">
+        <div class="col-md-12">
+            <div class="col-sm-6">
+                <div class="row">
+                    <a href="{{ URL::to('../../repasse/downloadExcel/xlsx') }}"><button class="btn btn-success">Download Excel xlsx</button></a>
+                    <div class="table-responsive">
+                        <table id="tableAllDoacao" class="table table-striped" style="margin-bottom:0px;">
+                            <thead>
+                                <tr>
+                                    <th>Nome doador</th>
+                                    <th>Matricula</th>
+                                    <th>valor doação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
 
-        <div class="table-responsive-sm">
-            <table class="table table-bordered">
-                <thead style="background-color: #f5f5f5;">
-                    <tr>
-                        <th>Nome doador</th>
-                        <th>Matricula</th>
-                        <th>valor doação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($doa as $d)
-                        <tr>
-                            <td>{{ $d->doador['ddr_nome'] }}</td>
-                            <td>{{ $d->doador['ddr_matricula'] }}</td>
-                            <td>{{ $d->doa_valor_mensal }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            </div>
         </div>
 
+        <!-- SCRIPT DOACAO  -->
+        <script src="{{ asset('js/repasse.js') }}"></script>
     </div>
 @stop

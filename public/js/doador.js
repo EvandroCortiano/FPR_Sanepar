@@ -87,7 +87,7 @@ $(document).ajaxStart(function() {
     $(document.body).css({'cursor' : 'default'});
 });
 
-// Carrega pessoas
+// Carrega doadores
 function tdListDoadores(){
 	//Datatable Modal List Ddv
     tableListDdv = $('#tableDoadores').DataTable({
@@ -119,6 +119,7 @@ function tdListDoadores(){
         },
         "data" :   [],   
         "columns": [
+            {data: 'ddr_id' },
             {data: 'ddr_nome' },
             {data: 'ddr_cep'},
             {data: 'ddr_cidade'},
