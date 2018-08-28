@@ -7,9 +7,9 @@
 @section('content')
     <div class="container" style="min-height: 450px">
         <div class="col-md-12">
-            <div class="col-sm-6">
+            <div class="col-sm-10">
                 <div class="row">
-                    <a href="{{ URL::to('../../repasse/downloadExcel/xlsx') }}"><button class="btn btn-success">Download Excel xlsx</button></a>
+                    
                     <div class="table-responsive">
                         <table id="tableAllDoacao" class="table table-striped" style="margin-bottom:0px;">
                             <thead>
@@ -25,8 +25,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6">
-
+            <div class="col-sm-2">
+                <a href="{{ URL::to('../../repasse/downloadExcel/xlsx') }}"><button class="btn btn-success">Download Excel xlsx</button></a>
             </div>
         </div>
 

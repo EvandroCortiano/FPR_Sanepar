@@ -22,7 +22,7 @@ Cadastrar novo doador!
 					<div class="form-group">
 						<div class="row">
 							<div class="col-sm-12 formLabelInput">
-								{{ Form::label('ddrNome', 'Nome do Doador') }}
+								<label for="ddrNome">Nome do Doador <span style="color: #c70707;font-size: 11px;">(Cartão + Pró Renal)</span></label>
 								{{ Form::text('ddr_nome', '', ['class' => 'form-control', 'id' => 'ddr_nome']) }}
 							</div>
 						</div>
@@ -32,7 +32,7 @@ Cadastrar novo doador!
 								{{ Form::text('ddr_matricula', '', ['class' => 'form-control', 'id' => 'ddr_matricula']) }}
 							</div>
 							<div class="col-sm-8 formLabelInput2">
-								{{ Form::label('ddrTitularConta', 'Titular da Conta') }}
+								<label for="ddrTitularConta">Titular da Conta <span style="color: #c70707;font-size: 11px;">(Nome Doador)</span></label>
 								{{ Form::text('ddr_titular_conta', '', ['class' => 'form-control', 'id' => 'ddr_titular_conta']) }}
 							</div>
 						</div>
