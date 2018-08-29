@@ -11,6 +11,7 @@ use App\Repository\DoacaoRepository;
 use App\Models\status_motivo;
 use App\Models\status_contato;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DoadorController extends Controller
 {
@@ -188,6 +189,7 @@ class DoadorController extends Controller
         // recebe dados
         $data = $request->all();
         $data['deleted_at'] = Carbon::now()->toDateTimeString();
+        $data['deleted_user_id'] = Auth::user()->id;
         
         $updDoa = $this->doacao->updDoa($data, $data['doa_id']);
 

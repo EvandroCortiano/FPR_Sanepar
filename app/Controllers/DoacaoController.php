@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Repository\DoacaoRepository;
 use App\Http\Requests\DoacaoRequest;
+use Illuminate\Support\Facades\Auth;
 
 class DoacaoController extends Controller
 {
@@ -46,6 +47,7 @@ class DoacaoController extends Controller
     public function store(DoacaoRequest $request)
     {
         $data = $request->all();
+        $data['created_user_id'] = Auth::user()->id;
         $cadDoacao = $this->doacaoRepository->store($data);
         return $cadDoacao;
     }

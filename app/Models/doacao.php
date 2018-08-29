@@ -23,7 +23,9 @@ class doacao extends Model
         'doa_smt_id',
         'doa_valor_mensal',
         'doa_justifica_cancelamento',
-        'deleted_at'
+        'deleted_at',
+        'created_user_id',
+        'deleted_user_id'
     ];
 
     //softDelete
