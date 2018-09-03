@@ -30,6 +30,9 @@ Cadastro de Doador e suas Doações
 							<div class="col-sm-4 formLabelInput2">
 								{{ Form::label('ddrMatricula', 'Matricula') }}
 								{{ Form::text('ddr_matricula', $ddr['ddr_matricula'], ['class' => 'form-control', 'id' => 'ddr_matricula']) }}
+								<a href="http://site.sanepar.com.br/servicos/quer-pagar-sua-conta" target="_blank" style="margin:-27px -22px 0px 0px;float:right;">
+									<img src="{{ asset('img/saneparApp.jpg') }}" width="20px">
+								</a>
 							</div>
 							<div class="col-sm-8 formLabelInput2">
 								<label for="ddrTitularConta">Titular da Conta <span style="color: #c70707;font-size: 11px;">(Nome Doador)</span></label>
