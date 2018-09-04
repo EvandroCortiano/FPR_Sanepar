@@ -40,7 +40,7 @@ function tdListAllDoacao(){
             {data: 'doa_valor_mensal'},
             ], 
     });
-    $("#tableAllDoacao_wrapper").css("width","97%");
+    $("#tableAllDoacao_wrapper").parent().css("overflow-x","hidden");
     // $('.dataTables_filter [type="search"]').css({'width':'350px','display':'inline-block'});
     // $('.dataTables_filter').css({'margin-bottom':'-10px'});
     $("#tableAllDoacao_paginate").css("margin","-25px 0px 0px 0px"); 
