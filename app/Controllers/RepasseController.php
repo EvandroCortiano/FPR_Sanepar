@@ -6,17 +6,19 @@ use Illuminate\Http\Request;
 use App\Repository\DoacaoRepository;
 use App\Repository\RepasseRepository;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Repository\UsersRepository;
 
 class RepasseController extends Controller
 {
 
-    protected $doacao, $repasse;
+    protected $doacao, $repasse, $usersRepository;
 
-    public function __construct(DoacaoRepository $doacao, RepasseRepository $repasse)
+    public function __construct(DoacaoRepository $doacao, RepasseRepository $repasse, UsersRepository $usersRepository)
     {
         $this->middleware('auth');
         $this->doacao = $doacao;
         $this->repasse = $repasse;
+        $this->usersRepository = $usersRepository;
     }
 
     /**
@@ -26,8 +28,10 @@ class RepasseController extends Controller
      */
     public function index()
     {
+        //recebe lista dos operadores
+        $opera = $this->usersRepository->operadores()->pluck('id','name');
         //recebe doacoes
-        return view('repasse.dashboard');
+        return view('repasse.dashboard')->with(compact('opera'));
     }
 
     /**

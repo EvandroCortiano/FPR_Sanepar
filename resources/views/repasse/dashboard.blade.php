@@ -21,7 +21,7 @@
                             </div>
                             <div class="col-sm-2">
                                 <span style="font-size: 14px;">Operador:</span>
-                                {{ Form::select('operador',['0'=>'Selecione','1'=>'Cancelado','2'=>'Vencido'],'',['class'=>'form-control']) }}
+                                {{ Form::select('operador',$opera,'',['class'=>'form-control']) }}
                             </div>
                             <div class="col-sm-2">
                                 <span style="font-size: 14px;">Status Doação:</span>
