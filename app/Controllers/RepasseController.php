@@ -72,6 +72,7 @@ class RepasseController extends Controller
     public function findFiltersReapsse(Request $request){
         // Retorna valores para pesquisa
         $pesq = $request->all();
+        
         // cria variaveis
         $data = array();
         $where = '';
@@ -92,7 +93,9 @@ class RepasseController extends Controller
 
             //realiza a pesquisa
             $doa = $this->repasse->findFilterDoaRepasse($where);
+
             return $doa;
+
         } else{
             return $data[] = ['status'=>'Error','msg'=>'Favor selecionar uma data Inicio e/ou Final valida!'];
         }
