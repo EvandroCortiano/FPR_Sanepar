@@ -2,8 +2,17 @@
  * Script for Doacao
  * by Evandro C Cortiano
  */
+
+//Executar ao abrir a pagina
+$(document).ready(function(){
+    //seta primeiro dia do mes no forme de filtro pesquisa
+    var date = new Date();
+    primeiroDia = date.getFullYear() + '-' + ("0" + date.getMonth()).substr(-2) + '-' + "01";
+    $("#formFiltroDoaRepasse #dataIni").val(primeiroDia);
+});
+
 // Carrega tabela com todas as doacoes
-tdListAllDoacao();
+// tdListAllDoacao();
 function tdListAllDoacao(){
 	//Datatable Modal List Ddv
     tableListAllDoa = $('#tableAllDoacao').DataTable({
@@ -45,3 +54,22 @@ function tdListAllDoacao(){
     // $('.dataTables_filter').css({'margin-bottom':'-10px'});
     $("#tableAllDoacao_paginate").css("margin","-25px 0px 0px 0px"); 
 }
+
+// Realiza pesquisa tela de repasse
+$("#formFiltroDoaRepasse #btnFiltroDoaRepasse").click(function(){
+    pesquisa = $("form#formFiltroDoaRepasse").serialize();
+
+    $.ajax({
+        type: 'get',
+        url: '../../repasse/findFiltersReapsse',
+        data: pesquisa,
+        dataType: 'json',
+    }).done(function(data){
+        toastr.remove();
+        toastr.success("Doações retornadas com sucesso!");
+        console.log(data);
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("Erro ao pesquisar doações!");
+    });
+});

@@ -29,7 +29,7 @@ class RepasseController extends Controller
     public function index()
     {
         //recebe lista dos operadores
-        $opera = $this->usersRepository->operadores()->pluck('id','name');
+        $opera = $this->usersRepository->operadores()->pluck('name', 'id');
         //recebe doacoes
         return view('repasse.dashboard')->with(compact('opera'));
     }
@@ -66,5 +66,37 @@ class RepasseController extends Controller
 				$sheet->fromArray($data);
 	        });
 		})->download($type);
+    }
+
+    //Realiza pesquisa conforme selecionado nos filtros
+    public function findFiltersReapsse(Request $request){
+        // Retorna valores para pesquisa
+        $pesq = $request->all();
+        // cria variaveis
+        $data = array();
+        $where = '';
+
+        // Cria/utiliza filtros
+        if($pesq['dataIni'] && $pesq['dataFim']){
+            // cria where's
+            $where .= " doa_data between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."'";
+            if($pesq['operador'] != null){
+                $where .= " AND created_user_id = " . $pesq['operador'];
+            }
+            // 1 = Cancelado, 2 = Vencido
+            if($pesq['statusDoa'] == 1){ 
+                $where .= " AND deleted_at is not null";
+            } else if($pesq['statusDoa'] == 2){
+                $where .= " AND doa_data_final < '" . $pesq['dataFim'] . "'";
+            }
+
+            //realiza a pesquisa
+            $doa = $this->repasse->findFilterDoaRepasse($where);
+            return $doa;
+        } else{
+            return $data[] = ['status'=>'Error','msg'=>'Favor selecionar uma data Inicio e/ou Final valida!'];
+        }
+
+        return $pesq;
     }
 }

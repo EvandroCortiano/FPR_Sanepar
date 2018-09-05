@@ -11,28 +11,30 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading" style="padding:6px;">
                         <div class="row">
-                            <div class="col-sm-2">
-                                <span style="font-size: 14px;">Data Inicio:</span>
-                                {{ Form::date('dataIni', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'dataIni']) }}
-                            </div>
-                            <div class="col-sm-2">
-                                <span style="font-size: 14px;">Data Fim:</span>
-                                {{ Form::date('dataFim', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'dataFim']) }}
-                            </div>
-                            <div class="col-sm-2">
-                                <span style="font-size: 14px;">Operador:</span>
-                                {{ Form::select('operador',$opera,'',['class'=>'form-control']) }}
-                            </div>
-                            <div class="col-sm-2">
-                                <span style="font-size: 14px;">Status Doação:</span>
-                                {{ Form::select('statusDoa',['0'=>'Selecione','1'=>'Cancelado','2'=>'Vencido'],'',['class'=>'form-control']) }}
-                            </div>
-                            <div class="col-sm-2">
+                            {{ Form::open(['id' => 'formFiltroDoaRepasse']) }}
+                                <div class="col-sm-2">
+                                    <span style="font-size: 14px;">Data Inicio:</span>
+                                    {{ Form::date('dataIni', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'dataIni']) }}
+                                </div>
+                                <div class="col-sm-2">
+                                    <span style="font-size: 14px;">Data Fim:</span>
+                                    {{ Form::date('dataFim', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'dataFim']) }}
+                                </div>
+                                <div class="col-sm-2">
+                                    <span style="font-size: 14px;">Operador:</span>
+                                    {{ Form::select('operador',$opera,'',['class'=>'form-control','placeholder'=>'Selecione']) }}
+                                </div>
+                                <div class="col-sm-2">
+                                    <span style="font-size: 14px;">Status Doação:</span>
+                                    {{ Form::select('statusDoa',['0'=>'Selecione','1'=>'Cancelado','2'=>'Vencido'],'',['class'=>'form-control']) }}
+                                </div>
+                                <div class="col-sm-2">
 
-                            </div>
-                            <div class="col-sm-2">
-                                {{ Form::button('<span class="fa fa-search"></span>', ['class' => 'btn btn-lg btn-default pull-right', 'id' => 'btnModalBack', 'name' => 'btnModalBack', 'style' => 'margin-top: 9px;']) }}
-                            </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    {{ Form::button('<span class="fa fa-search"></span>', ['class' => 'btn btn-lg btn-default pull-right', 'id' => 'btnFiltroDoaRepasse', 'name' => 'btnModalBack', 'style' => 'margin-top: 9px;']) }}
+                                </div>
+                            {{ Form::close() }}
                         </div>
                     </div>
                     <div class="panel-body">

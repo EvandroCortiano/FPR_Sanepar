@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Models\doacao;
+use Illuminate\Support\Facades\DB;
 
 
 class RepasseRepository{
@@ -30,6 +31,25 @@ class RepasseRepository{
 
             return $doacoes;
 
+        } catch(\Exception $e){
+            return $e;
+        }   
+    }
+
+    // Relaiza a pesquisa com os filtros
+    public function findFilterDoaRepasse($where){
+        try{
+            $sql = "select ddr_id, ddr_matricula, ddr_nome, doa_valor_mensal, doa_qtde_parcela, smt_nome, doa_valor
+                    from cad_doacao
+                    left join cad_doador
+                        on ddr_id = doa_ddr_id
+                    left join tab_status_motivo
+                        on smt_id = doa_smt_id  
+                    where " . $where;
+
+            $doacoes = DB::select($sql);
+            return $doacoes;
+            
         } catch(\Exception $e){
             return $e;
         }   
