@@ -10,6 +10,7 @@
 
     <!-- BOOTSTRAP CORE STYLE  -->
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/all.css') }}" rel="stylesheet" />
     <!-- TOASTR CORE STYLE  -->
     <link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet" />
     <!-- FONT AWESOME ICONS  -->

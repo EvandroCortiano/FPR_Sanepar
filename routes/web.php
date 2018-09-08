@@ -57,7 +57,11 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/', ['as' => 'index', 'uses' => 'RepasseController@index']);
         Route::get('/findAllDoacao', ['as' => 'findAllDoacao', 'uses' => 'RepasseController@findAllDoacao']);
         Route::get('/downloadExcel/{type}', ['as' => 'downloadExcel', 'uses' => 'RepasseController@downloadExcel']);
-        Route::get('/findFiltersReapsse', ['as' => 'findFiltersReapsse', 'uses' => 'RepasseController@findFiltersReapsse']);
+        Route::get('/findFiltersRepasse', ['as' => 'findFiltersRepasse', 'uses' => 'RepasseController@findFiltersRepasse']);
+        Route::get('/findFilterProducao', ['as' => 'findFilterProducao', 'uses' => 'RepasseController@findFilterProducao']);
+        Route::get('/findFilterCancelados', ['as' => 'findFilterCancelados', 'uses' => 'RepasseController@findFilterCancelados']);
+        Route::get('/findFilterVencer', ['as' => 'findFilterVencer', 'uses' => 'RepasseController@findFilterVencer']);
+        Route::get('/findRepasseSanepar', ['as' => 'findRepasseSanepar', 'uses' => 'RepasseController@findRepasseSanepar']);
     });
 
     // Auth::routes();
