@@ -227,5 +227,11 @@
         </div>
         <!-- SCRIPT DOACAO  -->
         <script src="{{ asset('js/repasse.js') }}"></script>
+        <script type='text/javascript'>
+            $(document).ready(function() {
+                $("#menu-top #adminMenu").addClass('menu-top-active');
+                tdListDoadores();
+            });
+        </script>
     </div>
 @stop

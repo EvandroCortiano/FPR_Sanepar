@@ -115,6 +115,12 @@
                         <ul id="menu-top" class="nav navbar-nav navbar-right">
                             <li><a href="/pessoas/" id="pessoasMenu">Pessoas</a></li>
                             <li><a href="/doador/doadores" id="doadorMenu">Doadores</a></li>
+                            @can('administrador', Auth::user())
+                                <li><a href="/repasse" id="adminMenu">Administrar</a></li>
+                            @endcan
+                            @can('supervisao', Auth::user())
+                                <li><a href="/cartaoPro" id="cartaoMenu">Cartão + Pró Renal</a></li>
+                            @endcan
                             {{-- <li><a class="menu-top-active" href="index.html">Dashboard</a></li>
                             <li><a href="table.html">Data Tables</a></li>
                             <li><a href="forms.html">Forms</a></li>

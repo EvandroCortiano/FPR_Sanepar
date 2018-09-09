@@ -48,24 +48,239 @@ class RepasseController extends Controller
         return $doa;
     }
 
-    /**
-     * Gera arquivo com os doadores
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function downloadExcel($type){
-        //recupera lista com os campos formatados
-        $data = $this->repasse->findDoacaoRepasse();
-        foreach($data as $dt){
-            $dt['MOTIVO - STATUS'] = '';
+    // Salva arquivo da lista de filtros daodores
+    public function downloadExcelFiltro(Request $request){
+        $pesq = $request->all();
+
+        // cria variaveis
+        $data = array();
+        $where = '';
+
+        // Cria/utiliza filtros
+        if($pesq['dataIni'] && $pesq['dataFim']){
+            // cria where's
+            $where .= " doa_data between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."'";
+            if($pesq['operador'] != null){
+                $where .= " AND created_user_id = " . $pesq['operador'];
+            }
+            // 1 = Cancelado, 2 = Vencido
+            if($pesq['statusDoa'] == 1){ 
+                $where .= " AND deleted_at is not null";
+            } else if($pesq['statusDoa'] == 2){
+                //cria novamente o where
+                $where = " doa_data_final between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."'";
+                $where .= " AND doa_data_final < '" . $pesq['dataFim'] . "'";
+                $where .= " AND cad_doacao.deleted_at is null";
+            } else {
+                $where .= " AND cad_doacao.deleted_at is null";
+            }
+
+            //realiza a pesquisa
+            $data = $this->repasse->findFilterDoaRepasse($where);
+            
+            $data = collect($data);
+            $data = $data->map(function ($dt){
+                return get_object_vars($dt);
+            });
+            
+            foreach($data as $dt){
+                $dt['MOTIVO - STATUS'] = '';
+            }
+
+            $nomeArq = 'Filtros_FPR_Sanepar_' . $pesq['dataIni'] . "_" . $pesq['dataFim'];
+
+            return Excel::create($nomeArq, function($excel) use ($data) {
+                $excel->sheet('mySheet', function($sheet) use ($data)
+                {
+                    $sheet->fromArray($data);
+                });
+            })->store('xls', 'filesExport/', true);;
+
+        } else{
+            return $data[] = ['status'=>'Error','msg'=>'Favor selecionar uma data Inicio e/ou Final valida!'];
         }
 
-		return Excel::create('Repasse_FPR_Sanepar', function($excel) use ($data) {
-			$excel->sheet('mySheet', function($sheet) use ($data)
-	        {
-				$sheet->fromArray($data);
-	        });
-		})->download($type);
+    }
+
+    // Salva arquivo com a Producao selecionada
+    public function downloadExcelProducao(Request $request){
+        $pesq = $request->all();
+
+        // cria variaveis
+        $data = array();
+        $where = '';
+
+        // Cria/utiliza filtros
+        if($pesq['dataIni'] && $pesq['dataFim']){
+            // cria where's
+            $where .= " doa_data between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."' and cad_doacao.deleted_at is null";
+
+            //realiza a pesquisa
+            $data = $this->repasse->findFilterDoaRepasse($where);
+
+            if(count($data) > 0){
+                foreach($data as $d){
+                    $d->doa_data = date('d/m/Y', strtotime($d->doa_data));
+                    $d->doa_data_final = date('d/m/Y', strtotime($d->doa_data_final));
+                    //Cria lista nome
+                    if(!$d->ddr_titular_conta){
+                        $d->ddr_nometitular = $d->ddr_nome;
+                    } else {
+                        $d->ddr_nometitular = $d->ddr_titular_conta;
+                    }
+                }
+            }          
+            
+            $data = collect($data);
+            $data = $data->map(function ($dt){
+                return get_object_vars($dt);
+            });
+
+            $nomeArq = 'Producao_FPR_Sanepar_' . $pesq['dataIni'] . "_" . $pesq['dataFim'];
+
+            return Excel::create($nomeArq, function($excel) use ($data) {
+                $excel->sheet('mySheet', function($sheet) use ($data)
+                {
+                    $sheet->fromArray($data);
+                });
+            })->store('xls', 'filesExport/', true);;
+
+        } else{
+            return $data[] = ['status'=>'Error','msg'=>'Favor selecionar uma data Inicio e/ou Final valida!'];
+        }
+    }
+
+    // Salva arquivo com os Cancelados
+    public function downloadExcelCancelados(Request $request){
+        $pesq = $request->all();
+
+        // cria variaveis
+        $data = array();
+        $where = '';
+
+        // Cria/utiliza filtros
+        if($pesq['dataFim']){
+            // cria where's
+            $where .= " deleted_at is not null and cad_doacao.deleted_at > '" . $pesq['dataFim'] . "'";
+            $on = " on ddr_id = doa_ddr_id ";
+
+            //realiza a pesquisa
+            $data = $this->repasse->findSelectForTablJoin('cad_doacao', $where, 'cad_doador', $on);
+
+            if(count($data) > 0){
+                foreach($data as $d){
+                    $d->deleted_at = date('d/m/Y', strtotime($d->deleted_at));
+                    //Cria lista nome
+                    if(!$d->ddr_titular_conta){
+                        $d->ddr_nometitular = $d->ddr_nome;
+                    } else {
+                        $d->ddr_nometitular = $d->ddr_titular_conta;
+                    }
+                    $d->info = 'ok';
+                }
+            }       
+            
+            $data = collect($data);
+            $data = $data->map(function ($dt){
+                return get_object_vars($dt);
+            });
+
+            $nomeArq = 'Cancelados_FPR_Sanepar_' . $pesq['dataFim'];
+
+            return Excel::create($nomeArq, function($excel) use ($data) {
+                $excel->sheet('mySheet', function($sheet) use ($data)
+                {
+                    $sheet->fromArray($data);
+                });
+            })->store('xls', 'filesExport/', true);;
+
+        } else{
+            return $data[] = ['status'=>'Error','msg'=>'Favor selecionar uma data Inicio e/ou Final valida!'];
+        }
+    }
+
+    // Salva arquivo com os a vencer
+    public function downloadExcelVencer(Request $request){
+        $pesq = $request->all();
+
+        // cria variaveis
+        $data = array();
+        $where = '';
+
+        // Cria/utiliza filtros
+        if($pesq['dataIni'] && $pesq['dataFim']){
+            // cria where's
+            $where .= "doa_data_final between '".$pesq['dataIni']."' and '".$pesq['dataFim']."' and cad_doacao.deleted_at is null";
+            $on = " on ddr_id = doa_ddr_id ";
+
+            //realiza a pesquisa
+            $data = $this->repasse->findSelectForTablJoin('cad_doacao', $where, 'cad_doador', $on);
+            
+            if(count($data) > 0){
+                foreach($data as $d){
+                    $d->deleted_at = date('d/m/Y', strtotime($d->deleted_at));
+                    $d->doa_data_final = date('d/m/Y', strtotime($d->doa_data_final));
+                    //Cria lista nome
+                    if(!$d->ddr_titular_conta){
+                        $d->ddr_nometitular = $d->ddr_nome;
+                    } else {
+                        $d->ddr_nometitular = $d->ddr_titular_conta;
+                    }
+                    $d->info = 'ok';
+                }
+            }   
+            
+            $data = collect($data);
+            $data = $data->map(function ($dt){
+                return get_object_vars($dt);
+            });
+
+            $nomeArq = 'Vencimentos_FPR_Sanepar_' . $pesq['dataIni'] . "_" . $pesq['dataFim'];
+
+            return Excel::create($nomeArq, function($excel) use ($data) {
+                $excel->sheet('mySheet', function($sheet) use ($data)
+                {
+                    $sheet->fromArray($data);
+                });
+            })->store('xls', 'filesExport/', true);;
+
+        } else{
+            return $data[] = ['status'=>'Error','msg'=>'Favor selecionar uma data Inicio e/ou Final valida!'];
+        }
+    }
+
+    // CRIA E SALVA ARQUIVO PARA ENVIAR A SANEPAR, CRIA REMESSA
+    public function downloadExcelRepasse(Request $request){
+        $pesq = $request->all();
+
+        // cria variaveis
+        $data = array();
+        $where = '';
+
+        // Cria/utiliza filtros
+        if($pesq['dataIni'] && $pesq['dataFim']){
+            //realiza a pesquisa
+            $where .= "doa_data between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] . "' and cad_doacao.deleted_at is null";
+
+            $data = $this->repasse->findDoacaoRepasse($where, 'Excel');
+            
+            $data = collect($data);
+            $data = $data->map(function ($dt){
+                return get_object_vars($dt);
+            });
+
+            $nomeArq = 'Repasse_FPR_Sanepar_' . $pesq['dataIni'] . "_" . $pesq['dataFim'];
+
+            return Excel::create($nomeArq, function($excel) use ($data) {
+                $excel->sheet('mySheet', function($sheet) use ($data)
+                {
+                    $sheet->fromArray($data);
+                });
+            })->store('xls', 'filesExport/', true);;
+
+        } else{
+            return $data[] = ['status'=>'Error','msg'=>'Favor selecionar uma data Inicio e/ou Final valida!'];
+        }
     }
 
     //Realiza pesquisa conforme selecionado nos filtros
@@ -255,21 +470,8 @@ class RepasseController extends Controller
             //realiza a pesquisa
             $where .= "doa_data between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] . "' and cad_doacao.deleted_at is null";
 
-            $doa = $this->repasse->findDoacaoRepasse($where);
+            $doa = $this->repasse->findDoacaoRepasse($where, 'View');
       
-            // if(count($doa) > 0){
-            //     foreach($doa as $d){
-            //         $d->doa_data_final = date('d/m/Y', strtotime($d->doa_data_final));
-            //         //Cria lista nome
-            //         if(!$d->ddr_titular_conta){
-            //             $d->ddr_nometitular = $d->ddr_nome;
-            //         } else {
-            //             $d->ddr_nometitular = $d->ddr_titular_conta;
-            //         }
-            //         $d->info = 'ok';
-            //     }
-            // }
-
             return $doa;
 
         } else{

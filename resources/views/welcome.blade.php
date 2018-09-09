@@ -46,7 +46,7 @@ Bem vindo ao Blog Code-Laravel
             @endcan
             @can('supervisao', Auth::user())
             <div class="col-md-3 col-sm-3 col-xs-6">
-                <a href="../../repasse">
+                <a href="../../cartaoPro">
                     <div class="dashboard-div-wrapper bk-clr-four">
                         <i class="fa fa-credit-card dashboard-div-icon" ></i>
                         <h3 style="margin:0px;">Cartão + Pró Renal</h3>

@@ -28,7 +28,21 @@ $(document).ready(function(){
 /* Filtros daas doacoes */
 /************************/
 $("#formFiltroDoaRepasse #btnExcelDoaRepasse").click(function(){
-    console.log('btnExcelDoaRepasse');
+    pesquisa = $("form#formFiltroDoaRepasse").serialize();
+
+    $.ajax({
+        type: 'get',
+        url: '../../repasse/downloadExcelFiltro',
+        cache: false,
+        data: pesquisa
+    }).done(function(response){
+        toastr.remove();
+        toastr.success("Arquivo gerado com sucesso!");
+        window.location.href = response.full;
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("Erro ao gerar Arquivo!");
+    });
 });
 // Realiza pesquisa tela de repasse
 $("#formFiltroDoaRepasse #btnFiltroDoaRepasse").click(function(){
@@ -82,7 +96,21 @@ $("#formFiltroDoaRepasse #btnFiltroDoaRepasse").click(function(){
 /* Filtros para a Producao Semanal dos operadores */
 /**************************************************/
 $("#formFiltroProducao #btnExcelProducao").click(function(){
-    console.log('btnExcelProducao');
+    pesquisa = $("form#formFiltroProducao").serialize();
+
+    $.ajax({
+        type: 'get',
+        url: '../../repasse/downloadExcelProducao',
+        cache: false,
+        data: pesquisa
+    }).done(function(response){
+        toastr.remove();
+        toastr.success("Arquivo da Produção gerado com sucesso!");
+        window.location.href = response.full;
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("Erro ao gerar Arquivo da Produção!");
+    });
 });
 $("#formFiltroProducao #btnFiltroProducao").click(function(){
     filterProduction();
@@ -138,7 +166,21 @@ function filterProduction(){
 /* Filtros para Cancelados */
 /***************************/
 $("#formFiltroCancelados #btnExcelCancelados").click(function(){
-    console.log('btnExcelCancelados');
+    pesquisa = $("form#formFiltroCancelados").serialize();
+
+    $.ajax({
+        type: 'get',
+        url: '../../repasse/downloadExcelCancelados',
+        cache: false,
+        data: pesquisa
+    }).done(function(response){
+        toastr.remove();
+        toastr.success("Arquivo com os Cancelados gerado com sucesso!");
+        window.location.href = response.full;
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("Erro ao gerar Arquivo de Cancelados!");
+    });
 });
 $("#formFiltroCancelados #btnFiltroCancelados").click(function(){
     filterCancel();
@@ -191,7 +233,21 @@ function filterCancel(){
 /* Filtros para os a vencer */
 /****************************/
 $("#formFiltroVencer #btnExcelVencer").click(function(){
-    console.log('btnExcelVencer');
+    pesquisa = $("form#formFiltroVencer").serialize();
+
+    $.ajax({
+        type: 'get',
+        url: '../../repasse/downloadExcelVencer',
+        cache: false,
+        data: pesquisa
+    }).done(function(response){
+        toastr.remove();
+        toastr.success("Arquivo com os vencimentos, gerado com sucesso!");
+        window.location.href = response.full;
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("Erro ao gerar Arquivo de Vencimentos!");
+    });
 });
 $("#formFiltroVencer #btnFiltroVencer").click(function(){
     filterVencer();
@@ -245,7 +301,21 @@ function filterVencer(){
 /* Filtros para enviar repasse para Sanepar */
 /********************************************/
 $("#formFiltroProducaoSanepar #btnExcelRepasse").click(function(){
-    console.log('btnExcelRepasse');
+    pesquisa = $("form#formFiltroProducaoSanepar").serialize();
+
+    $.ajax({
+        type: 'get',
+        url: '../../repasse/downloadExcelRepasse',
+        cache: false,
+        data: pesquisa
+    }).done(function(response){
+        toastr.remove();
+        toastr.success("Arquivo com o repasse a Sanepar, gerado com sucesso!");
+        window.location.href = response.full;
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("Erro ao gerar Arquivo de Repasse!");
+    });
 });
 $("#formFiltroProducaoSanepar #btnDoacaoRepasse").click(function(){
     filterProducaoSanepar();
@@ -260,7 +330,7 @@ function filterProducaoSanepar(){
         dataType: 'json',
     }).done(function(data){
         // toastr.remove();
-        toastr.success("À vencer retornado com Sucesso!");
+        toastr.success("Repasse para Sanepar, retornado com Sucesso!");
         $('#tableProducaoSanepar').DataTable({
             destroy: true,
             paging: true,
@@ -294,6 +364,6 @@ function filterProducaoSanepar(){
         // $("#tableAllDoacao_paginate").css("margin","-25px 0px 0px 0px");
     }).fail(function(){
         // toastr.remove();
-        toastr.error("Erro ao carregar À vencer!");
+        toastr.error("Erro ao carregar Repasse para Sanepar!");
     });
 }
