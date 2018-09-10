@@ -387,7 +387,7 @@ class RepasseController extends Controller
         // Cria/utiliza filtros
         if($pesq['dataFim']){
             // cria where's
-            $where .= " deleted_at is not null and cad_doacao.deleted_at > '" . $pesq['dataFim'] . "'";
+            $where .= " cad_doacao.deleted_at is not null and cad_doacao.deleted_at > '" . $pesq['dataFim'] . "'";
             $on = " on ddr_id = doa_ddr_id ";
 
             //realiza a pesquisa
@@ -402,7 +402,9 @@ class RepasseController extends Controller
                     } else {
                         $d->ddr_nometitular = $d->ddr_titular_conta;
                     }
-                    $d->info = 'ok';
+                    // $d->info = $d->doa_justifica_cancelamento;
+                    $d->info = "<a class='btn btn-sm btn-info' data-toggle='tooltip' title='".$d->doa_justifica_cancelamento."'>
+                    <span class='glyphicon glyphicon-usd'></span></a>";
                 }
             }
 
