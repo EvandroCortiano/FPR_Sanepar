@@ -225,6 +225,7 @@
                 </div>
             </div>
         </div>
+        @include('repasse.modal_confirma_repasse')
         <!-- SCRIPT DOACAO  -->
         <script src="{{ asset('js/repasse.js') }}"></script>
         <script type='text/javascript'>

@@ -301,21 +301,29 @@ function filterVencer(){
 /* Filtros para enviar repasse para Sanepar */
 /********************************************/
 $("#formFiltroProducaoSanepar #btnExcelRepasse").click(function(){
-    pesquisa = $("form#formFiltroProducaoSanepar").serialize();
+    $('#modalConfirmaRepasse').modal('show');
+});
+$("#modalConfirmaRepasse #btnModalStore").confirmation({
+    rootSelector: '[data-toggle=modalStore]',
+    container: 'body',
+    onConfirm: function(){ 
+        pesquisa = $("form#formFiltroProducaoSanepar").serialize();
 
-    $.ajax({
-        type: 'get',
-        url: '../../repasse/downloadExcelRepasse',
-        cache: false,
-        data: pesquisa
-    }).done(function(response){
-        toastr.remove();
-        toastr.success("Arquivo com o repasse a Sanepar, gerado com sucesso!");
-        window.location.href = response.full;
-    }).fail(function(){
-        toastr.remove();
-        toastr.error("Erro ao gerar Arquivo de Repasse!");
-    });
+        $.ajax({
+            type: 'get',
+            url: '../../repasse/downloadExcelRepasse',
+            cache: false,
+            data: pesquisa
+        }).done(function(response){
+            toastr.remove();
+            toastr.success("Arquivo com o repasse a Sanepar, gerado com sucesso!");
+            $("[data-dismiss=modal]").trigger({ type: "click" });
+            window.location.href = response.full;
+        }).fail(function(){
+            toastr.remove();
+            toastr.error("Erro ao gerar Arquivo de Repasse!");
+        });
+    }
 });
 $("#formFiltroProducaoSanepar #btnDoacaoRepasse").click(function(){
     filterProducaoSanepar();

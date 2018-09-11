@@ -403,8 +403,8 @@ class RepasseController extends Controller
                         $d->ddr_nometitular = $d->ddr_titular_conta;
                     }
                     // $d->info = $d->doa_justifica_cancelamento;
-                    $d->info = "<a class='btn btn-sm btn-info' data-toggle='tooltip' title='".$d->doa_justifica_cancelamento."'>
-                    <span class='glyphicon glyphicon-usd'></span></a>";
+                    $d->info = "<a class='text-danger' data-toggle='tooltip' title='".$d->doa_justifica_cancelamento."'>
+                        <i class='fas fa-info-circle' style='font-size:1.5em;'></i></a>";
                 }
             }
 
