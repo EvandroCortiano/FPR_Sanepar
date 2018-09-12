@@ -8,6 +8,7 @@ use App\Models\status_contato;
 use App\Models\status_motivo;
 use App\Repository\DoadorRepository;
 use App\Repository\DoacaoRepository;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class PessoasController extends Controller
@@ -172,6 +173,7 @@ class PessoasController extends Controller
             
                 //Cadastra a doacao
                 $data['doa_ddr_id'] = $ddr->ddr_id;
+                $data['created_user_id'] = Auth::user()->id;
                 $doa = $this->doacao->store($data);
             } else {
                 $error .= 'Ocorreu um erro ao salvar o Doador!!<br/>';
