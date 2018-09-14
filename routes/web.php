@@ -73,7 +73,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['prefix'=>'cartaoPro','as'=>'cartaoPro.'], function(){
         //get
         Route::get('/', ['as' => 'index', 'uses' => 'CartaoController@index']);
-
+        Route::get('/findProducaoCartao', ['as' => 'findProducaoCartao', 'uses' => 'CartaoController@findProducaoCartao']);
     });
 
     // Auth::routes();
