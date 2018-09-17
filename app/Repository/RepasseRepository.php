@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Models\doacao;
 use Illuminate\Support\Facades\DB;
+use App\Models\competencia;
+use App\Models\repasse;
 
 
 class RepasseRepository{
@@ -21,28 +23,20 @@ class RepasseRepository{
     }
 
     //pesquisar doacoes para o repasse
-    public function findDoacaoRepasse($where, $type){
+    public function findDoacaoRepasse($where){
         try{
-            if($type == 'Excel'){
-                $sql = "select ddr_id as 'CODIGO - FPR', ddr_matricula as 'MATRICULA', ddr_nome as 'NOME DOADOR', doa_valor_mensal as 'VALOR MENSAL', 
-                            doa_qtde_parcela as 'QNT. PARCELA', smt_nome as 'MOTIVO', doa_valor as 'VALOR TOTAL'
-                        from cad_doacao
-                        left join cad_doador
-                            on ddr_id = doa_ddr_id
-                        left join tab_status_motivo
-                        on smt_id = doa_smt_id
-                            where " . $where;
-            } else {
-                $sql = "select ddr_id as 'CODIGO - FPR', ddr_id, ddr_matricula as 'MATRICULA', ddr_matricula, ddr_nome as 'NOME DOADOR', ddr_nome, 
-                            doa_valor_mensal as 'VALOR MENSAL', doa_valor_mensal, doa_qtde_parcela as 'QNT. PARCELA', doa_qtde_parcela, smt_nome as 'MOTIVO', smt_nome, 
-                            doa_valor as 'VALOR TOTAL', doa_valor
-                        from cad_doacao
-                        left join cad_doador
-                            on ddr_id = doa_ddr_id
-                        left join tab_status_motivo
-                        on smt_id = doa_smt_id
-                            where " . $where;
-            }
+
+                // $sql = "select ddr_id as 'CODIGO - FPR', ddr_matricula as 'MATRICULA', ddr_nome as 'NOME DOADOR', doa_valor_mensal as 'VALOR MENSAL', 
+                //             doa_qtde_parcela as 'QNT. PARCELA', smt_nome as 'MOTIVO', doa_valor as 'VALOR TOTAL'
+
+
+            $sql = "select ddr_id, ddr_matricula, ddr_nome, doa_valor_mensal, doa_qtde_parcela, smt_nome, doa_valor, doa_id
+                    from cad_doacao
+                    left join cad_doador
+                        on ddr_id = doa_ddr_id
+                    left join tab_status_motivo
+                    on smt_id = doa_smt_id
+                        where " . $where;
 
             $doacoes = DB::select($sql);
 
@@ -93,4 +87,54 @@ class RepasseRepository{
         }   
     }
 
+    //Criar competencia
+    public function storeCompetencia($data){
+        try{
+            $comp = competencia::create($data);
+            return $comp;
+        } catch(\Exception $e){
+            return $e;
+        }   
+    }
+
+    //grava repasse
+    public function storeRepasse($data){
+        try{
+            $repa = repasse::create($data);
+            return $repa;
+        } catch(\Exception $e){
+            return $e;
+        }     
+    }
+
+    // pesquisa as datas de envio
+    public function findCompetenciaSelect(){
+        try{
+            $date = competencia::select('cpa_id', DB::raw("CONCAT(cpa_data_inicio,'_',cpa_data_fim) as competencia"))->pluck('competencia','cpa_id');
+            return $date;
+        }catch(\Exception $e){
+            return $e;
+        }
+    }
+
+    // retorna os dados da competencia
+    public function findDataCompetencia($cpa_id){
+        try{
+            $sql = "select * from cad_competencia
+                        left join cad_repasse
+                            on cre_cpa_id = cpa_id
+                        left join cad_doacao
+                            on doa_id = cre_doa_id
+                        left join cad_doador
+                            on ddr_id = doa_ddr_id
+                        left join tab_status_motivo
+                            on smt_id = doa_smt_id
+                        where cpa_id = " . $cpa_id . ";";
+
+            $date = DB::select($sql);
+            return $date;
+        }catch(\Exception $e){
+            return $e;
+        }       
+    }
 }

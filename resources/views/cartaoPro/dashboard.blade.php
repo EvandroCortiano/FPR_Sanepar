@@ -5,7 +5,7 @@
 @stop
 
 @section('content')
-    <div class="container" style="min-height: 450px">
+    <div class="container" style="min-height: 500px">
         <div class="row">
             
             <div class="col-md-12" style="margin-top:10px;padding:0px;">
@@ -43,7 +43,49 @@
                                         <th>Cidade</th>
                                         <th>Data Doação</th>
                                         <th>Data Nascimento</th>
+                                        <th>Endereço</th>
                                         <th>Cep</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                {{-- Tabela com os ja enviados para producao do cartao --}}
+                <div class="col-md-12">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <div class="row">
+                                    <div class="col-sm-4">
+                                        <b>Já enviados para confecção do cartão + Pró Renal</b>
+                                    </div>
+                                {{ Form::open(['id' => 'formListCartao']) }}
+                                    <div class="col-sm-4">
+                                        <span class="pull-right" style="font-size: 14px;">Pesquisar pela Data de Envio:</span>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        {{ Form::select('car_data', $dateCar, '', ['class' => 'form-control', 'id' => 'car_data', 'placeholder' => 'Selecione data...']) }}
+                                    </div>
+                                    <div class="col-sm-1">
+                                        {{ Form::button('<span class="fa fa-search"></span>', ['class' => 'btn btn-md btn-default pull-right', 'id' => 'btnListCartao', 'name' => 'btnModalBack']) }}
+                                    </div>
+                                    <div class="col-sm-1">
+                                        {{ Form::button('<span class="fas fa-file-excel"></span>', ['class' => 'btn btn-md btn-success pull-right', 'id' => 'btnExcelListCartao', 'name' => 'btnModalBack']) }}
+                                    </div>
+                                {{ Form::close() }}
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <table id="tableListCartao" class="table table-striped" style="margin-bottom:0px;">
+                                <thead>
+                                    <tr>
+                                        <th>Titular da Conta</th>
+                                        <th>Doador</th>
+                                        <th>Data Nascimento</th>
+                                        <th>Endereço</th>
+                                        <th>Cep</th>
+                                        <th>Cidade</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -54,12 +96,12 @@
             </div>
             
         </div>
+        @include('cartaoPro.modal_confirma_cartao')
         <!-- SCRIPT DOACAO  -->
         <script src="{{ asset('js/cartaoPro.js') }}"></script>
         <script type='text/javascript'>
             $(document).ready(function() {
                 $("#menu-top #cartaoMenu").addClass('menu-top-active');
-                tdListDoadores();
             });
         </script>
     </div>

@@ -13,27 +13,40 @@ $(document).ready(function(){
 
     //chama funcoes
     filterProductionCard();
+    listProductionCard();
 });
 
 /**************************************************/
 /* Filtros para a Producao Semanal dos operadores */
 /**************************************************/
-$("#formProducaoCartao #btnProducaoCartao").click(function(){
-    pesquisa = $("form#formFiltroProducao").serialize();
+$("#formProducaoCartao #btnExcelProducaoCartao").click(function(){
+    $('#modalConfirmaCartao').modal('show');
+});
+$("#modalConfirmaCartao #btnModalStore").confirmation({
+    rootSelector: '[data-toggle=modalStore]',
+    container: 'body',
+    onConfirm: function(){ 
+        pesquisa = $("form#formProducaoCartao").serialize();
 
-    $.ajax({
-        type: 'get',
-        url: '../../cartaoPro/downloadExcelProducao',
-        cache: false,
-        data: pesquisa
-    }).done(function(response){
-        toastr.remove();
-        toastr.success("Arquivo da Produção gerado com sucesso!");
-        window.location.href = response.full;
-    }).fail(function(){
-        toastr.remove();
-        toastr.error("Erro ao gerar Arquivo da Produção!");
-    });
+        $.ajax({
+            type: 'get',
+            url: '../../cartaoPro/downloadExcelProducao',
+            cache: false,
+            data: pesquisa
+        }).done(function(response){
+            toastr.remove();
+            if(response){
+                $("[data-dismiss=modal]").trigger({ type: "click" });
+                toastr.success("Arquivo da Produção gerado com sucesso!");
+                window.location.href = response.full;
+            } else {
+                toastr.error("Erro ao gerar Arquivo da Produção!");
+            }
+        }).fail(function(){
+            toastr.remove();
+            toastr.error("Erro ao gerar Arquivo da Produção!");
+        });
+    }
 });
 $("#formProducaoCartao #btnProducaoCartao").click(function(){
     filterProductionCard();
@@ -70,10 +83,11 @@ function filterProductionCard(){
             data: data,
             columns: [
                 { data: 'ddr_titular_conta' },
-                { data: 'ddr_nometitular' },
+                { data: 'ddr_nome' },
                 { data: 'ddr_cidade' },
                 { data: 'doa_data' },
                 { data: 'ddr_nascimento' },
+                { data: 'endereco' },
                 { data: 'ddr_cep' }
             ]
         });
@@ -82,5 +96,79 @@ function filterProductionCard(){
     }).fail(function(){
         // toastr.remove();
         toastr.error("Erro ao carregar Produção Cartão!");
+    });
+}
+/**************************************************/
+/* Criar tabela dos já enviados para gerar cartao */
+/**************************************************/
+$("#formListCartao #btnExcelListCartao").click(function(){
+    pesquisa = $("form#formListCartao").serialize();
+
+    $.ajax({
+        type: 'get',
+        url: '../../cartaoPro/downloadExcelList',
+        cache: false,
+        data: pesquisa
+    }).done(function(response){
+        toastr.remove();
+        if(response){
+            $("[data-dismiss=modal]").trigger({ type: "click" });
+            toastr.success("Arquivo da Produção gerado com sucesso!");
+            window.location.href = response.full;
+        } else {
+            toastr.error("Erro ao gerar Arquivo da Produção!");
+        }
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("Erro ao gerar Arquivo da Produção!");
+    });
+});
+$("#formListCartao #btnListCartao").click(function(){
+    listProductionCard();
+});
+function listProductionCard(){
+    pesquisa = $("form#formListCartao").serialize();
+
+    $.ajax({
+        type: 'get',
+        url: '../../cartaoPro/findListCartao',
+        data: pesquisa,
+        dataType: 'json',
+    }).done(function(data){
+        // toastr.remove();
+        toastr.success("Produção já enviado, retornada com Sucesso!");
+        $('#tableListCartao').DataTable({
+            destroy: true,
+            paging: true,
+            searching: false,
+            pageLength: 10,
+            info: true,
+            dom: "<'row'<'col-sm-12'<'pull-left'f><'pull-left'T>r<'clearfix'>>>t<'row'<'col-sm-12'<'pull-left'i><'pull-right'p><'clearfix'>>>",
+            language: {
+                info: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                infoEmpty: " ",
+                zeroRecords:  "Sistema não retornou nenhum resultado!",
+                lengthMenu: "_MENU_",
+                searchPlaceholder: "Pesquisar...",
+                paginate: {
+                    "previous":"Anterior",
+                    "next":"Próximo"
+                }
+            },
+            data: data,
+            columns: [
+                { data: 'ddr_titular_conta' },
+                { data: 'ddr_nome' },
+                { data: 'ddr_nascimento' },
+                { data: 'endereco' },
+                { data: 'ddr_cep' },
+                { data: 'ddr_cidade' }
+            ]
+        });
+        // $("#tableAllDoacao_wrapper").parent().css("overflow-x","hidden");
+        // $("#tableAllDoacao_paginate").css("margin","-25px 0px 0px 0px");
+    }).fail(function(){
+        // toastr.remove();
+        toastr.error("Erro ao carregar Produção Cartão já enviado!");
     });
 }

@@ -41,7 +41,6 @@
                                     <tr>
                                         <th>Nome Operador</th>
                                         <th>Doador</th>
-                                        <th>Matricula</th>
                                         <th>Data</th>
                                         <th>Valor Mês</th>
                                         <th>Qtda Parc.</th>
@@ -211,12 +210,13 @@
                             <table id="tableAllDoacao" class="table table-striped" style="margin-bottom:0px;">
                                 <thead>
                                     <tr>
-                                        <th>Nome Titular</th>
+                                        <th>Cód.</th>
                                         <th>Matricula</th>
-                                        <th>Cidade</th>
-                                        <th>Data Doação</th>
-                                        <th>Data Final</th>
-                                        <th>Valor Mês</th>
+                                        <th>Nome Doador</th>
+                                        <th>Valor Mensal</th>
+                                        <th>Qtde. Parcelas</th>
+                                        <th>Motivo</th>
+                                        <th>Valor Total</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -224,6 +224,48 @@
                     </div>
                 </div>
             </div>
+
+            {{-- Tabela com os ja enviados para sanepar --}}
+            <div class="col-md-12">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <div class="row">
+                                <div class="col-sm-4">
+                                    <b>Já enviados para Saneparl</b>
+                                </div>
+                            {{ Form::open(['id' => 'formListRepasse']) }}
+                                <div class="col-sm-3">
+                                    <span class="pull-right" style="font-size: 14px;">Pesquisar pela Competência:</span>
+                                </div>
+                                <div class="col-sm-3">
+                                    {{ Form::select('cpa_id', $selectComp, '', ['class' => 'form-control', 'id' => 'cpa_id', 'placeholder' => 'Selecione competência...']) }}
+                                </div>
+                                <div class="col-sm-1">
+                                    {{ Form::button('<span class="fa fa-search"></span>', ['class' => 'btn btn-md btn-default pull-right', 'id' => 'btnListRepasse', 'name' => 'btnModalBack']) }}
+                                </div>
+                                <div class="col-sm-1">
+                                    {{ Form::button('<span class="fas fa-file-excel"></span>', ['class' => 'btn btn-md btn-success pull-right', 'id' => 'btnExcelListRepasse', 'name' => 'btnModalBack']) }}
+                                </div>
+                            {{ Form::close() }}
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <table id="tableListRepasse" class="table table-striped" style="margin-bottom:0px;">
+                            <thead>
+                                <tr>
+                                    <th>Titular da Conta</th>
+                                    <th>Doador</th>
+                                    <th>Data Nascimento</th>
+                                    <th>Endereço</th>
+                                    <th>Cep</th>
+                                    <th>Cidade</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
         @include('repasse.modal_confirma_repasse')
         <!-- SCRIPT DOACAO  -->

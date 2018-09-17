@@ -16,7 +16,7 @@ Cadastro de Doador e suas Doações
 		<div class="col-md-6">
 			<div class="panel panel-default">
 				<div class="panel-heading"> CADASTRO DOADOR </div>
-				<div class="panel-body">
+				<div class="panel-body" style="padding: 15px;">
 					{{ Form::open(['id' => 'formupdateDoador']) }}
 					{{ Form::hidden('ddr_id', $ddr['ddr_id'],['id'=>'ddr_id']) }}
 					<div class="form-group">

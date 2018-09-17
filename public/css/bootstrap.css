@@ -4598,7 +4598,8 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pagination {
   display: inline-block;
   padding-left: 0;
-  margin: 20px 0;
+  /* margin: 20px 0; */
+  margin: 10px 0px 0px 0px;
   border-radius: 4px;
 }
 .pagination > li {
@@ -5296,7 +5297,8 @@ a.list-group-item-danger.active:focus {
           box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
 }
 .panel-body {
-  padding: 15px;
+  padding: 5px;
+  /* padding: 15px; */
 }
 .panel-heading {
   padding: 10px 15px;

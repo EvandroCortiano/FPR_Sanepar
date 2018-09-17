@@ -7,6 +7,7 @@ use App\Repository\DoacaoRepository;
 use App\Repository\RepasseRepository;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Repository\UsersRepository;
+use Carbon\Carbon;
 
 class RepasseController extends Controller
 {
@@ -28,10 +29,12 @@ class RepasseController extends Controller
      */
     public function index()
     {
+        //receber select repasse
+        $selectComp = $this->repasse->findCompetenciaSelect();
         //recebe lista dos operadores
         $opera = $this->usersRepository->operadores()->pluck('name', 'id');
         //recebe doacoes
-        return view('repasse.dashboard')->with(compact('opera'));
+        return view('repasse.dashboard')->with(compact('opera', 'selectComp'));
     }
 
     /**
@@ -255,6 +258,9 @@ class RepasseController extends Controller
 
         // cria variaveis
         $data = array();
+        $dataComp = array();
+        $dataRepDB = array();
+        $dataRep = array();
         $where = '';
 
         // Cria/utiliza filtros
@@ -262,19 +268,58 @@ class RepasseController extends Controller
             //realiza a pesquisa
             $where .= "doa_data between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] . "' and cad_doacao.deleted_at is null";
 
-            $data = $this->repasse->findDoacaoRepasse($where, 'Excel');
+            $data = $this->repasse->findDoacaoRepasse($where);
             
-            $data = collect($data);
-            $data = $data->map(function ($dt){
-                return get_object_vars($dt);
-            });
-
+            // $data = collect($data);
+            // $data = $data->map(function ($dt){
+            //     return get_object_vars($dt);
+            // });
+           
             $nomeArq = 'Repasse_FPR_Sanepar_' . $pesq['dataIni'] . "_" . $pesq['dataFim'];
+            $date = Carbon::now()->toDateString();
+            $dateMes = date('m/Y', strtotime($date));
 
-            return Excel::create($nomeArq, function($excel) use ($data) {
-                $excel->sheet('mySheet', function($sheet) use ($data)
+            // cria competencia
+            $dataComp = [
+                'cpa_mes_ref' => $dateMes,
+                'cpa_data_inicio' => $pesq['dataIni'],
+                'cpa_data_fim' => $pesq['dataFim'],
+                'cpa_arquivo' => $nomeArq
+            ];
+            $comp = $this->repasse->storeCompetencia($dataComp);
+
+            // Cria tabela para o repasse e para salvar na base de dados
+            foreach($data as $dt){
+                $dataRepDB[] = [
+                    'cre_doa_id' => $dt->doa_id,
+                    'cre_cpa_id' => $comp->cpa_id,
+                    'cre_parcela' => 0,
+                    'cre_data' => $date
+                ];
+                $dataRep[] = [
+                    'CODIGO - FPR' => $dt->ddr_id,
+                    'MATRICULA' => $dt->ddr_matricula,
+                    'NOME DOADOR' => $dt->ddr_nome,
+                    'VALOR MENSAL' => $dt->doa_valor_mensal,
+                    'QNT. PARCELA' => $dt->doa_qtde_parcela,
+                    'MOTIVO' => $dt->smt_nome,
+                    'VALOR TOTAL' => $dt->doa_valor,
+                    'MOTIVO - STATUS' => 'Indeterminado'
+                ];
+            }
+
+            //Salva valores na base de repasse
+            foreach($dataRepDB as $db){
+                $repas = $this->repasse->storeRepasse($db);
+                if(!$repas){
+                    return $data[] = ['status'=>'Error','msg'=>'Error ao salvar doações ao repasse!'];
+                }
+            }
+
+            return Excel::create($nomeArq, function($excel) use ($dataRep) {
+                $excel->sheet('mySheet', function($sheet) use ($dataRep)
                 {
-                    $sheet->fromArray($data);
+                    $sheet->fromArray($dataRep);
                 });
             })->store('xls', 'filesExport/', true);;
 
@@ -472,7 +517,7 @@ class RepasseController extends Controller
             //realiza a pesquisa
             $where .= "doa_data between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] . "' and cad_doacao.deleted_at is null";
 
-            $doa = $this->repasse->findDoacaoRepasse($where, 'View');
+            $doa = $this->repasse->findDoacaoRepasse($where);
       
             return $doa;
 
@@ -481,5 +526,20 @@ class RepasseController extends Controller
         }
 
         return $pesq;
+    }
+
+    // Pesquisa as doacoes repassadas para a Sanepar
+    public function findRepasseSaneparList(Request $request){
+        // Retorna valores para pesquisa
+        $pesq = $request->all();
+
+        if($pesq['cpa_id']){
+            $dataRep = $this->repasse->findDataCompetencia($pesq['cpa_id']);
+
+            return $dataRep;
+
+        } else {
+            return $data[] = ['status'=>'Error','msg'=>'Favor selecionar uma competência!'];
+        }
     }
 }

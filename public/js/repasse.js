@@ -24,9 +24,9 @@ $(document).ready(function(){
     filterProducaoSanepar();
 });
 
-/************************/
-/* Filtros daas doacoes */
-/************************/
+/***********************/
+/* Filtros das doacoes */
+/***********************/
 $("#formFiltroDoaRepasse #btnExcelDoaRepasse").click(function(){
     pesquisa = $("form#formFiltroDoaRepasse").serialize();
 
@@ -148,7 +148,6 @@ function filterProduction(){
             columns: [
                 { data: 'name' },
                 { data: 'ddr_nometitular' },
-                { data: 'ddr_matricula' },
                 { data: 'doa_data' },
                 { data: 'doa_valor_mensal' },
                 { data: 'doa_qtde_parcela' }
@@ -372,6 +371,80 @@ function filterProducaoSanepar(){
         // $("#tableAllDoacao_paginate").css("margin","-25px 0px 0px 0px");
     }).fail(function(){
         // toastr.remove();
+        toastr.error("Erro ao carregar Repasse para Sanepar!");
+    });
+}
+
+/********************************************/
+/* Filtros para enviar repasse para Sanepar */
+/********************************************/
+$("#formListRepasse #btnExcelListRepasse").click(function(){
+    pesquisa = $("form#formListRepasse").serialize();
+
+    $.ajax({
+        type: 'get',
+        url: '../../repasse/downloadExcelRepasseList',
+        cache: false,
+        data: pesquisa
+    }).done(function(response){
+        toastr.remove();
+        toastr.success("Arquivo com o repasse a Sanepar, gerado com sucesso!");
+        window.location.href = response.full;
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("Erro ao gerar Arquivo de Repasse!");
+    });
+});
+$("#formListRepasse #btnListRepasse").click(function(){
+    filterProducaoSaneparListar();
+});
+function filterProducaoSaneparListar(){
+    pesquisa = $("form#formListRepasse").serialize();
+
+    $.ajax({
+        type: 'get',
+        url: '../../repasse/findRepasseSaneparList',
+        data: pesquisa,
+        dataType: 'json',
+    }).done(function(data){
+        if(data.status){
+            toastr.remove();
+            toastr.error(data.msg);
+        } else {
+            // toastr.remove();
+            toastr.success("Repasse para Sanepar, retornado com Sucesso!");
+            $('#tableProducaoSanepar').DataTable({
+                destroy: true,
+                paging: true,
+                searching: false,
+                pageLength: 10,
+                info: true,
+                dom: "<'row'<'col-sm-12'<'pull-left'f><'pull-left'T>r<'clearfix'>>>t<'row'<'col-sm-12'<'pull-left'i><'pull-right'p><'clearfix'>>>",
+                language: {
+                    info: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    infoEmpty: " ",
+                    zeroRecords:  "Sistema não retornou nenhum doador!",
+                    lengthMenu: "_MENU_",
+                    searchPlaceholder: "Pesquisar...",
+                    paginate: {
+                        "previous":"Anterior",
+                        "next":"Próximo"
+                    }
+                },
+                data: data,
+                columns: [
+                    { data: 'ddr_id' },
+                    { data: 'ddr_matricula' },
+                    { data: 'ddr_nome' },
+                    { data: 'doa_valor_mensal' },
+                    { data: 'doa_qtde_parcela' },
+                    { data: 'smt_nome' },
+                    { data: 'doa_valor' },
+                ]
+            });
+        }
+    }).fail(function(){
+        toastr.remove();
         toastr.error("Erro ao carregar Repasse para Sanepar!");
     });
 }

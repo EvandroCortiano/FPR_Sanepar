@@ -61,12 +61,14 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/findFilterCancelados', ['as' => 'findFilterCancelados', 'uses' => 'RepasseController@findFilterCancelados']);
         Route::get('/findFilterVencer', ['as' => 'findFilterVencer', 'uses' => 'RepasseController@findFilterVencer']);
         Route::get('/findRepasseSanepar', ['as' => 'findRepasseSanepar', 'uses' => 'RepasseController@findRepasseSanepar']);
+        Route::get('/findRepasseSaneparList', ['as' => 'findRepasseSaneparList', 'uses' => 'RepasseController@findRepasseSaneparList']);
         //gera arquivo
         Route::get('/downloadExcelProducao', ['as' => 'downloadExcelProducao', 'uses' => 'RepasseController@downloadExcelProducao']);
         Route::get('/downloadExcelFiltro', ['as' => 'downloadExcelFiltro', 'uses' => 'RepasseController@downloadExcelFiltro']);
         Route::get('/downloadExcelCancelados', ['as' => 'downloadExcelCancelados', 'uses' => 'RepasseController@downloadExcelCancelados']);
         Route::get('/downloadExcelVencer', ['as' => 'downloadExcelVencer', 'uses' => 'RepasseController@downloadExcelVencer']);
         Route::get('/downloadExcelRepasse', ['as' => 'downloadExcelRepasse', 'uses' => 'RepasseController@downloadExcelRepasse']);
+        Route::get('/downloadExcelRepasseList', ['as' => 'downloadExcelRepasseList', 'uses' => 'RepasseController@downloadExcelRepasseList']);
     });
 
     //Cartao + pro renal
@@ -74,6 +76,10 @@ Route::group(['middleware' => 'web'], function () {
         //get
         Route::get('/', ['as' => 'index', 'uses' => 'CartaoController@index']);
         Route::get('/findProducaoCartao', ['as' => 'findProducaoCartao', 'uses' => 'CartaoController@findProducaoCartao']);
+        Route::get('/findListCartao', ['as' => 'findListCartao', 'uses' => 'CartaoController@findListCartao']);
+        //gera arquivo
+        Route::get('/downloadExcelProducao', ['as' => 'downloadExcelProducao', 'uses' => 'CartaoController@downloadExcelProducao']);
+        Route::get('/downloadExcelList', ['as' => 'downloadExcelList', 'uses' => 'CartaoController@downloadExcelList']);
     });
 
     // Auth::routes();
