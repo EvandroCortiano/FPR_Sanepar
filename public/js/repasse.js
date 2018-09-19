@@ -448,3 +448,18 @@ function filterProducaoSaneparListar(){
         toastr.error("Erro ao carregar Repasse para Sanepar!");
     });
 }
+
+$("#formImportExcel #btnImportExcel").click(function(){
+
+    $.ajax({
+        url: "/repasse/importSanepar",
+        method: 'get',
+        data: {
+           file: $('#formImportExcel #import_file').val(),
+        },
+        success: function(result){
+           console.log(result);
+        }
+    });
+
+});

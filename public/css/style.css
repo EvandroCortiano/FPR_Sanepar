@@ -48,6 +48,16 @@ body {
     margin-bottom: 20px;
 }
 
+.page-head-line2 {
+    font-weight: 900;
+    padding-bottom: 5px;
+    border-bottom: 1px solid;
+    text-transform: uppercase;
+    font-size: 15px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
 .btn {
     border-radius: 0px;
     -webkit-border-radius: 0px;

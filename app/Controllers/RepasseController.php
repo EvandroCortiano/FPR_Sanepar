@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Repository\DoacaoRepository;
 use App\Repository\RepasseRepository;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Input;
 use App\Repository\UsersRepository;
 use Carbon\Carbon;
 
@@ -542,4 +543,88 @@ class RepasseController extends Controller
             return $data[] = ['status'=>'Error','msg'=>'Favor selecionar uma competência!'];
         }
     }
+
+    public function importSanepar(){
+        return Input::file('import_file')->getRealPath();
+        if(Input::hasFile('import_file')){
+            $path = Input::file('import_file')->getRealPath();
+            //array para valores a ser gravado no banco de dados
+            $data = array();
+            //guarda possiveis erros
+            $dataError = array();
+            
+            //ver a competencia
+            $dataCom = Excel::selectSheetsByIndex(0)->load($path, function($reader){
+                $reader->noHeading();
+                $reader->takeRows(2);
+                $reader->ignoreEmpty();
+                $reader->takeColumns(4);
+            })->get();
+            //verifica se tem o valor da competencia
+            if(!is_numeric($dataCom[0][0])){
+                dd("Arquivo sem valor da competencia, favor verificar!");
+            }
+            //valida, pesquisa e salva a competencia
+            if(!empty($dataCom) && $dataCom->count()){
+                $cpa_id = competencia::find($dataCom[0][0]);
+            } else {
+                dd("Arquivo com o formato dos valores errados, favor verificar!");
+            }
+
+            //ver valores de retorno
+            $dataReturn = Excel::selectSheetsByIndex(0)->load($path, function($reader){
+                $reader->noHeading();
+                $reader->takeColumns(11); //limita a quantidade de colunas
+                $reader->skipRows(3); //pula a linha
+                // $reader->ignoreEmpty(); //ignora os campos null
+                // $reader->takeRows(6); //limita a quantidade de linha
+            })->get();
+             
+            //cria dados para salvar na base de retorno sanepar
+            if(!empty($dataReturn) && $dataReturn->count()){
+                foreach($dataReturn as $ddr){
+                    if($ddr[1] != null){
+                        //pesquisa doador
+                        $doador = doador::where('ddr_matricula',$ddr[2])->get();
+                        if(!empty($doador) && $doador->count()){
+                            //pesquisa se tem o doador na competencia requerida
+                            $repasse = repasse::leftJoin('cad_doacao', 'doa_id', 'cre_doa_id')
+                                            ->leftJoin('cad_doador', 'ddr_id', 'doa_ddr_id')
+                                            ->where('cre_cpa_id', $cpa_id->cpa_id)
+                                            ->where('ddr_id', $doador[0]->ddr_id)
+                                            ->get();
+                            // Cria data para salvar na tabel                  
+                            if(!empty($repasse) && $repasse->count()){
+                                $data[] = [
+                                    'rto_cre_id' => $repasse[0]->cre_id,
+                                    'rto_ddr_id' => $doador[0]->ddr_id,
+                                    'rto_status' => $ddr[8],
+                                    'rto_data_credito' => $ddr[9],
+                                    'rto_valor_credito' => $ddr[10]
+                                ]; 
+                            }
+                        } else {
+                            dd("Doador (".$ddr[3].") não encontrado na base de dados de doadores, favor verificar!");
+                        }
+                    }
+                }
+            }
+            
+            // Salvar dados no banco
+            if(!empty($data) && count($data)){
+                foreach ($data as $dt){
+                    try{
+                        $cadSanepar = sanepar_retorno::create($dt);
+                        if(!$cadSanepar){
+                            dd("Não Gravou-Errror!".$dt['cre_ddr_id']);
+                        }
+                    } catch(\Exception $e){
+                        return $e;
+                    }
+                }
+            }
+        }
+        // return back();
+    }
+
 }
