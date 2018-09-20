@@ -278,8 +278,8 @@
                         </div>
                         <div class="panel-body">
 
-
-                                {{ Form::open(['id' => 'formImportExcel']) }}
+                                {{ Form::open(['id' => 'formImportExcel', "enctype"=>"multipart/form-data"]) }}
+                                    <meta name="_token" content="{{ csrf_token() }}" />
                                     <input type="file" name="import_file" id="import_file" /> <br/>
                                     <div style="text-align:center;">
                                         {{ Form::button('Importar Retorno Sanepar', ['class' => 'btn btn-md btn-success', 'id' => 'btnImportExcel', 'name' => 'btnImportExcel']) }}
@@ -342,7 +342,6 @@
         <script type='text/javascript'>
             $(document).ready(function() {
                 $("#menu-top #adminMenu").addClass('menu-top-active');
-                tdListDoadores();
             });
         </script>
     </div>

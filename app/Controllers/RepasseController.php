@@ -545,7 +545,6 @@ class RepasseController extends Controller
     }
 
     public function importSanepar(){
-        return Input::file('import_file')->getRealPath();
         if(Input::hasFile('import_file')){
             $path = Input::file('import_file')->getRealPath();
             //array para valores a ser gravado no banco de dados
@@ -555,31 +554,17 @@ class RepasseController extends Controller
             
             //ver a competencia
             $dataCom = Excel::selectSheetsByIndex(0)->load($path, function($reader){
-                $reader->noHeading();
-                $reader->takeRows(2);
-                $reader->ignoreEmpty();
-                $reader->takeColumns(4);
+                // $reader->noHeading();
+                // $reader->takeRows(2);
+                // $reader->ignoreEmpty();
+                $reader->takeColumns(19);
             })->get();
-            //verifica se tem o valor da competencia
-            if(!is_numeric($dataCom[0][0])){
-                dd("Arquivo sem valor da competencia, favor verificar!");
-            }
-            //valida, pesquisa e salva a competencia
-            if(!empty($dataCom) && $dataCom->count()){
-                $cpa_id = competencia::find($dataCom[0][0]);
-            } else {
-                dd("Arquivo com o formato dos valores errados, favor verificar!");
-            }
 
-            //ver valores de retorno
-            $dataReturn = Excel::selectSheetsByIndex(0)->load($path, function($reader){
-                $reader->noHeading();
-                $reader->takeColumns(11); //limita a quantidade de colunas
-                $reader->skipRows(3); //pula a linha
-                // $reader->ignoreEmpty(); //ignora os campos null
-                // $reader->takeRows(6); //limita a quantidade de linha
-            })->get();
-             
+            // $reader->takeColumns(11); //limita a quantidade de colunas
+            // $reader->skipRows(3); //pula a linha
+            // $reader->ignoreEmpty(); //ignora os campos null
+            // $reader->takeRows(6); //limita a quantidade de linha
+
             //cria dados para salvar na base de retorno sanepar
             if(!empty($dataReturn) && $dataReturn->count()){
                 foreach($dataReturn as $ddr){

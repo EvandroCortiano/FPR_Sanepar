@@ -450,15 +450,30 @@ function filterProducaoSaneparListar(){
 }
 
 $("#formImportExcel #btnImportExcel").click(function(){
-
+    // capture o formulário
+    var form = $('#formImportExcel')[0];
+    // crie um FormData {Object}
+    var data = new FormData(form);
+    
     $.ajax({
+        type: 'post',
         url: "/repasse/importSanepar",
-        method: 'get',
-        data: {
-           file: $('#formImportExcel #import_file').val(),
+        enctype: 'multipart/form-data',
+        headers: {
+            'X-CSRF-Token': $('meta[name=_token]').attr('content')
         },
-        success: function(result){
-           console.log(result);
+        data: data,
+        processData: false, // impedir que o jQuery tranforma a "data" em querystring
+        contentType: false, // desabilitar o cabeçalho "Content-Type"
+        cache: false, // desabilitar o "cache"
+        timeout: 600000, // definir um tempo limite (opcional)
+        // manipular o sucesso da requisição
+        success: function (data) {
+            console.log(data);
+        },
+        // manipular erros da requisição
+        error: function (e) {
+            console.log(e);
         }
     });
 
