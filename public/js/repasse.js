@@ -413,7 +413,7 @@ function filterProducaoSaneparListar(){
         } else {
             // toastr.remove();
             toastr.success("Repasse para Sanepar, retornado com Sucesso!");
-            $('#tableProducaoSanepar').DataTable({
+            $('#tableListRepasse').DataTable({
                 destroy: true,
                 paging: true,
                 searching: false,
@@ -433,13 +433,12 @@ function filterProducaoSaneparListar(){
                 },
                 data: data,
                 columns: [
-                    { data: 'ddr_id' },
-                    { data: 'ddr_matricula' },
+                    { data: 'ddr_titular_conta' },
                     { data: 'ddr_nome' },
-                    { data: 'doa_valor_mensal' },
-                    { data: 'doa_qtde_parcela' },
-                    { data: 'smt_nome' },
-                    { data: 'doa_valor' },
+                    { data: 'ddr_nascimento' },
+                    { data: 'ddr_endereco' },
+                    { data: 'ddr_cep' },
+                    { data: 'ddr_cidade' }
                 ]
             });
         }

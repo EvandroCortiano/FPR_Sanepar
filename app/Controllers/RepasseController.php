@@ -9,18 +9,23 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Input;
 use App\Repository\UsersRepository;
 use Carbon\Carbon;
+use App\Repository\DoadorRepository;
+use App\Repository\SaneparRepository;
 
 class RepasseController extends Controller
 {
+    
+    protected $doacao, $repasse, $usersRepository, $doador, $sanepar;
 
-    protected $doacao, $repasse, $usersRepository;
-
-    public function __construct(DoacaoRepository $doacao, RepasseRepository $repasse, UsersRepository $usersRepository)
+    public function __construct(DoacaoRepository $doacao, RepasseRepository $repasse, UsersRepository $usersRepository,
+        DoadorRepository $doador, SaneparRepository $sanepar)
     {
         $this->middleware('auth');
         $this->doacao = $doacao;
         $this->repasse = $repasse;
         $this->usersRepository = $usersRepository;
+        $this->doador = $doador;
+        $this->sanepar = $sanepar;
     }
 
     /**
@@ -548,65 +553,77 @@ class RepasseController extends Controller
         if(Input::hasFile('import_file')){
             $path = Input::file('import_file')->getRealPath();
             //array para valores a ser gravado no banco de dados
-            $data = array();
+            $dataCad = array();
+            //cadastro com sucesso
+            $dataStore = array();
             //guarda possiveis erros
             $dataError = array();
             
             //ver a competencia
             $dataCom = Excel::selectSheetsByIndex(0)->load($path, function($reader){
-                // $reader->noHeading();
-                // $reader->takeRows(2);
-                // $reader->ignoreEmpty();
-                $reader->takeColumns(19);
+                $reader->takeColumns(19); //limita a quantidade de colunas 
+                // $reader->skipRows(3); //pula a linha
+                // $reader->ignoreEmpty(); //ignora os campos null
+                // $reader->takeRows(6); //limita a quantidade de linha
+                // $reader->noHeading(); //ignora os cabecalhos 
             })->get();
 
-            // $reader->takeColumns(11); //limita a quantidade de colunas
-            // $reader->skipRows(3); //pula a linha
-            // $reader->ignoreEmpty(); //ignora os campos null
-            // $reader->takeRows(6); //limita a quantidade de linha
-
             //cria dados para salvar na base de retorno sanepar
-            if(!empty($dataReturn) && $dataReturn->count()){
-                foreach($dataReturn as $ddr){
-                    if($ddr[1] != null){
-                        //pesquisa doador
-                        $doador = doador::where('ddr_matricula',$ddr[2])->get();
-                        if(!empty($doador) && $doador->count()){
-                            //pesquisa se tem o doador na competencia requerida
-                            $repasse = repasse::leftJoin('cad_doacao', 'doa_id', 'cre_doa_id')
-                                            ->leftJoin('cad_doador', 'ddr_id', 'doa_ddr_id')
-                                            ->where('cre_cpa_id', $cpa_id->cpa_id)
-                                            ->where('ddr_id', $doador[0]->ddr_id)
-                                            ->get();
-                            // Cria data para salvar na tabel                  
-                            if(!empty($repasse) && $repasse->count()){
-                                $data[] = [
-                                    'rto_cre_id' => $repasse[0]->cre_id,
-                                    'rto_ddr_id' => $doador[0]->ddr_id,
-                                    'rto_status' => $ddr[8],
-                                    'rto_data_credito' => $ddr[9],
-                                    'rto_valor_credito' => $ddr[10]
-                                ]; 
-                            }
-                        } else {
-                            dd("Doador (".$ddr[3].") não encontrado na base de dados de doadores, favor verificar!");
-                        }
+            if(!empty($dataCom) && $dataCom->count()){
+                foreach($dataCom as $data){
+                    //pesquisa doadores
+                    $ddr = $this->doador->findWhere('ddr_matricula',$data['matricula'])->get();
+                    //pesquisa doacao
+                    if(count($ddr) > 0){
+                        $ddr[0]->doacao;
+                        $dataCad[] = [
+                            'rto_ddr_id' => $ddr[0]->ddr_id,
+                            'rto_doa_id' => $ddr[0]->doacao->doa_id,
+                            'rto_data' => Carbon::now()->toDateString(),
+                            'rto_ur' => $data->ur,
+                            'rto_local' => $data->local,
+                            'rto_cidade' => $data->cidade,
+                            'rto_matricula' => $data->matricula,
+                            'rto_nome' => $data->nome,
+                            'rto_cpf_cnpj' => $data->cpf_cnpj,
+                            'rto_rg' => $data->rg,
+                            'rto_uf' => $data->uf,
+                            'rto_logr_cod' => $data->logr_cod,
+                            'rto_logradouro' => $data->logradouro,
+                            'rto_num' => $data->num,
+                            'rto_complemento' => $data->complemento,
+                            'rto_bai_cod' => $data->bai_cod,
+                            'rto_bairro' => $data->bairro,
+                            'rto_cep' => $data->cep,
+                            'rto_categoria' => $data->categoria,
+                            'rto_cod_servico' => $data->cod_servico,
+                            'rto_vlr_servico' => $data->vlr_servico,
+                            'rto_referencia_arr' => $data->referencia_arr
+                        ];
                     }
                 }
             }
-            
+
             // Salvar dados no banco
-            if(!empty($data) && count($data)){
-                foreach ($data as $dt){
+            if(!empty($dataCad) && count($dataCad)){
+                foreach ($dataCad as $dt){
                     try{
-                        $cadSanepar = sanepar_retorno::create($dt);
+                        $cadSanepar = $this->sanepar->store($dt);
                         if(!$cadSanepar){
-                            dd("Não Gravou-Errror!".$dt['cre_ddr_id']);
+                            dd("Não Gravou-Errror!".$dt['cre_ddr_nome']);
+                        } else {
+                            $dataStore[] = $cadSanepar;
                         }
                     } catch(\Exception $e){
                         return $e;
                     }
                 }
+            }
+
+            if($dataStore){
+                return $dataStore;
+            } else {
+                return 'Error';
             }
         }
         // return back();
