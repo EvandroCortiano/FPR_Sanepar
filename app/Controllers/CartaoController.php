@@ -80,6 +80,8 @@ class CartaoController extends Controller
         if($pesq['dataIni'] && $pesq['dataFim']){
             //realiza a pesquisa
             $where .= " doa_data between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."' and cad_doacao.deleted_at is null";
+            //Contador de linhas
+            $cont = 0;
 
             $data = $this->cartao->findCartaoRepasse($where, 'Excel');
 
@@ -88,11 +90,17 @@ class CartaoController extends Controller
             if(count($data) > 0){
                 foreach($data as $d){
                     // criar array para arquivo excel
+                    $cont++;
                     $dataExcel[] = [
-                        'DOADOR' => $d->ddr_nome,
-                        'ENDEREÇO'=> $d->ddr_endereco . ", " . $d->ddr_numero . ($d->ddr_complemento != '' ? "( " . $d->ddr_complemento . " )" : ''),
-                        'DATA DOÇÃO' => date('d/m/Y', strtotime($d->doa_data)),
-                        'TITULAR CONTA' => $d->ddr_titular_conta
+                        'Qnt' => $cont,
+                        'Nome Completo' => $d->ddr_nome,
+                        'Endereço'=> $d->ddr_endereco,
+                        'Numero' => $d->ddr_numero,
+                        'Complemento' => $d->ddr_complemento,
+                        'Bairro' => $d->ddr_bairro,
+                        'Cidade/Estado' => $d->ddr_cidade,
+                        'CEP' => $d->ddr_cep,
+                        'OBS' => ''
                     ];
                     
                     // cria array para salvar na base de dados cad_cartao

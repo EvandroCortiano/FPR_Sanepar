@@ -556,8 +556,9 @@ class RepasseController extends Controller
             $dataCad = array();
             //cadastro com sucesso
             $dataStore = array();
-            //guarda possiveis erros
+            //registra linhas sem doador (nao foi encontrado)
             $dataError = array();
+            $dataReturn = array();
             
             //ver a competencia
             $dataCom = Excel::selectSheetsByIndex(0)->load($path, function($reader){
@@ -600,6 +601,32 @@ class RepasseController extends Controller
                             'rto_vlr_servico' => $data->vlr_servico,
                             'rto_referencia_arr' => $data->referencia_arr
                         ];
+                    } else {
+                        $dataError[] = [
+                            'error' => 'Matricula/Doador não encontrado!',
+                            'rto_ddr_id' => 0,
+                            'rto_doa_id' => 0,
+                            'rto_data' => Carbon::now()->toDateString(),
+                            'rto_ur' => $data->ur,
+                            'rto_local' => $data->local,
+                            'rto_cidade' => $data->cidade,
+                            'rto_matricula' => $data->matricula,
+                            'rto_nome' => $data->nome,
+                            'rto_cpf_cnpj' => $data->cpf_cnpj,
+                            'rto_rg' => $data->rg,
+                            'rto_uf' => $data->uf,
+                            'rto_logr_cod' => $data->logr_cod,
+                            'rto_logradouro' => $data->logradouro,
+                            'rto_num' => $data->num,
+                            'rto_complemento' => $data->complemento,
+                            'rto_bai_cod' => $data->bai_cod,
+                            'rto_bairro' => $data->bairro,
+                            'rto_cep' => $data->cep,
+                            'rto_categoria' => $data->categoria,
+                            'rto_cod_servico' => $data->cod_servico,
+                            'rto_vlr_servico' => $data->vlr_servico,
+                            'rto_referencia_arr' => $data->referencia_arr
+                        ];
                     }
                 }
             }
@@ -620,8 +647,12 @@ class RepasseController extends Controller
                 }
             }
 
-            if($dataStore){
-                return $dataStore;
+            if($dataStore || $dataError){
+                $dataReturn = [
+                    'sucesso' => $dataStore,
+                    'error' => $dataError
+                ];
+                return $dataReturn;
             } else {
                 return 'Error';
             }
