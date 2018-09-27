@@ -9,6 +9,17 @@ use App\Models\cartao;
 
 class CartaoRepository{
 
+    // retornar todos os id's de doacao ja enviados para confeccao dos cartoes
+    public function idsRemessaDoaCar(){
+        try{
+            $sqlCar = "select group_concat(car_doa_id) as car_doa_ids from cad_cartao";
+            $cartoes = DB::select($sqlCar);
+            return $cartoes;
+        } catch(\Exception $e){
+            return $e;
+        }
+    }
+    
     // Relaiza a pesquisa com os filtros
     public function findCartaoRepasse($where){
         try{

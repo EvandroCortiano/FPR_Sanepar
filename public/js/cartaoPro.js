@@ -13,7 +13,6 @@ $(document).ready(function(){
 
     //chama funcoes
     filterProductionCard();
-    listProductionCard();
 });
 
 /**************************************************/
@@ -61,7 +60,7 @@ function filterProductionCard(){
         dataType: 'json',
     }).done(function(data){
         // toastr.remove();
-        toastr.success("Produção retornada com Sucesso!");
+        // toastr.success("Produção retornada com Sucesso!");
         $('#tableProducaoCartao').DataTable({
             destroy: true,
             paging: true,
@@ -72,7 +71,7 @@ function filterProductionCard(){
             language: {
                 info: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
                 infoEmpty: " ",
-                zeroRecords:  "Sistema não retornou nenhum doador!",
+                zeroRecords:  "<span style='color:red;font-size:13px'>Sistema não retornou nenhum doador. Possivelmente arquivo desse período já foi criado!</span>",
                 lengthMenu: "_MENU_",
                 searchPlaceholder: "Pesquisar...",
                 paginate: {
@@ -136,7 +135,7 @@ function listProductionCard(){
         dataType: 'json',
     }).done(function(data){
         // toastr.remove();
-        toastr.success("Produção já enviado, retornada com Sucesso!");
+        toastr.success("Listagem retornada com Sucesso!");
         $('#tableListCartao').DataTable({
             destroy: true,
             paging: true,

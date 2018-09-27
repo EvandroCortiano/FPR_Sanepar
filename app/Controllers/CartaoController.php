@@ -26,6 +26,10 @@ class CartaoController extends Controller
     {
         //recebe datas
         $dateCar = $this->cartao->findDataEnvio();
+        foreach($dateCar as $dt){
+            $dateCar[$dt] = date('d/m/Y', strtotime($dt));
+        }
+
         //recebe doacoes
         return view('cartaoPro.dashboard')->with(compact('dateCar'));
     }
@@ -45,13 +49,18 @@ class CartaoController extends Controller
             // cria where's
             $where .= " doa_data between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."' and cad_doacao.deleted_at is null";
 
+            //recupera os ids das doacoes ja enviadas para a confeccao
+            $carDoa = $this->cartao->idsRemessaDoaCar();
+            if($carDoa){
+                $where .= " and doa_id not in (".$carDoa[0]->car_doa_ids.")";
+            }
+
             //realiza a pesquisa
-            $doa = $this->cartao->findCartaoRepasse($where, 'Pesquisa');
+            $doa = $this->cartao->findCartaoRepasse($where);
 
             if(count($doa) > 0){
                 foreach($doa as $d){
                     $d->doa_data = date('d/m/Y', strtotime($d->doa_data));
-                    
                     //Cria endereco
                     $d->endereco = $d->ddr_endereco . ", " . $d->ddr_numero . ($d->ddr_complemento != '' ? "( " . $d->ddr_complemento . " )" : '');
                 }
@@ -83,7 +92,13 @@ class CartaoController extends Controller
             //Contador de linhas
             $cont = 0;
 
-            $data = $this->cartao->findCartaoRepasse($where, 'Excel');
+            //recupera os ids das doacoes ja enviadas para a confeccao
+            $carDoa = $this->cartao->idsRemessaDoaCar();
+            if($carDoa){
+                $where .= " and doa_id not in (".$carDoa[0]->car_doa_ids.")";
+            }
+
+            $data = $this->cartao->findCartaoRepasse($where);
 
             $nomeArq = 'Cartao_mais_Pro_' . $pesq['dataIni'] . "_" . $pesq['dataFim'];
             
@@ -145,25 +160,25 @@ class CartaoController extends Controller
         // cria variaveis
         $data = array();
         $where = '';
-        
         // Cria/utiliza filtros
         if($pesq['car_data']){
+            
             // cria where's
             $where .= " where car_data = '" . $pesq['car_data'] . "';";
-            
-        }
 
-        //realiza a pesquisa
-        $card = $this->cartao->findCartaoList($where);
+            //realiza a pesquisa
+            $card = $this->cartao->findCartaoList($where);
 
-        if(count($card) > 0){
-            foreach($card as $d){
-                //Cria endereco
-                $d->endereco = $d->ddr_endereco . ", " . $d->ddr_numero . ($d->ddr_complemento != '' ? "( " . $d->ddr_complemento . " )" : '');
+            if(count($card) > 0){
+                foreach($card as $d){
+                    //Cria endereco
+                    $d->endereco = $d->ddr_endereco . ", " . $d->ddr_numero . ($d->ddr_complemento != '' ? "( " . $d->ddr_complemento . " )" : '');
+                }
+                return $card;
             }
-            return $card;
+        } else {
+            return $data[] = ['status'=>'Error','msg'=>'Favor selecionar uma competência!'];
         }
-        return $pesq;
     }
 
     // CRIA ARQUIVO COM OS JA ENVIADOS PARA PRODUCAO

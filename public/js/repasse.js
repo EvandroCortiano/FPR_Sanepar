@@ -125,7 +125,7 @@ function filterProduction(){
         dataType: 'json',
     }).done(function(data){
         // toastr.remove();
-        toastr.success("Produção retornada com Sucesso!");
+        // toastr.success("Produção retornada com Sucesso!");
         $('#tableProducao').DataTable({
             destroy: true,
             paging: true,
@@ -194,7 +194,7 @@ function filterCancel(){
         dataType: 'json',
     }).done(function(data){
         // toastr.remove();
-        toastr.success("Cancelados retornado com Sucesso!");
+        // toastr.success("Cancelados retornado com Sucesso!");
         $('#tableCancelados').DataTable({
             destroy: true,
             paging: true,
@@ -261,7 +261,7 @@ function filterVencer(){
         dataType: 'json',
     }).done(function(data){
         // toastr.remove();
-        toastr.success("À vencer retornado com Sucesso!");
+        // toastr.success("À vencer retornado com Sucesso!");
         $('#tableAVencer').DataTable({
             destroy: true,
             paging: true,
@@ -337,7 +337,7 @@ function filterProducaoSanepar(){
         dataType: 'json',
     }).done(function(data){
         // toastr.remove();
-        toastr.success("Repasse para Sanepar, retornado com Sucesso!");
+        // toastr.success("Repasse para Sanepar, retornado com Sucesso!");
         $('#tableProducaoSanepar').DataTable({
             destroy: true,
             paging: true,
