@@ -1,8 +1,8 @@
 /node_modules
 /public/hot
 /public/storage
-/public/filesExport
-/public/filesExportCartao
+/public/filesExport/*.xls
+/public/filesExportCartao/*.xls
 /storage/*.key
 /vendor
 /.idea
