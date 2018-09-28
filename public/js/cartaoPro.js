@@ -8,7 +8,12 @@ var primeiroDia = '';
 $(document).ready(function(){
     //seta primeiro dia do mes no forme de filtro pesquisa
     var datenew = new Date();
-    primeiroDia = datenew.getFullYear() + '-' + ("0" + datenew.getMonth()).substr(-2) + '-' + "01";
+    if(datenew.getDate() > 8){
+        primeiroDia = datenew.getFullYear() + '-' + ("0" + (datenew.getMonth()+1)).substr(-2) + '-' + ("0" + (datenew.getDate()-7)).substr(-2);
+    } else {
+        primeiroDia = datenew.getFullYear() + '-' + ("0" + datenew.getMonth()).substr(-2) + '-' + "20";
+    }
+    console.log(primeiroDia);
     $("#formProducaoCartao #dataIni").val(primeiroDia);
 
     //chama funcoes
