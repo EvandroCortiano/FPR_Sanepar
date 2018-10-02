@@ -337,6 +337,7 @@
     
     
     @include('repasse.modal_confirma_repasse')
+    @include('repasse.modal_confirma_sanepar')
         <!-- SCRIPT DOACAO  -->
         <script src="{{ asset('js/repasse.js') }}"></script>
         <script type='text/javascript'>

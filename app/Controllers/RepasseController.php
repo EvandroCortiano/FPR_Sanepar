@@ -625,29 +625,14 @@ class RepasseController extends Controller
                             'rto_categoria' => $data->categoria,
                             'rto_cod_servico' => $data->cod_servico,
                             'rto_vlr_servico' => $data->vlr_servico,
-                            'rto_referencia_arr' => $data->referencia_arr
+                            'rto_referencia_arr' => $data->referencia_arr,
+                            'msg_erro' => 'Não foi encontrado o doador no sistema, verifique a matricula!'
                         ];
                     }
                 }
             }
 
-            // Salvar dados no banco
-            if(!empty($dataCad) && count($dataCad)){
-                foreach ($dataCad as $dt){
-                    try{
-                        $cadSanepar = $this->sanepar->store($dt);
-                        if(!$cadSanepar){
-                            dd("Não Gravou-Errror!".$dt['cre_ddr_nome']);
-                        } else {
-                            $dataStore[] = $cadSanepar;
-                        }
-                    } catch(\Exception $e){
-                        return $e;
-                    }
-                }
-            }
-
-            if($dataStore || $dataError){
+            if($dataCad || $dataError){
                 $dataReturn = [
                     'sucesso' => $dataStore,
                     'error' => $dataError
@@ -658,6 +643,29 @@ class RepasseController extends Controller
             }
         }
         // return back();
+    }
+
+    //Salva arquivo sanepar na base de dados
+    public function storeReturnSanepar(Request $request){
+        $data = $request->all();
+
+        // Salvar dados no banco
+        if(!empty($dataCad) && count($dataCad)){
+            foreach ($dataCad as $dt){
+                // try{
+                //     $cadSanepar = $this->sanepar->store($dt);
+                //     if(!$cadSanepar){
+                //         dd("Não Gravou-Errror!".$dt['cre_ddr_nome']);
+                //     } else {
+                //         $dataStore[] = $cadSanepar;
+                //     }
+                // } catch(\Exception $e){
+                //     return $e;
+                // }
+            }
+        }
+
+        return $data;
     }
 
 }

@@ -69,7 +69,10 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/downloadExcelVencer', ['as' => 'downloadExcelVencer', 'uses' => 'RepasseController@downloadExcelVencer']);
         Route::get('/downloadExcelRepasse', ['as' => 'downloadExcelRepasse', 'uses' => 'RepasseController@downloadExcelRepasse']);
         Route::get('/downloadExcelRepasseList', ['as' => 'downloadExcelRepasseList', 'uses' => 'RepasseController@downloadExcelRepasseList']);
+        
         Route::post('/importSanepar', ['as' => 'importSanepar', 'uses' => 'RepasseController@importSanepar']);
+        Route::post('/storeReturnSanepar', ['as' => 'storeReturnSanepar', 'uses' => 'RepasseController@storeReturnSanepar']);
+        
     });
 
     //Cartao + pro renal

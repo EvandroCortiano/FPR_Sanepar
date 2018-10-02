@@ -447,6 +447,8 @@ function filterProducaoSaneparListar(){
         toastr.error("Erro ao carregar Repasse para Sanepar!");
     });
 }
+//variavel controle
+var dataSanepar = '';
 
 $("#formImportExcel #btnImportExcel").click(function(){
     // capture o formulário
@@ -468,12 +470,103 @@ $("#formImportExcel #btnImportExcel").click(function(){
         timeout: 600000, // definir um tempo limite (opcional)
         // manipular o sucesso da requisição
         success: function (data) {
-            console.log(data);
+            retornoSanepar(data);
+            $('#modalConfirmaSanepar').modal('show');
         },
         // manipular erros da requisição
         error: function (e) {
-            console.log(e);
+            toastr.remove();
+            toastr.error("Erro ao carregar Repasse da Sanepar! " + e);
         }
     });
 
+    function retornoSanepar(data){
+        //recebe valores
+        dataSanepar = data;
+        $('#tableRetornoSanepar').DataTable({
+            destroy: true,
+            paging: true,
+            searching: false,
+            pageLength: 10,
+            info: true,
+            dom: "<'row'<'col-sm-12'<'pull-left'f><'pull-left'T>r<'clearfix'>>>t<'row'<'col-sm-12'<'pull-left'i><'pull-right'p><'clearfix'>>>",
+            language: {
+                info: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                infoEmpty: " ",
+                zeroRecords:  "Sistema não retornou nenhum doador!",
+                lengthMenu: "_MENU_",
+                searchPlaceholder: "Pesquisar...",
+                paginate: {
+                    "previous":"Anterior",
+                    "next":"Próximo"
+                }
+            },
+            data: data.sucesso,
+            columns: [
+                { data: 'rto_matricula' },
+                { data: 'rto_nome' },
+                { data: 'rto_vlr_servico' },
+                { data: 'rto_logradouro' },
+                { data: 'rto_cidade' },
+                { data: 'rto_cep' },
+            ]
+        });
+        $("#tableRetornoSanepar").css("width","100%");
+        $('#tableRetornoSaneparError').DataTable({
+            destroy: true,
+            paging: true,
+            searching: false,
+            pageLength: 10,
+            info: true,
+            dom: "<'row'<'col-sm-12'<'pull-left'f><'pull-left'T>r<'clearfix'>>>t<'row'<'col-sm-12'<'pull-left'i><'pull-right'p><'clearfix'>>>",
+            language: {
+                info: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                infoEmpty: " ",
+                zeroRecords:  "Não houve erro com as doações!",
+                lengthMenu: "_MENU_",
+                searchPlaceholder: "Pesquisar...",
+                paginate: {
+                    "previous":"Anterior",
+                    "next":"Próximo"
+                }
+            },
+            data: data.error,
+            columns: [
+                { data: 'rto_matricula' },
+                { data: 'rto_nome' },
+                { data: 'msg_erro' },
+            ]
+        });
+        $("#tableRetornoSaneparError").css("width","100%");
+    }
+
+});
+// Salva arquivo enviado pela sanepar
+$("#modalConfirmaSanepar #btnModalStore").confirmation({
+    rootSelector: '[data-toggle=modalStore]',
+    container: 'body',
+    onConfirm: function(){ 
+        //adiona _token
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: 'post',
+            url: '../../repasse/storeReturnSanepar',
+            cache: false,
+            data: dataSanepar
+        }).done(function(response){
+            console.log('success');
+            console.log(response);
+            toastr.remove();
+            toastr.success("Arquivo com o repasse da Sanepar, cadastrado com sucesso!");
+            // $("[data-dismiss=modal]").trigger({ type: "click" });
+        }).fail(function(){
+            console.log('Fail');
+            toastr.remove();
+            toastr.error("Erro ao salvar Arquivo da Sanepar!");
+        });
+    }
 });
