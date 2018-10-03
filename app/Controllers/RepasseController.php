@@ -37,10 +37,17 @@ class RepasseController extends Controller
     {
         //receber select repasse
         $selectComp = $this->repasse->findCompetenciaSelect();
+
         //recebe lista dos operadores
         $opera = $this->usersRepository->operadores()->pluck('name', 'id');
+
+        //recebe referencia retorno sanepar
+        $selectRef = $this->sanepar->findSaneparDate();
+        foreach($selectRef as $dt){
+            $selectRef[$dt] = substr($dt,0,4) . '/' . substr($dt,4,5);
+        }
         //recebe doacoes
-        return view('repasse.dashboard')->with(compact('opera', 'selectComp'));
+        return view('repasse.dashboard')->with(compact('opera', 'selectComp','selectRef'));
     }
 
     /**
@@ -634,7 +641,7 @@ class RepasseController extends Controller
 
             if($dataCad || $dataError){
                 $dataReturn = [
-                    'sucesso' => $dataStore,
+                    'sucesso' => $dataCad,
                     'error' => $dataError
                 ];
                 return $dataReturn;
@@ -649,22 +656,34 @@ class RepasseController extends Controller
     public function storeReturnSanepar(Request $request){
         $data = $request->all();
 
-        // Salvar dados no banco
-        if(!empty($dataCad) && count($dataCad)){
-            foreach ($dataCad as $dt){
-                // try{
-                //     $cadSanepar = $this->sanepar->store($dt);
-                //     if(!$cadSanepar){
-                //         dd("Não Gravou-Errror!".$dt['cre_ddr_nome']);
-                //     } else {
-                //         $dataStore[] = $cadSanepar;
-                //     }
-                // } catch(\Exception $e){
-                //     return $e;
-                // }
+        if(isset($data['sucesso'])){      
+            foreach ($data['sucesso'] as $dt){
+                try{
+                    $cadSanepar = $this->sanepar->store($dt);
+                    if(!$cadSanepar){
+                        dd("Não Gravou-Errror!".$dt['cre_ddr_nome']);
+                    } else {
+                        $dataStore[] = $cadSanepar;
+                    }
+                } catch(\Exception $e){
+                    return $e;
+                }
             }
-        }
+            return $dataStore;
 
+        } else {
+            return false;
+        }
+    }
+    // possivel Errors
+    // 0: {errorInfo: ["HY000", 1364, "Field 'rto_cre_id' doesn't have a default value"]}
+
+    // Retornar as datas de referencia para selecionar os arquivos
+    public function findSaneparDate(){
+        $data = $this->sanepar->findSaneparDate();
+        foreach($data as $dt){
+            $data[$dt] = substr($dt,0,4) . '/' . substr($dt,4,5);
+        }
         return $data;
     }
 

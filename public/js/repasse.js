@@ -562,7 +562,7 @@ $("#modalConfirmaSanepar #btnModalStore").confirmation({
             console.log(response);
             toastr.remove();
             toastr.success("Arquivo com o repasse da Sanepar, cadastrado com sucesso!");
-            // $("[data-dismiss=modal]").trigger({ type: "click" });
+            $("[data-dismiss=modal]").trigger({ type: "click" });
         }).fail(function(){
             console.log('Fail');
             toastr.remove();

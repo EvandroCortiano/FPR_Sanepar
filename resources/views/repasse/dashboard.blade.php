@@ -330,6 +330,47 @@
                         </div>
                     </div>
                 </div>
+                
+                {{-- Tabela com os arquivos recebidos da sanepar --}}
+                <div class="col-md-12">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <div class="row">
+                                    <div class="col-sm-4">
+                                        <b>Recebidos da Sanepar</b>
+                                    </div>
+                                {{ Form::open(['id' => 'formListRecebidos']) }}
+                                    <div class="col-sm-3">
+                                        <span class="pull-right" style="font-size: 14px;">Pesquisar pela Referência:</span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        {{ Form::select('cpa_id', $selectRef, '', ['class' => 'form-control', 'id' => 'cpa_id', 'placeholder' => 'Selecione referência...']) }}
+                                    </div>
+                                    <div class="col-sm-1">
+                                        {{ Form::button('<span class="fa fa-search"></span>', ['class' => 'btn btn-md btn-default pull-right', 'id' => 'btnListRepasse', 'name' => 'btnModalBack']) }}
+                                    </div>
+                                    <div class="col-sm-1">
+                                        {{ Form::button('<span class="fas fa-file-excel"></span>', ['class' => 'btn btn-md btn-success pull-right', 'id' => 'btnExcelListRepasse', 'name' => 'btnModalBack']) }}
+                                    </div>
+                                {{ Form::close() }}
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <table id="tableListRepasse" class="table table-striped" style="margin-bottom:0px;">
+                                <thead>
+                                    <tr>
+                                        <th>Titular da Conta</th>
+                                        <th>Doador</th>
+                                        <th>Data Nascimento</th>
+                                        <th>Endereço</th>
+                                        <th>Cep</th>
+                                        <th>Cidade</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
 
             </div>
 

@@ -6,6 +6,7 @@ use App\Models\doacao;
 use Illuminate\Support\Facades\DB;
 use App\Models\competencia;
 use App\Models\repasse;
+use App\Models\sanepar_retorno;
 
 
 class RepasseRepository{
@@ -110,7 +111,7 @@ class RepasseRepository{
     // pesquisa as datas de envio
     public function findCompetenciaSelect(){
         try{
-            $date = competencia::select('cpa_id', DB::raw("CONCAT(cpa_data_inicio,'_',cpa_data_fim) as competencia"))->pluck('competencia','cpa_id');
+            $date = competencia::select('cpa_id', DB::raw("CONCAT(DATE_FORMAT(cpa_data_inicio,'%d/%c/%Y'),' à ',DATE_FORMAT(cpa_data_fim,'%d/%c/%Y')) as competencia"))->pluck('competencia','cpa_id');
             return $date;
         }catch(\Exception $e){
             return $e;
@@ -137,4 +138,5 @@ class RepasseRepository{
             return $e;
         }       
     }
+
 }

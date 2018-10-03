@@ -14,4 +14,14 @@ class SaneparRepository{
             return $e;
         }
     }
+
+    // Retorna datas de referencia
+    public function findSaneparDate(){
+        try{
+            $date = sanepar_retorno::select('rto_referencia_arr')->groupBy('rto_referencia_arr')->pluck('rto_referencia_arr', 'rto_referencia_arr');
+            return $date;
+        }catch(\Exception $e){
+            return $e;
+        } 
+    }
 }
