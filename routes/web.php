@@ -69,11 +69,13 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/downloadExcelRepasse', ['as' => 'downloadExcelRepasse', 'uses' => 'RepasseController@downloadExcelRepasse']);
         Route::get('/downloadExcelRepasseList', ['as' => 'downloadExcelRepasseList', 'uses' => 'RepasseController@downloadExcelRepasseList']);
         
+        Route::get('/downloadExcelRecebidosList', ['as' => 'downloadExcelRecebidosList', 'uses' => 'RepasseController@downloadExcelRecebidosList']);
+        
         Route::get('/findRepasseSanepar', ['as' => 'findRepasseSanepar', 'uses' => 'RepasseController@findRepasseSanepar']);
         Route::get('/findRepasseSaneparList', ['as' => 'findRepasseSaneparList', 'uses' => 'RepasseController@findRepasseSaneparList']);
+        Route::get('/findRecebidosSaneparList', ['as' => 'findRecebidosSaneparList', 'uses' => 'RepasseController@findRecebidosSaneparList']);
         Route::get('/findSaneparDate', ['as' => 'findSaneparDate', 'uses' => 'RepasseController@findSaneparDate']);
 
-        
         Route::post('/importSanepar', ['as' => 'importSanepar', 'uses' => 'RepasseController@importSanepar']);
         Route::post('/storeReturnSanepar', ['as' => 'storeReturnSanepar', 'uses' => 'RepasseController@storeReturnSanepar']);
         

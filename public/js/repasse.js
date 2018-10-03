@@ -447,9 +447,12 @@ function filterProducaoSaneparListar(){
         toastr.error("Erro ao carregar Repasse para Sanepar!");
     });
 }
+
+/***********************************/
+/********* Retorno Sanepar *********/
+/***********************************/
 //variavel controle
 var dataSanepar = '';
-
 $("#formImportExcel #btnImportExcel").click(function(){
     // capture o formulário
     var form = $('#formImportExcel')[0];
@@ -541,6 +544,7 @@ $("#formImportExcel #btnImportExcel").click(function(){
     }
 
 });
+
 // Salva arquivo enviado pela sanepar
 $("#modalConfirmaSanepar #btnModalStore").confirmation({
     rootSelector: '[data-toggle=modalStore]',
@@ -570,3 +574,74 @@ $("#modalConfirmaSanepar #btnModalStore").confirmation({
         });
     }
 });
+// btn controle Arquivo Sanepar salvo no BD
+$("#formListRecebidos #btnExcelListRecebidos").click(function(){
+    pesquisa = $("form#formListRecebidos").serialize();
+
+    $.ajax({
+        type: 'get',
+        url: '../../repasse/downloadExcelRecebidosList',
+        cache: false,
+        data: pesquisa
+    }).done(function(response){
+        toastr.remove();
+        toastr.success("Arquivo recebido Sanepar, gerado com sucesso!");
+        window.location.href = response.full;
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("Erro ao gerar Arquivo recebido Sanepar!");
+    });
+});
+$("#formListRecebidos #btnListRecebidos").click(function(){
+    filterRecebidoSaneparListar();
+});
+function filterRecebidoSaneparListar(){
+    pesquisa = $("form#formListRecebidos").serialize();
+
+    $.ajax({
+        type: 'get',
+        url: '../../repasse/findRecebidosSaneparList',
+        data: pesquisa,
+        dataType: 'json',
+    }).done(function(data){
+        if(data.status){
+            toastr.remove();
+            toastr.error(data.msg);
+        } else {
+            console.log(data);
+            // toastr.remove();
+            toastr.success("Repasse para Sanepar, retornado com Sucesso!");
+            $('#tableListRecebidos').DataTable({
+                destroy: true,
+                paging: true,
+                searching: false,
+                pageLength: 10,
+                info: true,
+                dom: "<'row'<'col-sm-12'<'pull-left'f><'pull-left'T>r<'clearfix'>>>t<'row'<'col-sm-12'<'pull-left'i><'pull-right'p><'clearfix'>>>",
+                language: {
+                    info: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    infoEmpty: " ",
+                    zeroRecords:  "Sistema não retornou nenhum dados do Arquivo!",
+                    lengthMenu: "_MENU_",
+                    searchPlaceholder: "Pesquisar...",
+                    paginate: {
+                        "previous":"Anterior",
+                        "next":"Próximo"
+                    }
+                },
+                data: data,
+                columns: [
+                    { data: 'rto_nome' },
+                    { data: 'rto_matricula' },
+                    { data: 'rto_cidade' },
+                    { data: 'rto_uf' },
+                    { data: 'rto_cep' },
+                    { data: 'rto_vlr_servico' }
+                ]
+            });
+        }
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("Erro ao carregar Repasse para Sanepar!");
+    });
+}

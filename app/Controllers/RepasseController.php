@@ -534,7 +534,7 @@ class RepasseController extends Controller
       
             return $doa;
 
-        } else{
+        } else {
             return $data[] = ['status'=>'Error','msg'=>'Favor selecionar uma data Inicio e/ou Final valida!'];
         }
 
@@ -685,6 +685,42 @@ class RepasseController extends Controller
             $data[$dt] = substr($dt,0,4) . '/' . substr($dt,4,5);
         }
         return $data;
+    }
+
+    // Retorna arquivo recebido pela sanepar
+    public function findRecebidosSaneparList(Request $request){
+        // Retorna valores para pesquisa
+        $pesq = $request->all();
+
+        if($pesq['rto_referencia_arr']){
+            $arq = $this->sanepar->findArquivoSanepar($pesq);
+
+            return $arq;
+        } else {
+            return false;
+        }
+    }
+
+    //Imprime arquivo pesquisado
+    public function downloadExcelRecebidosList(Request $request){
+        // Retorna valores para pesquisa
+        $pesq = $request->all();
+
+        if($pesq['rto_referencia_arr']){
+            $arq = $this->sanepar->findArquivoSanepar($pesq);
+
+            $nomeArq = 'Arquivo_Sanepar_' . $pesq['rto_referencia_arr'];
+
+            return Excel::create($nomeArq, function($excel) use ($arq) {
+                $excel->sheet('mySheet', function($sheet) use ($arq)
+                {
+                    $sheet->fromArray($arq);
+                });
+            })->store('xls', 'filesExport/', true);
+
+        } else {
+            return false;
+        }
     }
 
 }

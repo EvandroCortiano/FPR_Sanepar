@@ -141,7 +141,7 @@ class CartaoController extends Controller
                     {
                         $sheet->fromArray($dataExcel);
                     });
-                })->store('xls', 'filesExportCartao/', true);;
+                })->store('xls', 'filesExportCartao/', true);
             } else {
                 return false;
             }

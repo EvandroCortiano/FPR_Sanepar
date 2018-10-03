@@ -344,27 +344,27 @@
                                         <span class="pull-right" style="font-size: 14px;">Pesquisar pela Referência:</span>
                                     </div>
                                     <div class="col-sm-3">
-                                        {{ Form::select('cpa_id', $selectRef, '', ['class' => 'form-control', 'id' => 'cpa_id', 'placeholder' => 'Selecione referência...']) }}
+                                        {{ Form::select('rto_referencia_arr', $selectRef, '', ['class' => 'form-control', 'id' => 'rto_referencia_arr', 'placeholder' => 'Selecione referência...']) }}
                                     </div>
                                     <div class="col-sm-1">
-                                        {{ Form::button('<span class="fa fa-search"></span>', ['class' => 'btn btn-md btn-default pull-right', 'id' => 'btnListRepasse', 'name' => 'btnModalBack']) }}
+                                        {{ Form::button('<span class="fa fa-search"></span>', ['class' => 'btn btn-md btn-default pull-right', 'id' => 'btnListRecebidos', 'name' => 'btnModalBack']) }}
                                     </div>
                                     <div class="col-sm-1">
-                                        {{ Form::button('<span class="fas fa-file-excel"></span>', ['class' => 'btn btn-md btn-success pull-right', 'id' => 'btnExcelListRepasse', 'name' => 'btnModalBack']) }}
+                                        {{ Form::button('<span class="fas fa-file-excel"></span>', ['class' => 'btn btn-md btn-success pull-right', 'id' => 'btnExcelListRecebidos', 'name' => 'btnModalBack']) }}
                                     </div>
                                 {{ Form::close() }}
                             </div>
                         </div>
                         <div class="panel-body">
-                            <table id="tableListRepasse" class="table table-striped" style="margin-bottom:0px;">
+                            <table id="tableListRecebidos" class="table table-striped" style="margin-bottom:0px;">
                                 <thead>
                                     <tr>
                                         <th>Titular da Conta</th>
-                                        <th>Doador</th>
-                                        <th>Data Nascimento</th>
-                                        <th>Endereço</th>
-                                        <th>Cep</th>
+                                        <th>Matricula</th>
                                         <th>Cidade</th>
+                                        <th>Estado</th>
+                                        <th>CEP</th>
+                                        <th>Valor</th>
                                     </tr>
                                 </thead>
                             </table>
