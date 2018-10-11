@@ -101,23 +101,54 @@ class CartaoController extends Controller
             $data = $this->cartao->findCartaoRepasse($where);
 
             $nomeArq = 'Cartao_mais_Pro_' . $pesq['dataIni'] . "_" . $pesq['dataFim'];
-            
+            $aux = '';
             if(count($data) > 0){
                 foreach($data as $d){
                     // criar array para arquivo excel
-                    $cont++;
-                    $dataExcel[] = [
-                        'Qnt' => $cont,
-                        'Nome Completo' => $d->ddr_nome,
-                        'Endereço'=> $d->ddr_endereco,
-                        'Numero' => $d->ddr_numero,
-                        'Complemento' => $d->ddr_complemento,
-                        'Bairro' => $d->ddr_bairro,
-                        'Cidade/Estado' => $d->ddr_cidade,
-                        'CEP' => $d->ddr_cep,
-                        'OBS' => ''
-                    ];
-                    
+                    if($d->ddr_nome == $d->ddr_titular_conta){
+                        $cont++;
+                        $dataExcel[] = [
+                            'Qnt' => $cont,
+                            'Nome Completo' => $d->ddr_nome,
+                            'Endereço'=> $d->ddr_endereco,
+                            'Numero' => $d->ddr_numero,
+                            'Complemento' => $d->ddr_complemento,
+                            'Bairro' => $d->ddr_bairro,
+                            'Cidade/Estado' => $d->ddr_cidade,
+                            'CEP' => $d->ddr_cep,
+                            'OBS' => ''
+                        ];
+                    } else {
+                        if($d->ddr_nome != '' && $d->ddr_titular_conta != ''){
+                            // com o nome do doador
+                            $cont++;
+                            $dataExcel[] = [
+                                'Qnt' => $cont,
+                                'Nome Completo' => $d->ddr_nome,
+                                'Endereço'=> $d->ddr_endereco,
+                                'Numero' => $d->ddr_numero,
+                                'Complemento' => $d->ddr_complemento,
+                                'Bairro' => $d->ddr_bairro,
+                                'Cidade/Estado' => $d->ddr_cidade,
+                                'CEP' => $d->ddr_cep,
+                                'OBS' => ''
+                            ];
+                            // com o nome do titular
+                            $cont++;
+                            $dataExcel[] = [
+                                'Qnt' => $cont,
+                                'Nome Completo' => $d->ddr_titular_conta,
+                                'Endereço'=> $d->ddr_endereco,
+                                'Numero' => $d->ddr_numero,
+                                'Complemento' => $d->ddr_complemento,
+                                'Bairro' => $d->ddr_bairro,
+                                'Cidade/Estado' => $d->ddr_cidade,
+                                'CEP' => $d->ddr_cep,
+                                'OBS' => ''
+                            ];
+                        }
+                    }
+
                     // cria array para salvar na base de dados cad_cartao
                     $dataBD[] = [
                         'car_ddr_id' => $d->ddr_id,
