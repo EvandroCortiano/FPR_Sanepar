@@ -5561,12 +5561,16 @@ a.list-group-item-danger.active:focus {
   border-bottom-color: #337ab7;
 }
 .panel-success {
-  border-color: #d6e9c6;
+  /* border-color: #d6e9c6; */
+  border-color: #769260;
 }
 .panel-success > .panel-heading {
-  color: #3c763d;
+  /* color: #3c763d;
   background-color: #dff0d8;
-  border-color: #d6e9c6;
+  border-color: #d6e9c6; */
+  color: #444444;
+  background-color: #abcc9e;
+  border-color: #769260;
 }
 .panel-success > .panel-heading + .panel-collapse > .panel-body {
   border-top-color: #d6e9c6;
@@ -5579,12 +5583,16 @@ a.list-group-item-danger.active:focus {
   border-bottom-color: #d6e9c6;
 }
 .panel-info {
-  border-color: #bce8f1;
+  /* border-color: #bce8f1; */
+  border-color: #35b0ca;
 }
 .panel-info > .panel-heading {
-  color: #31708f;
+  /* color: #31708f;
   background-color: #d9edf7;
-  border-color: #bce8f1;
+  border-color: #bce8f1; */
+  color: #444444;
+  background-color: #9dced8;
+  border-color: #35b0ca;
 }
 .panel-info > .panel-heading + .panel-collapse > .panel-body {
   border-top-color: #bce8f1;
@@ -5597,12 +5605,16 @@ a.list-group-item-danger.active:focus {
   border-bottom-color: #bce8f1;
 }
 .panel-warning {
-  border-color: #faebcc;
+  /* border-color: #faebcc; */
+  border-color: #c39942;
 }
 .panel-warning > .panel-heading {
-  color: #8a6d3b;
+  /* color: #8a6d3b;
   background-color: #fcf8e3;
-  border-color: #faebcc;
+  border-color: #faebcc; */
+  color: #444444;
+  background-color: #ccbe79;
+  border-color: #c39942;
 }
 .panel-warning > .panel-heading + .panel-collapse > .panel-body {
   border-top-color: #faebcc;
@@ -5615,12 +5627,16 @@ a.list-group-item-danger.active:focus {
   border-bottom-color: #faebcc;
 }
 .panel-danger {
-  border-color: #ebccd1;
+  /* border-color: #ebccd1; */
+  border-color: #a94442;
 }
 .panel-danger > .panel-heading {
-  color: #a94442;
+  /* color: #a94442;
   background-color: #f2dede;
-  border-color: #ebccd1;
+  border-color: #ebccd1; */
+  color: #7d2e2c;
+  background-color: #d4a3a3;
+  border-color: #a94442;
 }
 .panel-danger > .panel-heading + .panel-collapse > .panel-body {
   border-top-color: #ebccd1;

@@ -34,6 +34,16 @@ Bem vindo ao Blog Code-Laravel
                     </a>
                 </div>
             @endcan
+            @can('supervisao', Auth::user())
+            <div class="col-md-3 col-sm-3 col-xs-6">
+                <a href="../../cartaoPro">
+                    <div class="dashboard-div-wrapper bk-clr-four">
+                        <i class="fa fa-credit-card dashboard-div-icon" ></i>
+                        <h3 style="margin:0px;">Cartão + Pró Renal</h3>
+                    </div>
+                </a>
+            </div>
+            @endcan
             @can('administrador', Auth::user())
             <div class="col-md-3 col-sm-3 col-xs-6">
                 <a href="../../repasse">
@@ -43,13 +53,11 @@ Bem vindo ao Blog Code-Laravel
                     </div>
                 </a>
             </div>
-            @endcan
-            @can('supervisao', Auth::user())
             <div class="col-md-3 col-sm-3 col-xs-6">
-                <a href="../../cartaoPro">
-                    <div class="dashboard-div-wrapper bk-clr-four">
-                        <i class="fa fa-credit-card dashboard-div-icon" ></i>
-                        <h3 style="margin:0px;">Cartão + Pró Renal</h3>
+                <a href="../../sanepar">
+                    <div class="dashboard-div-wrapper bk-clr-five">
+                        <i class="fas fa-dollar-sign dashboard-div-icon" ></i>
+                        <h3 style="margin:0px;">Administrar Sanepar</h3>
                     </div>
                 </a>
             </div>

@@ -230,7 +230,7 @@ footer {
 }
 
 .bk-clr-two {
-    background-color: #F94C4C;
+    background-color: #ce4d4d;
 }
 
 .bk-clr-three {
@@ -238,7 +238,11 @@ footer {
 }
 
 .bk-clr-four {
-    background-color: #b739b9;
+    background-color: #8e5e8f;
+}
+
+.bk-clr-five {
+    background-color: #488bc9;
 }
 
 .dashboard-div-icon {

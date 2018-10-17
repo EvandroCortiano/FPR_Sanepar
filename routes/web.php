@@ -65,20 +65,6 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/downloadExcelFiltro', ['as' => 'downloadExcelFiltro', 'uses' => 'RepasseController@downloadExcelFiltro']);
         Route::get('/downloadExcelCancelados', ['as' => 'downloadExcelCancelados', 'uses' => 'RepasseController@downloadExcelCancelados']);
         Route::get('/downloadExcelVencer', ['as' => 'downloadExcelVencer', 'uses' => 'RepasseController@downloadExcelVencer']);
-        
-        Route::get('/downloadExcelRepasse', ['as' => 'downloadExcelRepasse', 'uses' => 'RepasseController@downloadExcelRepasse']);
-        Route::get('/downloadExcelRepasseList', ['as' => 'downloadExcelRepasseList', 'uses' => 'RepasseController@downloadExcelRepasseList']);
-        
-        Route::get('/downloadExcelRecebidosList', ['as' => 'downloadExcelRecebidosList', 'uses' => 'RepasseController@downloadExcelRecebidosList']);
-        
-        Route::get('/findRepasseSanepar', ['as' => 'findRepasseSanepar', 'uses' => 'RepasseController@findRepasseSanepar']);
-        Route::get('/findRepasseSaneparList', ['as' => 'findRepasseSaneparList', 'uses' => 'RepasseController@findRepasseSaneparList']);
-        Route::get('/findRecebidosSaneparList', ['as' => 'findRecebidosSaneparList', 'uses' => 'RepasseController@findRecebidosSaneparList']);
-        Route::get('/findSaneparDate', ['as' => 'findSaneparDate', 'uses' => 'RepasseController@findSaneparDate']);
-
-        Route::post('/importSanepar', ['as' => 'importSanepar', 'uses' => 'RepasseController@importSanepar']);
-        Route::post('/storeReturnSanepar', ['as' => 'storeReturnSanepar', 'uses' => 'RepasseController@storeReturnSanepar']);
-        
     });
 
     //Cartao + pro renal
@@ -90,6 +76,24 @@ Route::group(['middleware' => 'web'], function () {
         //gera arquivo
         Route::get('/downloadExcelProducao', ['as' => 'downloadExcelProducao', 'uses' => 'CartaoController@downloadExcelProducao']);
         Route::get('/downloadExcelList', ['as' => 'downloadExcelList', 'uses' => 'CartaoController@downloadExcelList']);
+    });
+
+    //Controle Sanepar
+    Route::group(['prefix'=>'sanepar', 'as'=>'sanepar.'], function(){
+        Route::get('/', ['as'=>'index','uses'=>'SaneparRetornoController@index']);
+        //arquivo excel de repasse para sanepar
+        Route::get('/downloadExcelRepasse', ['as' => 'downloadExcelRepasse', 'uses' => 'SaneparRetornoController@downloadExcelRepasse']);
+        // Route::get('/downloadExcelRepasseList', ['as' => 'downloadExcelRepasseList', 'uses' => 'SaneparRetornoController@downloadExcelRepasseList']);
+        //criar lista e listar ja enviados (datatable)
+        Route::get('/findRepasseSanepar', ['as' => 'findRepasseSanepar', 'uses' => 'SaneparRetornoController@findRepasseSanepar']);
+        Route::get('/findRepasseSaneparList', ['as' => 'findRepasseSaneparList', 'uses' => 'SaneparRetornoController@findRepasseSaneparList']);
+        //receber arquivo da senapar
+        Route::post('/importSanepar', ['as' => 'importSanepar', 'uses' => 'SaneparRetornoController@importSanepar']);
+        Route::post('/storeReturnSanepar', ['as' => 'storeReturnSanepar', 'uses' => 'SaneparRetornoController@storeReturnSanepar']);
+        //Lista os recebidos da Sanepar
+        Route::get('/downloadExcelRecebidosList', ['as' => 'downloadExcelRecebidosList', 'uses' => 'SaneparRetornoController@downloadExcelRecebidosList']);
+        Route::get('/findRecebidosSaneparList', ['as' => 'findRecebidosSaneparList', 'uses' => 'SaneparRetornoController@findRecebidosSaneparList']);
+        //Route::get('/findSaneparDate', ['as' => 'findSaneparDate', 'uses' => 'SaneparRetornoController@findSaneparDate']);
     });
 
     // Auth::routes();
