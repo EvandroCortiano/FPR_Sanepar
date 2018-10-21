@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Models\doacao;
 use Illuminate\Support\Facades\DB;
 use App\Models\cartao;
+use App\Models\cartao_pessoa;
 
 
 class CartaoRepository{
@@ -82,5 +83,30 @@ class CartaoRepository{
         } catch(\Exception $e){
             return $e;
         }   
+    }
+
+
+    /**
+     * Cadastro de nomes para o cartao
+     */
+    public function storePesCar($data){
+        try{
+            $ccp = cartao_pessoa::create($data);
+            return $ccp;
+        }catch(\Exception $e){
+            return $e;
+        } 
+    }
+
+    /**
+     * Listar Nomes pelo doador/doacao
+     */
+    public function findPesCartao($ccp_ddr_id){
+        try{
+            $ccps = cartao_pessoa::where('ccp_ddr_id','=',$ccp_ddr_id);
+            return $ccps;
+        }catch(\Exception $e){
+            return $e;
+        } 
     }
 }

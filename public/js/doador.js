@@ -68,13 +68,22 @@ $("#formupdateDoador #btnModalEdit").confirmation({
             data: data,
             dataType: 'json',
         }).done(function(data){
+            toastr.success("Dados atualizado com sucesso!")
             window.location.replace("../../doador/edit/"+data.ddr_id);
         }).fail(function(data){
-            toastr.remove();
-            if(data.responseText == 'Error2'){
-                toastr.error("<h4>Matricula já existe para outro doador!</h4>");
-            } else {
-                toastr.error("Erro ao atualizar dados do Doador!");
+            if(data.hasOwnProperty('responseText')){
+                html = '';
+                if(data.responseText){
+                    var error = JSON.parse(data.responseText);
+                    if(error){
+                        $.each(error, function(i, obj){
+                            html += "<h4>"+obj + "</h4>";
+                        });
+                    }
+                }
+                toastr.remove();
+                toastr.error("<b>Falha ao cadastrar:</b><br/>" + html);
+                return false;	
             }
         });
        
@@ -203,6 +212,31 @@ $("#modalCadFone #formStoreFone #btnModalStore").confirmation({
     }
 });
 
+// cadastra nome da pessoa que vai receber o cartao
+$("#modalPesCartao #formStorePesCartao #btnModalStore").confirmation({
+    rootSelector: '[data-toggle=modalStore]',
+    container: 'body',
+    onConfirm: function(){ 
+        data = $("form#formStorePesCartao").serialize();
+        ccp_dr_id = $("#modalPesCartao #formStorePesCartao #ccp_ddr_id").val();
+
+        $.ajax({
+            type: 'post',
+            url: '../../doador/pesCartaoStore',
+            data: data,
+            dataType: 'json',
+        }).done(function(data){
+            toastr.remove();
+            toastr.success("Nome adicionado com sucesso!");
+            tdListNomesCartao();
+            $("#modalPesCartao").modal("hide");
+        }).fail(function(){
+            toastr.remove();
+            toastr.error("Erro ao cadastrar Nome!");
+        });
+    }
+});
+
 //supender doacao
 function deletedDoacao(doa_id, doa_ddr_id){
     $("#modalDeletedDoacao #formDeletedDoa #doa_id").val(doa_id);
@@ -234,3 +268,43 @@ $("#modalDeletedDoacao #formDeletedDoa #btnModalDestroy").confirmation({
         }
     }
 });
+
+//Carrega nome para os cartoes mais pro renal
+tabListNomesCar = '';
+function tdListNomesCartao(){
+    ccp_dr_id = $("#modalPesCartao #formStorePesCartao #ccp_ddr_id").val();
+
+    $.ajax({
+        type: 'get',
+        url: '../../doador/listNomesCar/'+ccp_dr_id,
+        dataType: 'json',
+    }).done(function(data){
+        tabListNomesCar = $('#tablePesCartao').DataTable({
+            destroy: true,
+            paging: true,
+            searching: false,
+            pageLength: 10,
+            info: true,
+            dom: "<'row'<'col-sm-12'<'pull-left'f><'pull-left'T>r<'clearfix'>>>t<'row'<'col-sm-12'<'pull-left'i><'pull-right'p><'clearfix'>>>",
+            language: {
+                info: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                infoEmpty: " ",
+                zeroRecords:  "Sistema não retornou nenhum Nome!",
+                lengthMenu: "_MENU_",
+                searchPlaceholder: "Pesquisar...",
+                paginate: {
+                    "previous":"Anterior",
+                    "next":"Próximo"
+                }
+            },
+            data: data,
+            columns: [
+                { data: 'ccp_nome' },
+                { data: 'ccp_obs' },
+            ]
+        });
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("Erro ao carregar Nome(s) para cartão(ões)!");
+    });
+}

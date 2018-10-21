@@ -34,6 +34,9 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/contatoStore', ['as' => 'contatoStore', 'uses' => 'DoadorController@contatoStore']);
         //delete doacao
         Route::put('/destroyDoacao', ['as' => 'destroyDoacao', 'uses' => 'DoadorController@destroyDoacao']);
+        //Nome cartao
+        Route::post('/pesCartaoStore', ['as' => 'pesCartaoStore', 'uses' => 'DoadorController@pesCartaoStore']);
+        Route::get('/listNomesCar/{ccp_ddr_id}', ['as' => 'listNomesCar', 'uses' => 'DoadorController@listNomesCar']);
     });
 
     //doacao

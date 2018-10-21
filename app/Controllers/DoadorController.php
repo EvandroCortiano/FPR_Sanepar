@@ -12,16 +12,18 @@ use App\Models\status_motivo;
 use App\Models\status_contato;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Repository\CartaoRepository;
 
 class DoadorController extends Controller
 {
-    protected $doador, $doacao;
+    protected $doador, $doacao, $cartao;
 
-    public function __construct(DoadorRepository $doador, DoacaoRepository $doacao)
+    public function __construct(DoadorRepository $doador, DoacaoRepository $doacao, CartaoRepository $cartao)
     {
         $this->middleware('auth');
         $this->doador = $doador;
         $this->doacao = $doacao;
+        $this->cartao = $cartao;
     }
 
     /**
@@ -156,17 +158,10 @@ class DoadorController extends Controller
      * @param  \App\doador  $doador
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(DoadorRequest $request)
     {
         $data = $request->all();
-        $count = count($this->doador->findUniqueMatricula($data['ddr_id'], $data['ddr_matricula']));
-
-        if($count == 0){
-            $ddrUpd = $this->doador->update($data, $data['ddr_id']);
-        } else {
-            return "Error2";
-        }
-
+        $ddrUpd = $this->doador->update($data, $data['ddr_id']);
         return $ddrUpd;
     }
 
@@ -223,6 +218,27 @@ class DoadorController extends Controller
         $data = $request->all();
         $cadTel = $this->doador->storeTelefone($data);
         return $cadTel;
+    }
+
+    /**
+     * Cadastro nomes para gerar cartao
+     */
+    public function pesCartaoStore(Request $request){
+        $data = $request->all();
+
+        //dados de doacao do doador
+        $doa = $this->doacao->findDdr($data['ccp_ddr_id']);
+        if(count($doa) > 0){
+            $data['ccp_doa_id'] = $doa[0]['doa_id'];
+        }
+
+        $ccp = $this->cartao->storePesCar($data);
+        return $ccp;
+    }
+    //lista nomes para o cartao pela doacao e titular
+    public function listNomesCar($ccp_ddr_id){
+        $ccps = $this->cartao->findPesCartao($ccp_ddr_id)->get();
+        return $ccps;
     }
 
 }

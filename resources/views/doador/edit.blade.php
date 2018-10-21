@@ -193,11 +193,18 @@ Cadastro de Doador e suas Doações
 				<div class="panel panel-default">
 					<div class="panel-heading"> CARTÃO + PRÓ-RENAL 
 						<div class="pull-right">
-							{!! Form::button('<span class="glyphicon glyphicon-plus"></span>', ['class'=>'btn btn-sm btn-success', 'id' => 'addDoacao', 'name' => 'addDoacao', 'data-toggle'=>'modal', 'data-target'=>'#modalCadDoacao']) !!}
+							{!! Form::button('<span class="glyphicon glyphicon-plus"></span>', ['class'=>'btn btn-sm btn-success', 'id' => 'addDoacao', 'name' => 'addDoacao', 'data-toggle'=>'modal', 'data-target'=>'#modalPesCartao']) !!}
 						</div>
 					</div>
 					<div class="panel-body">
-
+						<table id="tablePesCartao" class="table table-striped" style="margin-bottom:0px;">
+							<thead>
+								<tr>
+									<th>Nome</th>
+									<th>Obs.</th>
+								</tr>
+							</thead>
+						</table>
 					</div>
 				</div>
 			</div>
@@ -209,11 +216,13 @@ Cadastro de Doador e suas Doações
 @include('doador.modal_doacao')
 @include('doador.modal_fone')
 @include('doador.modal_deleted_doacao')
+@include('doador.modal_pes_cartao')
 
 <script src="{{ asset('js/doador.js') }}"></script>
 <script type='text/javascript'>
 	$(document).ready(function() {
 		$("#menu-top #doadorMenu").addClass('menu-top-active');
+		tdListNomesCartao();
 	});
 </script>
 @stop

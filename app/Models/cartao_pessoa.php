@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class cartaoPessoa extends Model
+class cartao_pessoa extends Model
 {  
     use SoftDeletes;
 
-    protected $table = 'cad_cartao_pessoa';
+    protected $table = 'cad_cartao_pessoas';
 
     protected $primaryKey = 'ccp_id';
 
