@@ -2,6 +2,22 @@
  * Script for Doador
  * by Evandro C Cortiano
  */
+//API sanepar verificar se a matricula e verdadeira
+// http://atvn.sanepar.com.br/acessorapido/ValidarMatricula?fieldId=usuario&fieldValue=12533098&usuario=12533098
+
+$("#formupdateDoador #ddr_matricula").on("change", function(){
+    $.ajax({
+        type: 'get',
+        dataType: 'json',
+        url: 'http://atvn.sanepar.com.br/acessorapido/ValidarMatricula?fieldId=usuario&fieldValue=12533098&usuario=12533098'
+    }).done(function(data){
+console.log(data);
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("Não foi possivel verificar matrícula!");
+    });
+
+});
 
 // Padrao do Toastr
 toastr.options = {
@@ -128,13 +144,14 @@ function tdListDoadores(){
         },
         "data" :   [],   
         "columns": [
-            {data: 'ddr_id' },
-            {data: 'ddr_nome' },
-            {data: 'ddr_cep'},
-            {data: 'ddr_cidade'},
-            {data: 'ddr_telefone_principal'},
-            {data: 'info' },
-            {data: 'link' },
+            {data: 'ddr_id',"width": "5%"},
+            {data: 'ddr_nome',"width": "32%"},
+            {data: 'ddr_matricula',"width": "8%"},
+            {data: 'ddr_cep',"width": "8%"},
+            {data: 'ddr_cidade',"width": "12%"},
+            {data: 'ddr_telefone_principal',"width": "8%"},
+            {data: 'info',"width": "18%"},
+            {data: 'link',"width": "10%"},
             ], 
     });
     $("#tableDoadores_wrapper").css("width","98%");

@@ -20,6 +20,7 @@
                         <tr>
                             <th>ID FPR</th>
                             <th>Nome Doador</th>
+                            <th>Matrícula</th>
                             <th>Cep</th>
                             <th>Cidade</th>
                             <th>Telefone</th>

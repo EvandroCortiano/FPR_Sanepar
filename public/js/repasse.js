@@ -106,7 +106,7 @@ $("#formFiltroProducao #btnExcelProducao").click(function(){
     }).done(function(response){
         toastr.remove();
         toastr.success("Arquivo da Produção gerado com sucesso!");
-        // window.location.href = response.full;
+        window.location.href = response.full;
     }).fail(function(){
         toastr.remove();
         toastr.error("Erro ao gerar Arquivo da Produção!");

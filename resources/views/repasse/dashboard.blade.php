@@ -30,7 +30,6 @@
                                                 de
                                             </div>
                                             <div class="col-sm-11">
-                                                {{-- <span style="font-size: 14px;">Data Inicio:</span> --}}
                                                 {{ Form::date('dataIni', '', ['class' => 'form-control', 'id' => 'dataIni']) }}
                                             </div>
                                         </div>
@@ -41,7 +40,6 @@
                                                 até
                                             </div>
                                             <div class="col-sm-11">
-                                                {{-- <span style="font-size: 14px;">Data Inicio:</span> --}}
                                                 {{ Form::date('dataFim', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'dataFim']) }}
                                             </div>
                                         </div>
@@ -84,24 +82,44 @@
                 </div>
 
                 {{-- Tabela com os cancelados no sistema --}}
-                <div class="col-md-6">
+                <div class="col-md-6" style="padding-right: 8px;">
                     <div class="panel panel-danger">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-sm-3">
-                                    <b>Cancelados</b>
+                                <div class="col-sm-2">
+                                    <b style="font-size:11pt">Cancelados</b>
                                 </div>
                             {{ Form::open(['id' => 'formFiltroCancelados']) }}
-                                <div class="col-sm-6" style="padding: 0px 10px;">
-                                    {{-- <span style="font-size: 14px;">Data Fim:</span> --}}
-                                    {{ Form::date('dataFim', '', ['class' => 'form-control', 'id' => 'dataFim']) }}
-                                </div>
-                                <div class="col-sm-3"  style="padding: 0px;">
-                                    <div class="col-xs-6">
-                                        {{ Form::button('<span class="fa fa-search"></span>', ['class' => 'btn btn-md btn-default pull-right', 'id' => 'btnFiltroCancelados', 'name' => 'btnModalBack']) }}
+                                <div class="col-sm-8" style="padding-left: 35px;">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-sm-1" style="padding:0px">
+                                                    de
+                                                </div>
+                                                <div class="col-sm-11" style="padding: 0px 10px 0px 5px;">
+                                                    {{ Form::date('dataIni', '', ['class' => 'form-control', 'id' => 'dataIni']) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-sm-1" style="padding:0px">
+                                                    até
+                                                </div>
+                                                <div class="col-sm-11" style="padding: 0px 10px 0px 7px;">
+                                                    {{ Form::date('dataFim', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'dataFim']) }}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-xs-6">
+                                </div>
+                                <div class="col-sm-2" style="padding: 0px 10px 0px 0px;">
+                                    <div style="float:right; margin-left:20px">
                                         {{ Form::button('<span class="fas fa-file-excel"></span>', ['class' => 'btn btn-md btn-success pull-right', 'id' => 'btnExcelCancelados', 'name' => 'btnModalBack']) }}
+                                    </div>
+                                    <div style="float:right">
+                                        {{ Form::button('<span class="fa fa-search"></span>', ['class' => 'btn btn-md btn-default pull-right', 'id' => 'btnFiltroCancelados', 'name' => 'btnModalBack']) }}
                                     </div>
                                 </div>
                             {{ Form::close() }}
@@ -122,25 +140,44 @@
                 </div>
 
                 {{-- Tabela com as doacoes a vencer --}}
-                <div class="col-md-6">
+                <div class="col-md-6" style="padding-left: 8px;">
                     <div class="panel panel-warning">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-sm-3">
-                                    <b>À Vencer</b>
+                                <div class="col-sm-2">
+                                    <b style="font-size:11pt">À Vencer</b>
                                 </div>
                             {{ Form::open(['id' => 'formFiltroVencer']) }}
-                                <div class="col-sm-6" style="padding: 0px 10px;">
-                                    {{-- <span style="font-size: 14px;">Data Fim:</span> --}}
-                                    {{ Form::hidden('dataIni', '', ['class' => 'form-control', 'id' => 'dataIni']) }}
-                                    {{ Form::date('dataFim', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'dataFim']) }}
-                                </div>
-                                <div class="col-sm-3"  style="padding: 0px;">
-                                    <div class="col-xs-6">
-                                        {{ Form::button('<span class="fa fa-search"></span>', ['class' => 'btn btn-md btn-default pull-right', 'id' => 'btnFiltroVencer', 'name' => 'btnModalBack']) }}
+                                <div class="col-sm-8" style="padding-left: 35px;">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-sm-1" style="padding:0px">
+                                                    de
+                                                </div>
+                                                <div class="col-sm-11" style="padding: 0px 10px 0px 5px;">
+                                                    {{ Form::date('dataIni', '', ['class' => 'form-control', 'id' => 'dataIni']) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-sm-1" style="padding:0px">
+                                                    até
+                                                </div>
+                                                <div class="col-sm-11" style="padding: 0px 10px 0px 7px;">
+                                                    {{ Form::date('dataFim', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'dataFim']) }}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-xs-6">
+                                </div>
+                                <div class="col-sm-2" style="padding: 0px 10px 0px 0px;">
+                                    <div style="float:right; margin-left:20px">
                                         {{ Form::button('<span class="fas fa-file-excel"></span>', ['class' => 'btn btn-md btn-success pull-right', 'id' => 'btnExcelVencer', 'name' => 'btnModalBack']) }}
+                                    </div>
+                                    <div style="float:right">
+                                        {{ Form::button('<span class="fa fa-search"></span>', ['class' => 'btn btn-md btn-default pull-right', 'id' => 'btnFiltroVencer', 'name' => 'btnModalBack']) }}
                                     </div>
                                 </div>
                             {{ Form::close() }}

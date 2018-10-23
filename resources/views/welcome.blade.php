@@ -43,8 +43,6 @@ Bem vindo ao Blog Code-Laravel
                     </div>
                 </a>
             </div>
-            @endcan
-            @can('administrador', Auth::user())
             <div class="col-md-3 col-sm-3 col-xs-6">
                 <a href="../../repasse">
                     <div class="dashboard-div-wrapper bk-clr-two">
@@ -53,6 +51,8 @@ Bem vindo ao Blog Code-Laravel
                     </div>
                 </a>
             </div>
+            @endcan
+            @can('administrador', Auth::user())
             <div class="col-md-3 col-sm-3 col-xs-6">
                 <a href="../../sanepar">
                     <div class="dashboard-div-wrapper bk-clr-five">
