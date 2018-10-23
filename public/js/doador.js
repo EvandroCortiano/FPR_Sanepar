@@ -2,23 +2,6 @@
  * Script for Doador
  * by Evandro C Cortiano
  */
-//API sanepar verificar se a matricula e verdadeira
-// http://atvn.sanepar.com.br/acessorapido/ValidarMatricula?fieldId=usuario&fieldValue=12533098&usuario=12533098
-
-$("#formupdateDoador #ddr_matricula").on("change", function(){
-    $.ajax({
-        type: 'get',
-        dataType: 'json',
-        url: 'http://atvn.sanepar.com.br/acessorapido/ValidarMatricula?fieldId=usuario&fieldValue=12533098&usuario=12533098'
-    }).done(function(data){
-console.log(data);
-    }).fail(function(){
-        toastr.remove();
-        toastr.error("Não foi possivel verificar matrícula!");
-    });
-
-});
-
 // Padrao do Toastr
 toastr.options = {
     "closeButton": false,
