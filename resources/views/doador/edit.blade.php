@@ -56,7 +56,7 @@ Cadastro de Doador e suas Doações
 						<div class="row">
 							<div class="col-sm-4 formLabelInput2">
 								{{ Form::label('ddrCep', 'Cep') }}
-								{{ Form::text('ddr_cep', $ddr['ddr_cep'], ['class' => 'form-control', 'id' => 'ddr_cep']) }}
+								{{ Form::text('ddr_cep', $ddr['ddr_cep'], ['class' => 'form-control', 'id' => 'ddr_cep', 'data-mask-type' => 'cep']) }}
 							</div>
 							<div class="col-sm-4 formLabelInput2">
 								{{ Form::label('ddrBairro', 'Bairro') }}

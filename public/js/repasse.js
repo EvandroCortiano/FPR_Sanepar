@@ -9,19 +9,19 @@ $(document).ready(function(){
     //seta primeiro dia do mes no forme de filtro pesquisa
     var datenew = new Date();
     primeiroDia = datenew.getFullYear() + '-' + ("0" + datenew.getMonth()).substr(-2) + '-' + "01";
-    // primeiroDia = datenew.getFullYear() + '-' + ("0" + (datenew.getMonth()+1)).substr(-2) + '-' + "01";
-    menosDoisMeses = datenew.getFullYear() + '-' + ("0" + (datenew.getMonth()-1)).substr(-2) + '-' + "01";
+    primeiroDia = datenew.getFullYear() + '-' + ("0" + (datenew.getMonth()+1)).substr(-2) + '-' + "01";
+    // menosDoisMeses = datenew.getFullYear() + '-' + ("0" + (datenew.getMonth()-1)).substr(-2) + '-' + "01";
     $("#formFiltroDoaRepasse #dataIni").val(primeiroDia);
     $("#formFiltroProducao #dataIni").val(primeiroDia);
     $("#formFiltroCancelados #dataFim").val(primeiroDia);
-    $("#formFiltroVencer #dataIni").val(menosDoisMeses);
+    $("#formFiltroVencer #dataIni").val(primeiroDia);
+    // $("#formFiltroVencer #dataIni").val(menosDoisMeses);
     $("#formFiltroProducaoSanepar #dataIni").val(primeiroDia);
 
     //chama funcoes
     filterProduction();
     filterCancel();
     filterVencer();
-    filterProducaoSanepar();
 });
 
 /***********************/
@@ -106,7 +106,7 @@ $("#formFiltroProducao #btnExcelProducao").click(function(){
     }).done(function(response){
         toastr.remove();
         toastr.success("Arquivo da Produção gerado com sucesso!");
-        window.location.href = response.full;
+        // window.location.href = response.full;
     }).fail(function(){
         toastr.remove();
         toastr.error("Erro ao gerar Arquivo da Produção!");

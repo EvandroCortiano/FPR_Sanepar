@@ -14,11 +14,12 @@ use App\Repository\SaneparRepository;
 
 class RepasseController extends Controller
 {
-    
-    protected $doacao, $repasse, $usersRepository, $doador, $sanepar;
+    //CLASS ADMINISTRACAO
+
+    protected $doacao, $repasse, $usersRepository, $doador, $sanepar, $users;
 
     public function __construct(DoacaoRepository $doacao, RepasseRepository $repasse, UsersRepository $usersRepository,
-        DoadorRepository $doador, SaneparRepository $sanepar)
+        DoadorRepository $doador, SaneparRepository $sanepar, UsersRepository $users)
     {
         $this->middleware('auth');
         $this->doacao = $doacao;
@@ -26,6 +27,7 @@ class RepasseController extends Controller
         $this->usersRepository = $usersRepository;
         $this->doador = $doador;
         $this->sanepar = $sanepar;
+        $this->users = $users;
     }
 
     /**
@@ -130,6 +132,9 @@ class RepasseController extends Controller
         if($pesq['dataIni'] && $pesq['dataFim']){
             // cria where's
             $where .= " doa_data between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."' and cad_doacao.deleted_at is null";
+            if($pesq['operador'] != null){
+                $where .= " AND created_user_id = " . $pesq['operador'];
+            }
 
             //realiza a pesquisa
             $data = $this->repasse->findFilterDoaRepasse($where);
@@ -152,8 +157,19 @@ class RepasseController extends Controller
                 return get_object_vars($dt);
             });
 
-            $nomeArq = 'Producao_FPR_Sanepar_' . $pesq['dataIni'] . "_" . $pesq['dataFim'];
-
+            //nome do arquivo
+            if($pesq['operador'] != null){
+                $operador = $this->users->findUser($pesq['operador']);
+                $dtIni = date('d/m/Y', strtotime($pesq['dataIni']));
+                $dtFim = date('d/m/Y', strtotime($pesq['dataFim']));
+                $nomeArq = 'Producao_'. str_replace(" ", "_", $operador[0]['name']) . "_" .
+                            str_replace("/", "", $dtIni) . "_" . str_replace("/", "", $dtFim);
+            } else {
+                $dtIni = date('d/m/Y', strtotime($pesq['dataIni']));
+                $dtFim = date('d/m/Y', strtotime($pesq['dataFim']));
+                $nomeArq = 'Producao_' . str_replace("/", "", $dtIni) . "_" . str_replace("/", "", $dtFim);
+            }
+            
             return Excel::create($nomeArq, function($excel) use ($data) {
                 $excel->sheet('mySheet', function($sheet) use ($data)
                 {
@@ -331,7 +347,10 @@ class RepasseController extends Controller
         if($pesq['dataIni'] && $pesq['dataFim']){
             // cria where's
             $where .= " doa_data between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."' and cad_doacao.deleted_at is null";
-
+            if($pesq['operador'] != null){
+                $where .= " AND created_user_id = " . $pesq['operador'];
+            }
+            
             //realiza a pesquisa
             $doa = $this->repasse->findFilterDoaRepasse($where);
 
