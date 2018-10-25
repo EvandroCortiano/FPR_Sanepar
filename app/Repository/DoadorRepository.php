@@ -11,7 +11,7 @@ class DoadorRepository{
     //busca todos os doadores
     public function findAll(){
         try{
-            return doador::all();
+            return doador::orderBy('ddr_id', 'desc')->get();
         } catch(\Exception $e){
             return $e;
         }

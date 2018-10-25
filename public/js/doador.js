@@ -104,6 +104,7 @@ function tdListDoadores(){
         "searching": true,
         "pageLength": 25,
         "info": false,
+        "ordering": false,
         "dom": "<'row'<'col-sm-12'<'pull-left'f><'pull-left'T>r<'clearfix'>>>t<'row'<'col-sm-12'<'pull-left'i><'pull-right'p><'clearfix'>>>",
         "language": {
             "infoEmpty": "Sistema não retornou nenhum doador!",
@@ -128,11 +129,11 @@ function tdListDoadores(){
         "data" :   [],   
         "columns": [
             {data: 'ddr_id',"width": "5%"},
-            {data: 'ddr_nome',"width": "32%"},
+            {data: 'ddr_nome',"width": "30%"},
             {data: 'ddr_matricula',"width": "8%"},
             {data: 'ddr_cep',"width": "8%"},
             {data: 'ddr_cidade',"width": "12%"},
-            {data: 'ddr_telefone_principal',"width": "8%"},
+            {data: 'ddr_telefone_principal',"width": "10%"},
             {data: 'info',"width": "18%"},
             {data: 'link',"width": "10%"},
             ], 

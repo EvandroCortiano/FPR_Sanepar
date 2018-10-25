@@ -24,15 +24,29 @@ class CartaoRepository{
     // Relaiza a pesquisa com os filtros
     public function findCartaoRepasse($where){
         try{
-            $sql = "select ddr_id, ddr_matricula, ddr_nome, doa_valor_mensal, doa_qtde_parcela, smt_nome, 
-                        doa_valor, ddr_titular_conta, ddr_cidade, doa_data, doa_data_final, ddr_nascimento,
-                        ddr_endereco, ddr_numero, ddr_complemento, ddr_cep, ddr_bairro, doa_id
+            // $sql = "select ddr_id, ddr_matricula, ddr_nome, doa_valor_mensal, doa_qtde_parcela, smt_nome, 
+            //             doa_valor, ddr_titular_conta, ddr_cidade, doa_data, doa_data_final, ddr_nascimento,
+            //             ddr_endereco, ddr_numero, ddr_complemento, ddr_cep, ddr_bairro, doa_id
+            //         from cad_doacao
+            //         left join cad_doador
+            //             on ddr_id = doa_ddr_id
+            //         left join tab_status_motivo
+            //             on smt_id = doa_smt_id
+            //         where " . $where;
+
+            $sql = "select ddr_id, ddr_matricula, ddr_nome, doa_valor_mensal, doa_qtde_parcela, smt_nome,
+                            doa_valor, ddr_titular_conta, ddr_cidade, doa_data, doa_data_final, ddr_nascimento,
+                            ddr_endereco, ddr_numero, ddr_complemento, ddr_cep, ddr_bairro, doa_id, ccp_nome, ccp_obs, car_doa_id
                     from cad_doacao
                     left join cad_doador
-                        on ddr_id = doa_ddr_id
+                            on ddr_id = doa_ddr_id
                     left join tab_status_motivo
-                        on smt_id = doa_smt_id
-                    where " . $where;
+                            on smt_id = doa_smt_id
+                    left join `cad_cartao`
+                            on car_doa_id = doa_id
+                    left join `cad_cartao_pessoas`
+                            on ccp_ddr_id = ddr_id
+                    where " . $where . " order by ddr_id;";
 
             $doacoes = DB::select($sql);
    

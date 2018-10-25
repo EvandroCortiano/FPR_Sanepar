@@ -48,25 +48,43 @@ class CartaoController extends Controller
         if($pesq['dataIni'] && $pesq['dataFim']){
             // cria where's
             $where .= " doa_data between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."' and cad_doacao.deleted_at is null";
+            
 
             //recupera os ids das doacoes ja enviadas para a confeccao
-            $carDoa = $this->cartao->idsRemessaDoaCar();
-            if($carDoa){
-                $where .= " and doa_id not in (".$carDoa[0]->car_doa_ids.")";
-            }
+            // $carDoa = $this->cartao->idsRemessaDoaCar();
+            // if($carDoa){
+            //     $where .= " and doa_id not in (".$carDoa[0]->car_doa_ids.")";
+            // }
+            $where .= " and car_doa_id is null";
 
             //realiza a pesquisa
             $doa = $this->cartao->findCartaoRepasse($where);
 
             if(count($doa) > 0){
                 foreach($doa as $d){
-                    $d->doa_data = date('d/m/Y', strtotime($d->doa_data));
+                    // $d->doa_data = date('d/m/Y', strtotime($d->doa_data));
                     //Cria endereco
-                    $d->endereco = $d->ddr_endereco . ", " . $d->ddr_numero . ($d->ddr_complemento != '' ? "( " . $d->ddr_complemento . " )" : '');
+                    // $d->endereco = $d->ddr_endereco . ", " . $d->ddr_numero . ($d->ddr_complemento != '' ? "( " . $d->ddr_complemento . " )" : '');
+
+                    //verifica se doacao gera cartao
+                    if($d->ccp_nome){
+                        $data[] = [
+                            // 'ddr_titular_conta' => $d->ddr_titular_conta,
+                            // 'ddr_nome' => $d->ddr_nome,
+                            'ccp_nome' => $d->ccp_nome,
+                            'ddr_cidade' => $d->ddr_cidade,
+                            'doa_data' => date('d/m/Y', strtotime($d->doa_data)),
+                            // 'ddr_nascimento' => $d->ddr_nascimento,
+                            'endereco' => $d->ddr_endereco . ", " . $d->ddr_numero . ($d->ddr_complemento != '' ? "( " . $d->ddr_complemento . " )" : ''),
+                            'ddr_cep' => $d->ddr_cep,
+                        ];
+                    }
+
                 }
             }
 
-            return $doa;
+            return $data;
+            // return $doa;
 
         } else{
             return $data[] = ['status'=>'Error','msg'=>'Favor selecionar uma data Inicio e/ou Final valida!'];

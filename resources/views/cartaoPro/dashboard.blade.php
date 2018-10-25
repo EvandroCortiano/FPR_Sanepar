@@ -38,11 +38,12 @@
                             <table id="tableProducaoCartao" class="table table-striped" style="margin-bottom:0px;">
                                 <thead>
                                     <tr>
-                                        <th>Titular da Conta</th>
-                                        <th>Doador</th>
+                                        {{-- <th>Titular da Conta</th>
+                                        <th>Doador</th> --}}
+                                        <th>Nome Cartão</th>
                                         <th>Cidade</th>
                                         <th>Data Doação</th>
-                                        <th>Data Nascimento</th>
+                                        {{-- <th>Data Nascimento</th> --}}
                                         <th>Endereço</th>
                                         <th>Cep</th>
                                     </tr>

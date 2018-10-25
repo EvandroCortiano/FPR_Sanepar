@@ -86,11 +86,12 @@ function filterProductionCard(){
             },
             data: data,
             columns: [
-                { data: 'ddr_titular_conta' },
-                { data: 'ddr_nome' },
+                // { data: 'ddr_titular_conta' },
+                // { data: 'ddr_nome' },
+                { data: 'ccp_nome' },
                 { data: 'ddr_cidade' },
                 { data: 'doa_data' },
-                { data: 'ddr_nascimento' },
+                // { data: 'ddr_nascimento' },
                 { data: 'endereco' },
                 { data: 'ddr_cep' }
             ]
