@@ -81,9 +81,11 @@
                             <table id="tableListCartao" class="table table-striped" style="margin-bottom:0px;">
                                 <thead>
                                     <tr>
+                                        <th>Nome Cartão</th>
                                         <th>Titular da Conta</th>
-                                        <th>Doador</th>
-                                        <th>Data Nascimento</th>
+                                        {{-- <th>Doador</th> --}}
+                                        {{-- <th>Data Nascimento</th> --}}
+                                        <th>Data Doação</th>
                                         <th>Endereço</th>
                                         <th>Cep</th>
                                         <th>Cidade</th>

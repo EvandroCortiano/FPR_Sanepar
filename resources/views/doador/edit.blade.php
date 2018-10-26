@@ -22,8 +22,10 @@ Cadastro de Doador e suas Doações
 					<div class="form-group">
 						<div class="row">
 							<div class="col-sm-12 formLabelInput">
-								<label for="ddrNome">Nome do Doador <span style="color: #c70707;font-size: 11px;">(Cartão + Pró Renal)</span></label>
-								{{ Form::text('ddr_nome', $ddr['ddr_nome'], ['class' => 'form-control', 'id' => 'ddr_nome']) }}
+								{{-- <label for="ddrNome">Nome do Doador <span style="color: #c70707;font-size: 11px;">(Cartão + Pró Renal)</span></label>
+								{{ Form::text('ddr_nome', $ddr['ddr_nome'], ['class' => 'form-control', 'id' => 'ddr_nome']) }} --}}
+								<label for="ddrTitularConta">Titular da Conta <span style="color: #c70707;font-size: 11px;">(Nome Doador)</span></label>
+								{{ Form::text('ddr_titular_conta', $ddr['ddr_titular_conta'], ['class' => 'form-control', 'id' => 'ddr_titular_conta']) }}
 							</div>
 						</div>
 						<div class="row">
@@ -34,9 +36,17 @@ Cadastro de Doador e suas Doações
 									<img src="{{ asset('img/saneparApp.jpg') }}" width="20px">
 								</a>
 							</div>
-							<div class="col-sm-8 formLabelInput2">
-								<label for="ddrTitularConta">Titular da Conta <span style="color: #c70707;font-size: 11px;">(Nome Doador)</span></label>
-								{{ Form::text('ddr_titular_conta', $ddr['ddr_titular_conta'], ['class' => 'form-control', 'id' => 'ddr_titular_conta']) }}
+							<div class="col-sm-4 formLabelInput2" style="padding: 0px 8px 0px 30px;">
+							{{-- <div class="col-sm-8 formLabelInput2"> --}}
+								{{-- <label for="ddrTitularConta">Titular da Conta <span style="color: #c70707;font-size: 11px;">(Nome Doador)</span></label>
+								{{ Form::text('ddr_titular_conta', $ddr['ddr_titular_conta'], ['class' => 'form-control', 'id' => 'ddr_titular_conta']) }} --}}
+								{{ Form::label('ddrCpf', 'CPF') }}
+								{{ Form::text('ddr_cpf', $ddr['ddr_cpf'], ['class' => 'form-control', 'id' => 'ddr_cpf', 'data-mask-type' => 'cpf']) }}
+							{{-- </div> --}}
+							</div>
+							<div class="col-sm-4 formLabelInput2">
+								{{ Form::label('ddrNascimento', 'Data Nascimento') }}
+								{{ Form::date('ddr_nascimento', $ddr['ddr_nascimento'], ['class' => 'form-control', 'id' => 'ddr_nascimento']) }}
 							</div>
 						</div>
 						<div class="row">
@@ -67,8 +77,8 @@ Cadastro de Doador e suas Doações
 								{{ Form::text('ddr_cidade', $ddr['ddr_cidade'], ['class' => 'form-control', 'id' => 'ddr_cidade']) }}
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-sm-6 formLabelInput2">
+						{{-- <div class="row">
+							<div class="col-sm-4 formLabelInput2">
 								{{ Form::label('ddrNascimento', 'Data Nascimento') }}
 								{{ Form::date('ddr_nascimento', $ddr['ddr_nascimento'], ['class' => 'form-control', 'id' => 'ddr_nascimento']) }}
 							</div>
@@ -76,7 +86,7 @@ Cadastro de Doador e suas Doações
 								{{ Form::label('ddrCpf', 'CPF') }}
 								{{ Form::text('ddr_cpf', $ddr['ddr_cpf'], ['class' => 'form-control', 'id' => 'ddr_cpf']) }}
 							</div>
-						</div>
+						</div> --}}
 					</div>
 					<div class="table-responsive-sm">
 						<table class="table table-bordered">
@@ -118,6 +128,7 @@ Cadastro de Doador e suas Doações
 					</div>
 					<div class="panel-body">
 						@if(isset($doa))
+							{{ Form::hidden('ctrlDoacao','yes',['id'=>'ctrlDoacao']) }}
 							<div class="table-responsive">
 								<table class="table table-striped">
 									<thead>
@@ -148,6 +159,7 @@ Cadastro de Doador e suas Doações
 							</div>
 						@else
 							<div id="formDoadorDoador">
+								{{ Form::hidden('ctrlDoacao','no',['id'=>'ctrlDoacao']) }}
 								{!! Form::open(['id' => 'formStoreDoadorDoacao']) !!}
 									{{ Form::hidden('doa_ddr_id', $ddr['ddr_id'],['id'=>'doa_ddr_id']) }}
 									<div class="row">
@@ -193,7 +205,7 @@ Cadastro de Doador e suas Doações
 				<div class="panel panel-default">
 					<div class="panel-heading"> CARTÃO + PRÓ-RENAL 
 						<div class="pull-right">
-							{!! Form::button('<span class="glyphicon glyphicon-plus"></span>', ['class'=>'btn btn-sm btn-success', 'id' => 'addDoacao', 'name' => 'addDoacao', 'data-toggle'=>'modal', 'data-target'=>'#modalPesCartao']) !!}
+							{!! Form::button('<span class="glyphicon glyphicon-plus"></span>', ['class'=>'btn btn-sm btn-success', 'id' => 'addNomeCartao', 'name' => 'addNomeCartao']) !!}
 						</div>
 					</div>
 					<div class="panel-body">

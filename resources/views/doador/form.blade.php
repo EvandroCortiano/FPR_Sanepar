@@ -22,18 +22,31 @@ Cadastrar novo doador!
 					<div class="form-group">
 						<div class="row">
 							<div class="col-sm-12 formLabelInput">
-								<label for="ddrNome">Nome do Doador <span style="color: #c70707;font-size: 11px;">(Cartão + Pró Renal)</span></label>
-								{{ Form::text('ddr_nome', '', ['class' => 'form-control', 'id' => 'ddr_nome']) }}
+								{{-- <label for="ddrNome">Nome do Doador <span style="color: #c70707;font-size: 11px;">(Cartão + Pró Renal)</span></label>
+								{{ Form::text('ddr_nome', '', ['class' => 'form-control', 'id' => 'ddr_nome']) }} --}}
+								<label for="ddrTitularConta">Titular da Conta <span style="color: #c70707;font-size: 11px;">(Nome Doador)</span></label>
+								{{ Form::text('ddr_titular_conta', '', ['class' => 'form-control', 'id' => 'ddr_titular_conta']) }}
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-sm-4 formLabelInput2">
 								{{ Form::label('ddrMatricula', 'Matricula') }}
-								{{ Form::text('ddr_matricula', '', ['class' => 'form-control', 'id' => 'ddr_matricula']) }}
+								{{ Form::text('ddr_matricula', '', ['class' => 'form-control', 'id' => 'ddr_matricula', 'style' => 'width: 92%;']) }}
+								<a href="http://site.sanepar.com.br/servicos/quer-pagar-sua-conta" target="_blank" style="margin:-29px 0px 0px 0px;float:right;">
+									<img src="{{ asset('img/saneparApp.jpg') }}" width="28px">
+								</a>
 							</div>
-							<div class="col-sm-8 formLabelInput2">
+							{{-- <div class="col-sm-8 formLabelInput2">
 								<label for="ddrTitularConta">Titular da Conta <span style="color: #c70707;font-size: 11px;">(Nome Doador)</span></label>
 								{{ Form::text('ddr_titular_conta', '', ['class' => 'form-control', 'id' => 'ddr_titular_conta']) }}
+							</div> --}}
+							<div class="col-sm-4 formLabelInput2">
+								{{ Form::label('ddrNascimento', 'Data Nascimento') }}
+								{{ Form::date('ddr_nascimento', '', ['class' => 'form-control', 'id' => 'ddr_nascimento']) }}
+							</div>
+							<div class="col-sm-4 formLabelInput2">
+								{{ Form::label('ddrCpf', 'CPF') }}
+								{{ Form::text('ddr_cpf', '', ['class' => 'form-control', 'id' => 'ddr_cpf', 'data-mask-type' => 'cpf']) }}
 							</div>
 						</div>
 						<div class="row">
@@ -53,7 +66,7 @@ Cadastrar novo doador!
 						<div class="row">
 							<div class="col-sm-4 formLabelInput2">
 								{{ Form::label('ddrCep', 'Cep') }}
-								{{ Form::text('ddr_cep', '', ['class' => 'form-control', 'id' => 'ddr_cep']) }}
+								{{ Form::text('ddr_cep', '', ['class' => 'form-control', 'id' => 'ddr_cep', 'data-mask-type' => 'cep']) }}
 							</div>
 							<div class="col-sm-4 formLabelInput2">
 								{{ Form::label('ddrBairro', 'Bairro') }}
@@ -64,7 +77,7 @@ Cadastrar novo doador!
 								{{ Form::text('ddr_cidade', '', ['class' => 'form-control', 'id' => 'ddr_cidade']) }}
 							</div>
 						</div>
-						<div class="row">
+						{{-- <div class="row">
 							<div class="col-sm-6 formLabelInput2">
 								{{ Form::label('ddrNascimento', 'Data Nascimento') }}
 								{{ Form::date('ddr_nascimento', '', ['class' => 'form-control', 'id' => 'ddr_nascimento']) }}
@@ -73,7 +86,7 @@ Cadastrar novo doador!
 								{{ Form::label('ddrCpf', 'CPF') }}
 								{{ Form::text('ddr_cpf', '', ['class' => 'form-control', 'id' => 'ddr_cpf']) }}
 							</div>
-						</div>
+						</div> --}}
 					</div>
 					<hr />
 					@include('layouts.botoes',['buttons' => ['btnStore']])

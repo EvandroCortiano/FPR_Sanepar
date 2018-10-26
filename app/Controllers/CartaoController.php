@@ -111,23 +111,30 @@ class CartaoController extends Controller
             $cont = 0;
 
             //recupera os ids das doacoes ja enviadas para a confeccao
-            $carDoa = $this->cartao->idsRemessaDoaCar();
-            if($carDoa){
-                $where .= " and doa_id not in (".$carDoa[0]->car_doa_ids.")";
-            }
+            // $carDoa = $this->cartao->idsRemessaDoaCar();
+            // if($carDoa){
+            //     $where .= " and doa_id not in (".$carDoa[0]->car_doa_ids.")";
+            // }
+            $where .= " and car_doa_id is null";
 
+            //recebe valores
             $data = $this->cartao->findCartaoRepasse($where);
 
-            $nomeArq = 'Cartao_mais_Pro_' . $pesq['dataIni'] . "_" . $pesq['dataFim'];
+            //formata data
+            $dtIni = date('d/m/Y', strtotime($pesq['dataIni']));
+            $dtFim = date('d/m/Y', strtotime($pesq['dataFim']));
+
+            $nomeArq = 'Cartao_mais_Pro_' . str_replace("/", "", $dtIni) . "_" . str_replace("/", "", $dtFim);
             $aux = '';
+
             if(count($data) > 0){
                 foreach($data as $d){
-                    // criar array para arquivo excel
-                    if($d->ddr_nome == $d->ddr_titular_conta){
+                    if($d->ccp_nome){
                         $cont++;
+                        //Cria listagem dos cartoes a serem gerados
                         $dataExcel[] = [
                             'Qnt' => $cont,
-                            'Nome Completo' => $d->ddr_nome,
+                            'Nome Completo' => $d->ccp_nome,
                             'Endereço'=> $d->ddr_endereco,
                             'Numero' => $d->ddr_numero,
                             'Complemento' => $d->ddr_complemento,
@@ -136,46 +143,72 @@ class CartaoController extends Controller
                             'CEP' => $d->ddr_cep,
                             'OBS' => ''
                         ];
-                    } else {
-                        if($d->ddr_nome != '' && $d->ddr_titular_conta != ''){
-                            // com o nome do doador
-                            $cont++;
-                            $dataExcel[] = [
-                                'Qnt' => $cont,
-                                'Nome Completo' => $d->ddr_nome,
-                                'Endereço'=> $d->ddr_endereco,
-                                'Numero' => $d->ddr_numero,
-                                'Complemento' => $d->ddr_complemento,
-                                'Bairro' => $d->ddr_bairro,
-                                'Cidade/Estado' => $d->ddr_cidade,
-                                'CEP' => $d->ddr_cep,
-                                'OBS' => ''
-                            ];
-                            // com o nome do titular
-                            $cont++;
-                            $dataExcel[] = [
-                                'Qnt' => $cont,
-                                'Nome Completo' => $d->ddr_titular_conta,
-                                'Endereço'=> $d->ddr_endereco,
-                                'Numero' => $d->ddr_numero,
-                                'Complemento' => $d->ddr_complemento,
-                                'Bairro' => $d->ddr_bairro,
-                                'Cidade/Estado' => $d->ddr_cidade,
-                                'CEP' => $d->ddr_cep,
-                                'OBS' => ''
-                            ];
-                        }
+
+                        // cria array para salvar na base de dados cad_cartao
+                        $dataBD[] = [
+                            'car_ddr_id' => $d->ddr_id,
+                            'car_doa_id' => $d->doa_id,
+                            'car_data' => Carbon::now()->toDateString(),
+                            'car_arquivo' => $nomeArq
+                        ];
                     }
 
+
+                    // criar array para arquivo excel
+                    // if($d->ddr_nome == $d->ddr_titular_conta){
+                    //     $cont++;
+                    //     $dataExcel[] = [
+                    //         'Qnt' => $cont,
+                    //         'Nome Completo' => $d->ddr_nome,
+                    //         'Endereço'=> $d->ddr_endereco,
+                    //         'Numero' => $d->ddr_numero,
+                    //         'Complemento' => $d->ddr_complemento,
+                    //         'Bairro' => $d->ddr_bairro,
+                    //         'Cidade/Estado' => $d->ddr_cidade,
+                    //         'CEP' => $d->ddr_cep,
+                    //         'OBS' => ''
+                    //     ];
+                    // } else {
+                    //     if($d->ddr_nome != '' && $d->ddr_titular_conta != ''){
+                    //         // com o nome do doador
+                    //         $cont++;
+                    //         $dataExcel[] = [
+                    //             'Qnt' => $cont,
+                    //             'Nome Completo' => $d->ddr_nome,
+                    //             'Endereço'=> $d->ddr_endereco,
+                    //             'Numero' => $d->ddr_numero,
+                    //             'Complemento' => $d->ddr_complemento,
+                    //             'Bairro' => $d->ddr_bairro,
+                    //             'Cidade/Estado' => $d->ddr_cidade,
+                    //             'CEP' => $d->ddr_cep,
+                    //             'OBS' => ''
+                    //         ];
+                    //         // com o nome do titular
+                    //         $cont++;
+                    //         $dataExcel[] = [
+                    //             'Qnt' => $cont,
+                    //             'Nome Completo' => $d->ddr_titular_conta,
+                    //             'Endereço'=> $d->ddr_endereco,
+                    //             'Numero' => $d->ddr_numero,
+                    //             'Complemento' => $d->ddr_complemento,
+                    //             'Bairro' => $d->ddr_bairro,
+                    //             'Cidade/Estado' => $d->ddr_cidade,
+                    //             'CEP' => $d->ddr_cep,
+                    //             'OBS' => ''
+                    //         ];
+                    //     }
+                    // }
+
                     // cria array para salvar na base de dados cad_cartao
-                    $dataBD[] = [
-                        'car_ddr_id' => $d->ddr_id,
-                        'car_doa_id' => $d->doa_id,
-                        'car_data' => Carbon::now()->toDateString(),
-                        'car_arquivo' => $nomeArq
-                    ];
+                    // $dataBD[] = [
+                    //     'car_ddr_id' => $d->ddr_id,
+                    //     'car_doa_id' => $d->doa_id,
+                    //     'car_data' => Carbon::now()->toDateString(),
+                    //     'car_arquivo' => $nomeArq
+                    // ];
                 }
             }
+
             // Salva valores da doa na base de dados e vincula a competencia
             foreach($dataBD as $db){
                 $cadCartao = $this->cartao->store($db);
@@ -213,7 +246,7 @@ class CartaoController extends Controller
         if($pesq['car_data']){
             
             // cria where's
-            $where .= " where car_data = '" . $pesq['car_data'] . "';";
+            $where .= " where car_data = '" . $pesq['car_data'] . "'";
 
             //realiza a pesquisa
             $card = $this->cartao->findCartaoList($where);
@@ -222,6 +255,7 @@ class CartaoController extends Controller
                 foreach($card as $d){
                     //Cria endereco
                     $d->endereco = $d->ddr_endereco . ", " . $d->ddr_numero . ($d->ddr_complemento != '' ? "( " . $d->ddr_complemento . " )" : '');
+                    $d->doa_data = date('d/m/Y', strtotime($d->doa_data));
                 }
                 return $card;
             }
@@ -240,20 +274,23 @@ class CartaoController extends Controller
 
         // Cria/utiliza filtros
         if($pesq['car_data']){
+            $dtData = date('d/m/Y', strtotime($pesq['car_data']));
+
             //realiza a pesquisa
-            $where .= " where car_data = '" . $pesq['car_data'] . "';";
-            $nomeArq = 'Listagem_ja_enviados_cartao_Pro_' . $pesq['car_data'];
+            $where .= " where car_data = '" . $pesq['car_data'] . "'";
+            $nomeArq = 'Listagem_ja_enviados_cartao_Pro_' . str_replace("/", "", $dtData);
         } else {
             $nomeArq = 'Listagem_ja_enviados_cartao_Pro_Todos';
         }
 
         $data = $this->cartao->findCartaoList($where);
-        
+
         if(count($data) > 0){
             foreach($data as $d){
                 // criar array para arquivo excel
                 $dataExcel[] = [
-                    'DOADOR' => $d->ddr_nome,
+                    // 'DOADOR' => $d->ddr_nome,
+                    'NOME CARTÃO' => $d->ccp_nome,
                     'ENDEREÇO'=> $d->ddr_endereco . ", " . $d->ddr_numero . ($d->ddr_complemento != '' ? "( " . $d->ddr_complemento . " )" : ''),
                     'DATA DE ENVIO' => date('d/m/Y', strtotime($d->car_data)),
                     'DATA DOÇÃO' => date('d/m/Y', strtotime($d->doa_data)),

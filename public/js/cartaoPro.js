@@ -13,7 +13,6 @@ $(document).ready(function(){
     } else {
         primeiroDia = datenew.getFullYear() + '-' + ("0" + datenew.getMonth()).substr(-2) + '-' + "20";
     }
-    console.log(primeiroDia);
     $("#formProducaoCartao #dataIni").val(primeiroDia);
 
     //chama funcoes
@@ -162,12 +161,14 @@ function listProductionCard(){
             },
             data: data,
             columns: [
-                { data: 'ddr_titular_conta' },
-                { data: 'ddr_nome' },
-                { data: 'ddr_nascimento' },
-                { data: 'endereco' },
-                { data: 'ddr_cep' },
-                { data: 'ddr_cidade' }
+                { data: 'ccp_nome', "width": "24%" },
+                { data: 'ddr_titular_conta', "width": "24%" },
+                // { data: 'ddr_nome' },
+                // { data: 'ddr_nascimento' },
+                { data: 'doa_data', "width": "9%" },
+                { data: 'endereco', "width": "24%" },
+                { data: 'ddr_cep', "width": "9%" },
+                { data: 'ddr_cidade', "width": "10%" }
             ]
         });
         // $("#tableAllDoacao_wrapper").parent().css("overflow-x","hidden");

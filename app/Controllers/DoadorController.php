@@ -59,6 +59,15 @@ class DoadorController extends Controller
     public function store(DoadorRequest $request)
     {
         $data = $request->all();
+
+        //ajusta valores
+        $data['ddr_titular_conta'] = strtoupper($data['ddr_titular_conta']);
+        $data['ddr_nome'] = strtoupper($data['ddr_titular_conta']);
+        $data['ddr_bairro'] = strtoupper($data['ddr_bairro']);
+        $data['ddr_cidade'] = strtoupper($data['ddr_cidade']);
+        $data['ddr_complemento'] = strtoupper($data['ddr_complemento']); 
+        $data['ddr_endereco'] = strtoupper($data['ddr_endereco']); 
+
         //realiza o cadastro
         $cadDdr = $this->doador->store($data);
 
@@ -161,6 +170,15 @@ class DoadorController extends Controller
     public function update(DoadorRequest $request)
     {
         $data = $request->all();
+
+        //ajusta valores
+        $data['ddr_titular_conta'] = strtoupper($data['ddr_titular_conta']);
+        $data['ddr_nome'] = strtoupper($data['ddr_titular_conta']);
+        $data['ddr_bairro'] = strtoupper($data['ddr_bairro']);
+        $data['ddr_cidade'] = strtoupper($data['ddr_cidade']);
+        $data['ddr_complemento'] = strtoupper($data['ddr_complemento']); 
+        $data['ddr_endereco'] = strtoupper($data['ddr_endereco']); 
+
         $ddrUpd = $this->doador->update($data, $data['ddr_id']);
         return $ddrUpd;
     }
@@ -225,6 +243,8 @@ class DoadorController extends Controller
      */
     public function pesCartaoStore(Request $request){
         $data = $request->all();
+        //ajusta valores
+        $data['ccp_nome'] = strtoupper($data['ccp_nome']);
 
         //dados de doacao do doador
         $doa = $this->doacao->findDdr($data['ccp_ddr_id']);

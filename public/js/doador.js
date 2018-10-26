@@ -68,7 +68,7 @@ $("#formupdateDoador #btnModalEdit").confirmation({
             dataType: 'json',
         }).done(function(data){
             toastr.success("Dados atualizado com sucesso!")
-            window.location.replace("../../doador/edit/"+data.ddr_id);
+            // window.location.replace("../../doador/edit/"+data.ddr_id);
         }).fail(function(data){
             if(data.hasOwnProperty('responseText')){
                 html = '';
@@ -123,7 +123,7 @@ function tdListDoadores(){
                 return json;
             },
             "error": function ( settings, helpPage, message ){
-                toastr.error("Erro ao receber Doadores."+message);
+                toastr.error("<h4>Erro ao receber Doadores."+message+"<br/> Favor contactar o responsável pelo sistema!</h4>)");
             }
         },
         "data" :   [],   
@@ -181,7 +181,7 @@ $("#modalContato #formStoreContato #btnModalStore").confirmation({
             console.log(data);
         }).fail(function(){
             toastr.remove();
-            toastr.error("Erro ao cadastrar Contato com o Doador!");
+            toastr.error("<h4>Erro ao cadastrar Contato com o Doador! <br/> Favor contactar o responsável pelo sistema!</h4>");
         });
         console.log(data);
     }
@@ -208,7 +208,7 @@ $("#modalCadFone #formStoreFone #btnModalStore").confirmation({
             window.location.replace("../../doador/edit/"+data.tel_ddr_id);
         }).fail(function(){
             toastr.remove();
-            toastr.error("Erro ao cadastrar Contato com o Doador!");
+            toastr.error("<h4>Erro ao cadastrar Contato com o Doador! <br/> Favor contactar o responsável pelo sistema!</h4>");
         });
     }
 });
@@ -233,7 +233,7 @@ $("#modalPesCartao #formStorePesCartao #btnModalStore").confirmation({
             $("#modalPesCartao").modal("hide");
         }).fail(function(){
             toastr.remove();
-            toastr.error("Erro ao cadastrar Nome!");
+            toastr.error("<h4>Erro ao cadastrar Nome! <br/> Favor contactar o responsável pelo sistema!</h4>");
         });
     }
 });
@@ -261,7 +261,7 @@ $("#modalDeletedDoacao #formDeletedDoa #btnModalDestroy").confirmation({
                 window.location.replace("../../doador/edit/"+data.doa_ddr_id);
             }).fail(function(){
                 toastr.remove();
-                toastr.error("Erro ao suspender doação!");
+                toastr.error("<h4>Erro ao suspender doação! <br/> Favor contactar o responsável pelo sistema!</h4>");
             });
         } else {
             toastr.remove();
@@ -306,6 +306,18 @@ function tdListNomesCartao(){
         });
     }).fail(function(){
         toastr.remove();
-        toastr.error("Erro ao carregar Nome(s) para cartão(ões)!");
+        toastr.error("<h4>Erro ao carregar Nome(s) para cartão(ões)! <br/> Favor contactar o responsável pelo sistema!</h4>");
     });
 }
+
+//abre modal para cadastrar Nome Cartao
+$("#addNomeCartao").click(function(){
+    var ctrlDoacao = $("#ctrlDoacao").val();
+
+    if(ctrlDoacao == 'yes'){
+        $("#modalPesCartao").modal("show");
+    } else {
+        toastr.remove();
+        toastr.error("<h4>Favor cadastrar a doação, após o cadastro inserir os nomes das pessoas que receberam o Cartão + Pró Renal!</h4>");
+    }
+});

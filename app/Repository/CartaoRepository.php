@@ -82,13 +82,15 @@ class CartaoRepository{
     // Relaiza a pesquisa com os filtros
     public function findCartaoList($where){
         try{
-        $sql = "select car_data, ddr_nome, ddr_titular_conta, ddr_nascimento, ddr_endereco, ddr_numero, ddr_complemento, ddr_cep, ddr_cidade, doa_data
+        $sql = "select car_data, ddr_nome, ddr_titular_conta, ddr_nascimento, ddr_endereco, ddr_numero, ddr_complemento, ddr_cep, ddr_cidade, doa_data, ccp_nome
                     from cad_cartao
                     left join cad_doador
                         on ddr_id = car_ddr_id
                     left join cad_doacao
-                        on doa_id = car_doa_id" 
-                . $where;
+                        on doa_id = car_doa_id
+                    left join cad_cartao_pessoas
+                        on ccp_ddr_id = car_ddr_id" 
+                . $where . " group by ccp_nome";
 
         $listCard = DB::select($sql);
     
