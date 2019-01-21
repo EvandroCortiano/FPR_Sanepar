@@ -26,7 +26,7 @@ class DoadorRequest extends FormRequest
         return [
             // 'ddr_nome' => 'required|max:150',
             'ddr_titular_conta' => 'required|max:150',
-            'ddr_matricula' => 'required|unique:cad_doador'
+            'ddr_matricula' => 'required|unique:cad_doador,ddr_matricula,' . $this->ddr_id . ',ddr_id'
         ];
     }
 
