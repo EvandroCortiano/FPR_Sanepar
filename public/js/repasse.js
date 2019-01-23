@@ -13,7 +13,7 @@ $(document).ready(function(){
     // menosDoisMeses = datenew.getFullYear() + '-' + ("0" + (datenew.getMonth()-1)).substr(-2) + '-' + "01";
     $("#formFiltroDoaRepasse #dataIni").val(primeiroDia);
     $("#formFiltroProducao #dataIni").val(primeiroDia);
-    $("#formFiltroCancelados #dataFim").val(primeiroDia);
+    $("#formFiltroCancelados #dataIni").val(primeiroDia);
     $("#formFiltroVencer #dataIni").val(primeiroDia);
     // $("#formFiltroVencer #dataIni").val(menosDoisMeses);
     $("#formFiltroProducaoSanepar #dataIni").val(primeiroDia);

@@ -188,12 +188,14 @@ class RepasseController extends Controller
 
         // cria variaveis
         $data = array();
+        $dataExc = array();
         $where = '';
 
         // Cria/utiliza filtros
         if($pesq['dataFim']){
             // cria where's
-            $where .= " deleted_at is not null and cad_doacao.deleted_at > '" . $pesq['dataFim'] . "'";
+            // $where .= " deleted_at is not null and cad_doacao.deleted_at > '" . $pesq['dataFim'] . "'";
+            $where .= " cad_doacao.deleted_at is not null and cad_doacao.deleted_at between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."'";
             $on = " on ddr_id = doa_ddr_id ";
 
             //realiza a pesquisa
@@ -209,15 +211,23 @@ class RepasseController extends Controller
                         $d->ddr_nometitular = $d->ddr_titular_conta;
                     }
                     $d->info = 'ok';
+
+                    $dataExc[] = [
+                        'Nome_titular' => $d->ddr_nometitular,
+                        'Matricula' => $d->ddr_matricula,
+                        'Data_cancelamento' => $d->deleted_at,
+                        'Motivo' => $d->doa_justifica_cancelamento
+                    ];
                 }
             }       
             
-            $data = collect($data);
-            $data = $data->map(function ($dt){
-                return get_object_vars($dt);
-            });
+            // $data = collect($data);
+            $data = collect($dataExc);
+            // $data = $data->map(function ($dt){
+            //     return get_object_vars($dt);
+            // });
 
-            $nomeArq = 'Cancelados_FPR_Sanepar_' . $pesq['dataFim'];
+            $nomeArq = 'Cancelados_FPR_Sanepar_' . $pesq['dataIni'] . "_" . $pesq['dataFim'];
 
             return Excel::create($nomeArq, function($excel) use ($data) {
                 $excel->sheet('mySheet', function($sheet) use ($data)
@@ -386,9 +396,10 @@ class RepasseController extends Controller
         $where = '';
         
         // Cria/utiliza filtros
-        if($pesq['dataFim']){
+        if($pesq['dataIni'] && $pesq['dataFim']){
             // cria where's
-            $where .= " cad_doacao.deleted_at is not null and cad_doacao.deleted_at > '" . $pesq['dataFim'] . "'";
+            // $where .= " cad_doacao.deleted_at is not null and cad_doacao.deleted_at > '" . $pesq['dataFim'] . "'";
+            $where .= " cad_doacao.deleted_at is not null and cad_doacao.deleted_at between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."'";
             $on = " on ddr_id = doa_ddr_id ";
 
             //realiza a pesquisa
