@@ -41,6 +41,8 @@ Route::group(['middleware' => 'web'], function () {
 
     //doacao
     Route::post('/doacao/store','DoacaoController@store');
+    //enviar email cancelamento
+    ROute::get('/doacao/mailCancelamento','MailController@mailCancelamento');
 
     //pessoas
     Route::group(['prefix'=>'pessoas','as'=>'pessoas.'], function(){
