@@ -11,7 +11,7 @@ toastr.options = {
     "positionClass": "toast-top-full-width",
     "preventDuplicates": false,
     "onclick": null,
-    "showDuration": "300",
+    "showDuration": "400",
     "hideDuration": "1000",
     "timeOut": "5000",
     "extendedTimeOut": "1000",
@@ -258,7 +258,15 @@ $("#modalDeletedDoacao #formDeletedDoa #btnModalDestroy").confirmation({
                 data: data,
                 dataType: 'json',
             }).done(function(data){
-                window.location.replace("../../doador/edit/"+data.doa_ddr_id);
+                if(data.error){    
+                    toastr.remove();
+                    toastr.warning(data.msg);
+                    setTimeout(function(){ 
+                        window.location.replace("../../doador/edit/"+data.doa_ddr_id);
+                    }, 4000)
+                } else {
+                    window.location.replace("../../doador/edit/"+data.doa_ddr_id);
+                }
             }).fail(function(){
                 toastr.remove();
                 toastr.error("<h4>Erro ao suspender doação! <br/> Favor contactar o responsável pelo sistema!</h4>");

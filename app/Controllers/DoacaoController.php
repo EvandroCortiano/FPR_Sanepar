@@ -7,6 +7,8 @@ use App\Controllers\Controller;
 use App\Repository\DoacaoRepository;
 use App\Http\Requests\DoacaoRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\admMail;
 
 class DoacaoController extends Controller
 {
@@ -96,4 +98,5 @@ class DoacaoController extends Controller
     {
         //
     }
+
 }

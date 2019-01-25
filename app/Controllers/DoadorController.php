@@ -13,6 +13,8 @@ use App\Models\status_contato;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Repository\CartaoRepository;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\admMail;
 
 class DoadorController extends Controller
 {
@@ -205,6 +207,17 @@ class DoadorController extends Controller
         $data['deleted_user_id'] = Auth::user()->id;
         
         $updDoa = $this->doacao->updDoa($data, $data['doa_id']);
+        try{
+           Mail::to('evandrocortiano@gmail.com')->send(new admMail($updDoa));
+
+        } catch(\Exception $e){
+            return $e;
+            return $dat[] = [
+                'doa_ddr_id' => $updDoa->doa_ddr_id,
+                'error' => 'mail', 
+                'msg' => '<h4>Atenção:</h4><h3>Doação cancelada, mas ocorreu um erro ao enviar e-mail.<br/> Favor contactar o responsável pelo sistema!</h3>'
+            ];
+        }
 
         return $updDoa;
     }
