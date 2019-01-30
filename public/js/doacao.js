@@ -98,15 +98,18 @@ $("#modalCadDoacao #doa_qtde_parcela").change(function(){
     }  
 
     if(dt != ''){   
-        var data = new Date(dt);
-    
-        data.setDate(data.getDate() + 1);
-        data.setMonth(data.getMonth() + parseInt(parcela)); 
+        date = moment(dt);
+        date.add((parseInt(parcela)-1), 'month');
+        dtfinal = date.format('YYYY-MM-DD');
+        
+        $("#formStoreDoacao #doa_data_final").val(dtfinal);
 
-        data = data.getFullYear() + "-" + ("0" + data.getMonth()).substr(-2) 
-                                + "-" + ("0" + data.getDate()).substr(-2);
-    
-        $("#formStoreDoacao #doa_data_final").val(data);
+        // var data = new Date(dt);
+        // data.setDate(data.getDate() + 1);
+        // data.setMonth(data.getMonth() + parseInt(parcela)); 
+        // data = data.getFullYear() + "-" + ("0" + data.getMonth()).substr(-2) 
+        //                         + "-" + ("0" + data.getDate()).substr(-2);
+        // $("#formStoreDoacao #doa_data_final").val(data);
     }
 });
 
@@ -175,15 +178,19 @@ $("#formDoadorDoador #doa_qtde_parcela").change(function(){
     }  
 
     if(dt != ''){   
-        var data = new Date(dt);
-    
-        data.setDate(data.getDate() + 1);
-        data.setMonth(data.getMonth() + parseInt(parcela)); 
-
-        data = data.getFullYear() + "-" + ("0" + data.getMonth()).substr(-2) 
-                                + "-" + ("0" + data.getDate()).substr(-2);
-    
-        $("#formStoreDoadorDoacao #doa_data_final").val(data);
+        date = moment(dt);
+        date.add((parseInt(parcela)-1), 'month');
+        dtfinal = date.format('YYYY-MM-DD');
+        
+        $("#formStoreDoadorDoacao #doa_data_final").val(dtfinal);
+        
+        // var data = new Date(dt);
+        // data.setDate(data.getDate() + 1);
+        // data.setMonth(data.getMonth() + parseInt(parcela)); 
+        // data = data.getFullYear() + "-" + ("0" + data.getMonth()).substr(-2) 
+        //                         + "-" + ("0" + data.getDate()).substr(-2);
+        // $("#formStoreDoadorDoacao #doa_data_final").val(data);
+        
     }
 });
 

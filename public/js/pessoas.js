@@ -205,15 +205,18 @@ $("#modalPessoasDoacao #doa_qtde_parcela").change(function(){
     }  
 
     if(dt != ''){   
-        var data = new Date(dt);
-    
-        data.setDate(data.getDate() + 1);
-        data.setMonth(data.getMonth() + parseInt(parcela)); 
+        date = moment(dt);
+        date.add((parseInt(parcela)-1), 'month');
+        dtfinal = date.format('YYYY-MM-DD');
+        
+        $("#formStoreDoacaoPessoas #doa_data_final").val(dtfinal);
 
-        data = data.getFullYear() + "-" + ("0" + data.getMonth()).substr(-2) 
-                                + "-" + ("0" + data.getDate()).substr(-2);
-    
-        $("#formStoreDoacaoPessoas #doa_data_final").val(data);
+        // var data = new Date(dt);
+        // data.setDate(data.getDate() + 1);
+        // data.setMonth(data.getMonth() + parseInt(parcela)); 
+        // data = data.getFullYear() + "-" + ("0" + data.getMonth()).substr(-2) 
+        //                         + "-" + ("0" + data.getDate()).substr(-2);
+        // $("#formStoreDoacaoPessoas #doa_data_final").val(data);
     }
 });
 
