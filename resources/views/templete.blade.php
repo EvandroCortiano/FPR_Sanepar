@@ -32,6 +32,8 @@
     <script src="{{ asset('js/datatables/dataTables.bootstrap.min.js') }}"></script>
     <!-- CONFIRMATION -->
     <script src="{{ asset('js/confirmation/bootstrap-confirmation.min.js') }}"></script>
+    <!-- DATA MOMENT -->
+    <script src="{{ asset('js/moment.min.js') }}"></script>
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
