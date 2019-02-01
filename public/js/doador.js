@@ -308,8 +308,9 @@ function tdListNomesCartao(){
             },
             data: data,
             columns: [
-                { data: 'ccp_nome' },
-                { data: 'ccp_obs' },
+                { data: 'ccp_nome',"width": "40%" },
+                { data: 'ccp_obs',"width": "48%" },
+                { data: 'acao',"width": "12%" }
             ]
         });
     }).fail(function(){
@@ -329,3 +330,13 @@ $("#addNomeCartao").click(function(){
         toastr.error("<h4>Favor cadastrar a doação, após o cadastro inserir os nomes das pessoas que receberam o Cartão + Pró Renal!</h4>");
     }
 });
+
+//editar cartao
+function editCcps(ccp_id){
+    console.log(ccp_id);
+}
+
+//excluir cartao
+function deletedCcps(ccp_id){
+    console.log(ccp_id);
+}

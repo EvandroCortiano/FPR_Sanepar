@@ -214,6 +214,7 @@ Cadastro de Doador e suas Doações
 								<tr>
 									<th>Nome</th>
 									<th>Obs.</th>
+									<th style="text-align: center;">Ação</th>
 								</tr>
 							</thead>
 						</table>

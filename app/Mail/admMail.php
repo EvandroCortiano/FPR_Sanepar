@@ -22,6 +22,7 @@ class admMail extends Mailable
     public function build()
     {
         return $this->subject('Cancelamento de Doação Sanepar')
+                    ->cc('evandrocortiano@hotmail.com')
                     ->view('mail.admMail')
                     ->with([
                         'doacao' => $this->updDoa,

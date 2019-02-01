@@ -208,10 +208,11 @@ class DoadorController extends Controller
         
         $updDoa = $this->doacao->updDoa($data, $data['doa_id']);
         try{
-           Mail::to('evandrocortiano@gmail.com')->send(new admMail($updDoa));
-
+            $updDoa->doa_data = date('d/m/Y', strtotime($updDoa->doa_data));
+            $updDoa->doa_data_final = date('d/m/Y', strtotime($updDoa->doa_data_final));
+            Mail::to('evandrocortiano@gmail.com')->send(new admMail($updDoa));
         } catch(\Exception $e){
-            return $e;
+            // return $e;
             return $dat[] = [
                 'doa_ddr_id' => $updDoa->doa_ddr_id,
                 'error' => 'mail', 
@@ -271,6 +272,14 @@ class DoadorController extends Controller
     //lista nomes para o cartao pela doacao e titular
     public function listNomesCar($ccp_ddr_id){
         $ccps = $this->cartao->findPesCartao($ccp_ddr_id)->get();
+        foreach($ccps as $cc){
+            $cc['acao'] = "<button class='btn btn-ss btn-primary' name='editCcps' onclick='editCcps($cc->ccp_id)' type='button'>
+                            <span class='glyphicon glyphicon-edit'></span>
+                           </button>
+                           <button style='margin-left:9px' class='btn btn-ss btn-danger' name='deletedCcps' onclick='deletedCcps($cc->ccp_id)' type='button'>
+                            <span class='glyphicon glyphicon-remove'></span>
+                           </button>";
+        }
         return $ccps;
     }
 
