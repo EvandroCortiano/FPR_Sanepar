@@ -333,7 +333,19 @@ $("#addNomeCartao").click(function(){
 
 //editar cartao
 function editCcps(ccp_id){
-    console.log(ccp_id);
+    $.ajax({
+        type: 'get',
+        url: '../../doador/editCcps/',
+        dataType: 'json',
+    }).done(function(data){
+        toastr.remove();
+        toastr.success("Nome adicionado com sucesso!");
+        tdListNomesCartao();
+        $("#modalPesCartao").modal("hide");
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("<h4>Erro ao cadastrar Nome! <br/> Favor contactar o responsável pelo sistema!</h4>");
+    });
 }
 
 //excluir cartao

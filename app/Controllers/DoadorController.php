@@ -283,4 +283,18 @@ class DoadorController extends Controller
         return $ccps;
     }
 
+    // retorna dados cartao
+    public function editCcps($ccp_id){
+        
+    }
+
+    // atualiza dados cartao
+    public function updateCcps(){
+
+    }
+
+    // exclui dados cartao
+    public function deletedCcps(){
+
+    }
 }
