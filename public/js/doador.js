@@ -310,7 +310,7 @@ function tdListNomesCartao(){
             columns: [
                 { data: 'ccp_nome',"width": "40%" },
                 { data: 'ccp_obs',"width": "48%" },
-                { data: 'acao',"width": "12%" }
+                // { data: 'acao',"width": "12%" }
             ]
         });
     }).fail(function(){
