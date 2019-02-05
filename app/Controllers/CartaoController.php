@@ -47,7 +47,7 @@ class CartaoController extends Controller
         // Cria/utiliza filtros
         if($pesq['dataIni'] && $pesq['dataFim']){
             // cria where's
-            $where .= " doa_data between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."' and cad_doacao.deleted_at is null";
+            $where .= " doa_data between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."' and cad_doacao.deleted_at is null and cad_cartao_pessoas.deleted_at is null";
             
 
             //recupera os ids das doacoes ja enviadas para a confeccao
@@ -106,7 +106,7 @@ class CartaoController extends Controller
         // Cria/utiliza filtros
         if($pesq['dataIni'] && $pesq['dataFim']){
             //realiza a pesquisa
-            $where .= " doa_data between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."' and cad_doacao.deleted_at is null";
+            $where .= " doa_data between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."' and cad_doacao.deleted_at is null and cad_cartao_pessoas.deleted_at is null ";
             //Contador de linhas
             $cont = 0;
 
@@ -246,7 +246,7 @@ class CartaoController extends Controller
         if($pesq['car_data']){
             
             // cria where's
-            $where .= " where car_data = '" . $pesq['car_data'] . "'";
+            $where .= " where car_data = '" . $pesq['car_data'] . "' and cad_cartao_pessoas.deleted_at is null ";
 
             //realiza a pesquisa
             $card = $this->cartao->findCartaoList($where);
@@ -277,7 +277,7 @@ class CartaoController extends Controller
             $dtData = date('d/m/Y', strtotime($pesq['car_data']));
 
             //realiza a pesquisa
-            $where .= " where car_data = '" . $pesq['car_data'] . "'";
+            $where .= " where car_data = '" . $pesq['car_data'] . "' and cad_cartao_pessoas.deleted_at is null ";
             $nomeArq = 'Listagem_ja_enviados_cartao_Pro_' . str_replace("/", "", $dtData);
         } else {
             $nomeArq = 'Listagem_ja_enviados_cartao_Pro_Todos';

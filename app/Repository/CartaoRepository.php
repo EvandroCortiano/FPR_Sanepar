@@ -125,4 +125,42 @@ class CartaoRepository{
             return $e;
         } 
     }
+
+    // Retornar cadastro cartao
+    public function findCcps($ccp_id){
+        try{
+            return cartao_pessoa::find($ccp_id);
+        } catch(\Exception $e){
+            return $e;
+        }
+    }
+
+    //atualiza registro
+    public function updateCcps($data, $ccp_id){
+        try{
+            $ccp = cartao_pessoa::find($ccp_id);
+            $upd = $ccp->update($data);
+            if($upd){
+                return cartao_pessoa::find($ccp_id);
+            } else {
+                return 'error';
+            }
+        } catch(\Exception $e){
+            return $e;
+        }
+    }
+
+    //exclui cadastro
+    public function destroyCcps($ccp_id){
+        try{
+            $del = cartao_pessoa::find($ccp_id)->delete();
+            if($del){
+                return cartao_pessoa::withTrashed()->find($ccp_id);
+            } else {
+                return 'error';
+            }
+        } catch(\Exception $e){
+            return $e;
+        }
+    }
 }

@@ -310,7 +310,7 @@ function tdListNomesCartao(){
             columns: [
                 { data: 'ccp_nome',"width": "40%" },
                 { data: 'ccp_obs',"width": "48%" },
-                // { data: 'acao',"width": "12%" }
+                { data: 'acao',"width": "12%" }
             ]
         });
     }).fail(function(){
@@ -322,6 +322,12 @@ function tdListNomesCartao(){
 //abre modal para cadastrar Nome Cartao
 $("#addNomeCartao").click(function(){
     var ctrlDoacao = $("#ctrlDoacao").val();
+    //limpa form para cadastro
+    clearCCPS();
+    $("#formStorePesCartao #btnModalStore").css('display','block');
+    $("#formStorePesCartao #btnModalEdit").css('display','none');
+    $("#formStorePesCartao #btnModalDestroy").css('display','none');
+    $("#formStorePesCartao #alertCCPS").css('display','none');
 
     if(ctrlDoacao == 'yes'){
         $("#modalPesCartao").modal("show");
@@ -335,20 +341,98 @@ $("#addNomeCartao").click(function(){
 function editCcps(ccp_id){
     $.ajax({
         type: 'get',
-        url: '../../doador/editCcps/',
+        url: '../../doador/editCcps/'+ccp_id,
         dataType: 'json',
     }).done(function(data){
-        toastr.remove();
-        toastr.success("Nome adicionado com sucesso!");
-        tdListNomesCartao();
-        $("#modalPesCartao").modal("hide");
+        $("#modalPesCartao").modal("show");
+        getCCPS(data);
+        $("#formStorePesCartao #btnModalEdit").css('display','block');
+        $("#formStorePesCartao #btnModalDestroy").css('display','none');
+        $("#formStorePesCartao #alertCCPS").css('display','none');
     }).fail(function(){
         toastr.remove();
-        toastr.error("<h4>Erro ao cadastrar Nome! <br/> Favor contactar o responsável pelo sistema!</h4>");
+        toastr.error("<h4>Erro ao pesquisar cartão!</h4>");
     });
 }
 
 //excluir cartao
 function deletedCcps(ccp_id){
-    console.log(ccp_id);
+    $.ajax({
+        type: 'get',
+        url: '../../doador/editCcps/'+ccp_id,
+        dataType: 'json',
+    }).done(function(data){
+        $("#modalPesCartao").modal("show");
+        getCCPS(data);
+        $("#formStorePesCartao #btnModalDestroy").css('display','block');
+        $("#formStorePesCartao #btnModalEdit").css('display','none');
+        $("#formStorePesCartao #alertCCPS").css('display','block');
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("<h4>Erro ao pesquisar cartão!</h4>");
+    });
 }
+
+// carrega form cartao ccps
+function getCCPS(data){
+    $("#formStorePesCartao #btnModalStore").css('display','none');
+    $("#formStorePesCartao #ccp_id").val(data.ccp_id);
+    $("#formStorePesCartao #ccp_ctrl").val('edit');
+    $("#formStorePesCartao #ccp_nome").val(data.ccp_nome);
+    $("#formStorePesCartao #ccp_obs").val(data.ccp_obs);
+}
+
+// limpar form
+function clearCCPS(){
+    $("#formStorePesCartao #ccp_id").val('');
+    $("#formStorePesCartao #ccp_ctrl").val('new');
+    $("#formStorePesCartao #ccp_nome").val('');
+    $("#formStorePesCartao #ccp_obs").val('');  
+}
+
+// Atualizar os dados para o cartao
+$("#formStorePesCartao #btnModalEdit").confirmation({
+    rootSelector: '[data-toggle=btnModalEdit]',
+    container: 'body',
+    onConfirm: function(){ 
+        data = $("form#formStorePesCartao").serialize();
+        $.ajax({
+            type: 'put',
+            url: '../../doador/updateCcps',
+            data: data,
+            dataType: 'json',
+        }).done(function(data){
+            console.log(data);
+            toastr.success("Dados atualizado com sucesso!")
+            window.location.replace("../../doador/edit/"+data.ccp_ddr_id);
+        }).fail(function(){
+            toastr.remove();
+            toastr.error("<b>Falha ao cadastrar:</b>");
+            return false;	
+        });
+       
+    }
+});
+// Exclui os dados para o cartao
+$("#formStorePesCartao #btnModalDestroy").confirmation({
+    rootSelector: '[data-toggle=btnModalDestroy]',
+    container: 'body',
+    onConfirm: function(){ 
+        data = $("form#formStorePesCartao").serialize();
+        $.ajax({
+            type: 'put',
+            url: '../../doador/destroyCcps',
+            data: data,
+            dataType: 'json',
+        }).done(function(data){
+            console.log(data);
+            toastr.success("Dados excluido com sucesso!")
+            window.location.replace("../../doador/edit/"+data.ccp_ddr_id);
+        }).fail(function(){
+            toastr.remove();
+            toastr.error("<b>Falha ao cadastrar:</b>");
+            return false;	
+        });
+       
+    }
+});

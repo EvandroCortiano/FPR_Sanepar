@@ -37,12 +37,13 @@ Route::group(['middleware' => 'web'], function () {
         //Nome cartao
         Route::post('/pesCartaoStore', ['as' => 'pesCartaoStore', 'uses' => 'DoadorController@pesCartaoStore']);
         Route::get('/listNomesCar/{ccp_ddr_id}', ['as' => 'listNomesCar', 'uses' => 'DoadorController@listNomesCar']);
+        Route::get('/editCcps/{ccp_id}', ['as' => 'editCcps', 'uses' => 'DoadorController@editCcps']);
+        Route::put('/updateCcps', ['as' => 'updateCcps', 'uses' => 'DoadorController@updateCcps']);
+        Route::put('/destroyCcps', ['as' => 'destroyCcps', 'uses' => 'DoadorController@destroyCcps']);
     });
 
     //doacao
     Route::post('/doacao/store','DoacaoController@store');
-    //enviar email cancelamento
-    ROute::get('/doacao/mailCancelamento','MailController@mailCancelamento');
 
     //pessoas
     Route::group(['prefix'=>'pessoas','as'=>'pessoas.'], function(){

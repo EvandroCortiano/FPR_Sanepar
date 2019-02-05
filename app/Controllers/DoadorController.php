@@ -272,29 +272,34 @@ class DoadorController extends Controller
     //lista nomes para o cartao pela doacao e titular
     public function listNomesCar($ccp_ddr_id){
         $ccps = $this->cartao->findPesCartao($ccp_ddr_id)->get();
-        // foreach($ccps as $cc){
-        //     $cc['acao'] = "<button class='btn btn-ss btn-primary' name='editCcps' onclick='editCcps($cc->ccp_id)' type='button'>
-        //                     <span class='glyphicon glyphicon-edit'></span>
-        //                    </button>
-        //                    <button style='margin-left:9px' class='btn btn-ss btn-danger' name='deletedCcps' onclick='deletedCcps($cc->ccp_id)' type='button'>
-        //                     <span class='glyphicon glyphicon-remove'></span>
-        //                    </button>";
-        // }
+        foreach($ccps as $cc){
+            $cc['acao'] = "<button class='btn btn-ss btn-primary' name='editCcps' onclick='editCcps($cc->ccp_id)' type='button'>
+                            <span class='glyphicon glyphicon-edit'></span>
+                           </button>
+                           <button style='margin-left:9px' class='btn btn-ss btn-danger' name='deletedCcps' onclick='deletedCcps($cc->ccp_id)' type='button'>
+                            <span class='glyphicon glyphicon-remove'></span>
+                           </button>";
+        }
         return $ccps;
     }
 
     // retorna dados cartao
     public function editCcps($ccp_id){
-        
+        $ccps = $this->cartao->findCcps($ccp_id);
+        return $ccps;
     }
 
     // atualiza dados cartao
-    public function updateCcps(){
-
+    public function updateCcps(Request $request){
+        $data = $request->all();
+        $upd = $this->cartao->updateCcps($data, $data['ccp_id']);
+        return $upd;
     }
 
     // exclui dados cartao
-    public function deletedCcps(){
-
+    public function destroyCcps(Request $request){
+        $data = $request->all();
+        $upd = $this->cartao->destroyCcps($data['ccp_id']);
+        return $data;
     }
 }

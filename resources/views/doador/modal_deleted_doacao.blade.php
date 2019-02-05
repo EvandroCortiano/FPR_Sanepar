@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    @include('layouts.botoes',['buttons' => ['btnDestroy', 'btnCancel']])
+                    @include('layouts.botoes',['buttons' => ['btnCancel', 'btnDestroy']])
                 </div>
             {{ Form::close() }}
         </div>
