@@ -210,7 +210,7 @@ class DoadorController extends Controller
         try{
             $updDoa->doa_data = date('d/m/Y', strtotime($updDoa->doa_data));
             $updDoa->doa_data_final = date('d/m/Y', strtotime($updDoa->doa_data_final));
-            Mail::to('evandrocortiano@gmail.com')->send(new admMail($updDoa));
+            Mail::to('sec_diretoria@pro-renal.org.br')->send(new admMail($updDoa));
         } catch(\Exception $e){
             // return $e;
             return $dat[] = [
