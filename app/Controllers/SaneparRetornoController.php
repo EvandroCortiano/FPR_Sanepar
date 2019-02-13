@@ -179,13 +179,23 @@ class SaneparRetornoController extends Controller
             if(!empty($dataCom) && $dataCom->count()){
                 foreach($dataCom as $data){
                     //pesquisa doadores
+                    $data['matricula'] = intval($data['matricula']);
+
                     $ddr = $this->doador->findWhere('ddr_matricula',$data['matricula'])->get();
                     //pesquisa doacao
                     if(count($ddr) > 0){
+
+                        //verifica se tem doacao
+                        if(!$ddr[0]->doacao){
+                            $doa_id = '';
+                        } else {
+                            $doa_id = $ddr[0]->doacao->doa_id;
+                        }
+
                         $ddr[0]->doacao;
                         $dataCad[] = [
                             'rto_ddr_id' => $ddr[0]->ddr_id,
-                            'rto_doa_id' => $ddr[0]->doacao->doa_id,
+                            'rto_doa_id' => $doa_id,
                             'rto_data' => Carbon::now()->toDateString(),
                             'rto_ur' => $data->ur,
                             'rto_local' => $data->local,
