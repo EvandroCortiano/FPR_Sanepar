@@ -2,6 +2,11 @@
  * Script for Doacao
  * by Evandro C Cortiano
  */
+$(document).ajaxStart(function() {
+    $(document.body).css({'cursor' : 'wait'});
+}).ajaxStop(function() {
+    $(document.body).css({'cursor' : 'default'});
+});
 
 //Executar ao abrir a pagina
 var primeiroDia = '';
