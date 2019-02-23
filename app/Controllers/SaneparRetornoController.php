@@ -337,7 +337,7 @@ class SaneparRetornoController extends Controller
         // Retorna valores para pesquisa
         $pesq = $request->all();
 
-        return $pesq;
+        $arq = $pesq['error'];
 
         $nomeArq = 'Arquivo_SaneparError_' . Carbon::now()->toDateString();
 

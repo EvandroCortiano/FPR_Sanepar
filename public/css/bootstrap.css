@@ -1075,7 +1075,8 @@ html {
 }
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
+  /* font-size: 13px; */
+  font-size: 12px;
   line-height: 1.42857143;
   color: #333;
   background-color: #fff;
@@ -2252,8 +2253,10 @@ th {
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
   /* padding: 8px; */
-  padding: 3px;
-  line-height: 1.42857143;
+  /* padding: 3px; */
+  padding: 2px;
+  /* line-height: 1.42857143; */
+  line-height: 1.3;
   vertical-align: top;
   border-top: 1px solid #ddd;
 }

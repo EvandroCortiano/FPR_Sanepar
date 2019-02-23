@@ -273,10 +273,9 @@ $("#formImportExcel #btnImportExcel").click(function(){
         $("#tableRetornoSaneparError").css("width","100%");
     };
 });
-
+//salvar arquivo de erro
 $("#formConfirmaSanepar #btnSalvarError").off('click').on('click', function(){
     var erro = dataSanepar['error'];
-    console.log(erro);
     //adiona _token
     $.ajaxSetup({
         headers: {
@@ -290,9 +289,10 @@ $("#formConfirmaSanepar #btnSalvarError").off('click').on('click', function(){
         data: {
             'error' : erro
             }
-    }).done(function(){
+    }).done(function(response){
         toastr.remove();
         toastr.success("Arquivo com os erros na importação do repasse da Sanepar, criado com sucesso!");
+        window.location.href = response.full;
     }).fail(function(){
         toastr.remove();
         toastr.error("Erro ao criar Arquivo de Error Sanepar!");
@@ -316,8 +316,6 @@ $("#modalConfirmaSanepar #btnModalStore").confirmation({
             cache: false,
             data: dataSanepar
         }).done(function(response){
-            console.log('success');
-            console.log(response);
             toastr.remove();
             toastr.success("Arquivo com o repasse da Sanepar, cadastrado com sucesso!");
             $("[data-dismiss=modal]").trigger({ type: "click" });
@@ -362,7 +360,6 @@ function filterRecebidoSaneparListar(){
             toastr.remove();
             toastr.error(data.msg);
         } else {
-            console.log(data);
             // toastr.remove();
             toastr.success("Repasse para Sanepar, retornado com Sucesso!");
             $('#tableListRecebidos').DataTable({
