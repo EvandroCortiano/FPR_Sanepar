@@ -331,4 +331,21 @@ class SaneparRetornoController extends Controller
         }
         return $data;
     }
+
+    // cria arquivo excel com o erro de importação sanepar
+    public function storeReturnSaneparError(Request $request){
+        // Retorna valores para pesquisa
+        $pesq = $request->all();
+
+        return $pesq;
+
+        $nomeArq = 'Arquivo_SaneparError_' . Carbon::now()->toDateString();
+
+        return Excel::create($nomeArq, function($excel) use ($arq) {
+            $excel->sheet('mySheet', function($sheet) use ($arq)
+            {
+                $sheet->fromArray($arq);
+            });
+        })->store('xls', 'filesExport/', true);
+    }
 }

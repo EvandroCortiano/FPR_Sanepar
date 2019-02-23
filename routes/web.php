@@ -96,6 +96,8 @@ Route::group(['middleware' => 'web'], function () {
         //receber arquivo da senapar
         Route::post('/importSanepar', ['as' => 'importSanepar', 'uses' => 'SaneparRetornoController@importSanepar']);
         Route::post('/storeReturnSanepar', ['as' => 'storeReturnSanepar', 'uses' => 'SaneparRetornoController@storeReturnSanepar']);
+        //criar arquivo com os erros
+        Route::post('/storeReturnSaneparError', ['as' => 'storeReturnSaneparError', 'uses' => 'SaneparRetornoController@storeReturnSaneparError']);
         //Lista os recebidos da Sanepar
         Route::get('/downloadExcelRecebidosList', ['as' => 'downloadExcelRecebidosList', 'uses' => 'SaneparRetornoController@downloadExcelRecebidosList']);
         Route::get('/findRecebidosSaneparList', ['as' => 'findRecebidosSaneparList', 'uses' => 'SaneparRetornoController@findRecebidosSaneparList']);

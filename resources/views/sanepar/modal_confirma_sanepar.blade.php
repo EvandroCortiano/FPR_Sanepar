@@ -33,6 +33,7 @@
                             <div class="alert alert-danger" style="padding: 0px 10px;margin: 2px;">
                                 Doações não encontradas no sistema ou com erro! &nbsp;&nbsp;&nbsp; 
                                 Esses dados não serão salvos ao sistema, favor verificar matricula e doador!
+                                <button type="button" class="btn btn-sm btn-success pull-right" id="btnSalvarError" style=""> Salvar</button>
                             </div>
                             <table id="tableRetornoSaneparError" class="table table-striped" style="margin-bottom:0px;">
                                 <thead>

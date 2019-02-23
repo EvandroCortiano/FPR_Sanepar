@@ -188,7 +188,7 @@ $("#formImportExcel #btnImportExcel").click(function(){
     var form = $('#formImportExcel')[0];
     // crie um FormData {Object}
     var data = new FormData(form);
-    
+
     $.ajax({
         type: 'post',
         url: "/sanepar/importSanepar",
@@ -271,8 +271,32 @@ $("#formImportExcel #btnImportExcel").click(function(){
             ]
         });
         $("#tableRetornoSaneparError").css("width","100%");
-    }
+    };
+});
 
+$("#formConfirmaSanepar #btnSalvarError").off('click').on('click', function(){
+    var erro = dataSanepar['error'];
+    console.log(erro);
+    //adiona _token
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        type: 'post',
+        url: '../../sanepar/storeReturnSaneparError',
+        // cache: false,
+        data: {
+            'error' : erro
+            }
+    }).done(function(){
+        toastr.remove();
+        toastr.success("Arquivo com os erros na importação do repasse da Sanepar, criado com sucesso!");
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("Erro ao criar Arquivo de Error Sanepar!");
+    });
 });
 
 // Salva arquivo enviado pela sanepar
