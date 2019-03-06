@@ -287,7 +287,7 @@ $("#formConfirmaSanepar #btnSalvarError").off('click').on('click', function(){
         url: '../../sanepar/storeReturnSaneparError',
         // cache: false,
         data: {
-            'error' : erro
+            'error' : JSON.stringify(erro)
             }
     }).done(function(response){
         toastr.remove();
@@ -304,6 +304,7 @@ $("#modalConfirmaSanepar #btnModalStore").confirmation({
     rootSelector: '[data-toggle=modalStore]',
     container: 'body',
     onConfirm: function(){ 
+        var sucesso = dataSanepar['sucesso'];
         //adiona _token
         $.ajaxSetup({
             headers: {
@@ -313,8 +314,10 @@ $("#modalConfirmaSanepar #btnModalStore").confirmation({
         $.ajax({
             type: 'post',
             url: '../../sanepar/storeReturnSanepar',
-            cache: false,
-            data: dataSanepar
+            data: {
+                'sucesso' : JSON.stringify(sucesso)
+            },
+            dataType: 'json'
         }).done(function(response){
             toastr.remove();
             toastr.success("Arquivo com o repasse da Sanepar, cadastrado com sucesso!");

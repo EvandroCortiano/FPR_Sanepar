@@ -278,6 +278,52 @@ $("#modalDeletedDoacao #formDeletedDoa #btnModalDestroy").confirmation({
     }
 });
 
+//Alterar doacao
+function alteracaoDoacao(doa_id, doa_ddr_id, doa_data, doa_valor){
+    $("#modalAlterarDoacao #formAlterarDoa #doa_id").val(doa_id);
+    $("#modalAlterarDoacao #formAlterarDoa #doa_ddr_id").val(doa_ddr_id);
+    $("#modalAlterarDoacao #formAlterarDoa #dtDoacao").html("<b>Inicio Doação:</b> " + doa_data + " - <b>Valor Doação atual:</b> R$" + doa_valor + "<br/>");
+    $("#modalAlterarDoacao").modal("show");
+}
+$("#formAlterarDoa #btnModalEdit").confirmation({
+    rootSelector: '[data-toggle=modalStore]',
+    container: 'body',
+    onConfirm: function(){ 
+        data = $("form#formAlterarDoa").serialize();
+        just = $("#formAlterarDoa #doa_justifica_cancelamento").val();
+        valo = $("#formAlterarDoa #doa_valor_mensal").val();
+
+        if(just != '' && valo != ''){
+            $.ajax({
+                type: 'put',
+                url: '../../doador/alterarDoacao',
+                data: data,
+                dataType: 'json',
+            }).done(function(data){
+                if(data.msg != ''){    
+                    toastr.remove();
+                    toastr.warning(data.msg);
+                    setTimeout(function(){ 
+                        window.location.replace("../../doador/edit/"+data.doa_ddr_id);
+                    }, 5000)
+                } else {
+                    toastr.remove();
+                    toastr.success("Doação Atualizada com sucesso!");
+                    setTimeout(function(){ 
+                        window.location.replace("../../doador/edit/"+data.doa_ddr_id);
+                    }, 1000)
+                }
+            }).fail(function(){
+                toastr.remove();
+                toastr.error("<h4>Erro ao suspender doação! <br/> Favor contactar o responsável pelo sistema!</h4>");
+            });
+        } else {
+            toastr.remove();
+            toastr.error("<h4>Novo Valor e Justificativa são obrigatorios!</h4>");           
+        }
+    }
+});
+
 //Carrega nome para os cartoes mais pro renal
 tabListNomesCar = '';
 function tdListNomesCartao(){

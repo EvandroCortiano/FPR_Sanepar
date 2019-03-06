@@ -50,20 +50,20 @@ Cadastro de Doador e suas Doações
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-sm-7 formLabelInput2">
+							<div class="col-sm-9 formLabelInput2">
 								{{ Form::label('ddrEndereco', 'Endereço') }}
 								{{ Form::text('ddr_endereco', $ddr['ddr_endereco'], ['class' => 'form-control', 'id' => 'ddr_endereco']) }}
 							</div>
-							<div class="col-sm-2 formLabelInput2">
+							<div class="col-sm-3 formLabelInput2">
 								{{ Form::label('ddrNumero', 'Numero') }}
 								{{ Form::text('ddr_numero', $ddr['ddr_numero'], ['class' => 'form-control', 'id' => 'ddr_numero']) }}
 							</div>
-							<div class="col-sm-3 formLabelInput2">
+						</div>
+						<div class="row">
+							<div class="col-sm-4 formLabelInput2">
 								{{ Form::label('ddrComplemento', 'Complemento') }}
 								{{ Form::text('ddr_complemento', $ddr['ddr_complemento'], ['class' => 'form-control', 'id' => 'ddr_complemento']) }}
 							</div>
-						</div>
-						<div class="row">
 							<div class="col-sm-4 formLabelInput2">
 								{{ Form::label('ddrCep', 'Cep') }}
 								{{ Form::text('ddr_cep', $ddr['ddr_cep'], ['class' => 'form-control', 'id' => 'ddr_cep', 'data-mask-type' => 'cep']) }}
@@ -72,9 +72,15 @@ Cadastro de Doador e suas Doações
 								{{ Form::label('ddrBairro', 'Bairro') }}
 								{{ Form::text('ddr_bairro', $ddr['ddr_bairro'], ['class' => 'form-control', 'id' => 'ddr_bairro']) }}
 							</div>
+						</div>
+						<div class="row">
 							<div class="col-sm-4 formLabelInput2">
 								{{ Form::label('ddrCidade', 'Cidade - Estado') }}
 								{{ Form::text('ddr_cidade', $ddr['ddr_cidade'], ['class' => 'form-control', 'id' => 'ddr_cidade']) }}
+							</div>
+							<div class="col-sm-8 formLabelInput2">
+								{{ Form::label('ddrEmail', 'E-mail') }}
+								{{ Form::text('ddr_email', $ddr['ddr_email'], ['class' => 'form-control', 'id' => 'ddr_email']) }}
 							</div>
 						</div>
 						{{-- <div class="row">
@@ -151,7 +157,10 @@ Cadastro de Doador e suas Doações
 												<td>{{ $d->doa_valor }}</td>
 												<td>{{ $d->smt_nome }}</td>
 												<td>{{ $d->doa_data_final }}</td>
-												<td style="text-align: center;">{{ Form::button('<span class="glyphicon glyphicon-remove"></span>', ['class'=>'btn btn-ss btn-danger', 'id' => 'deletedDoa', 'name' => 'deletedDoa', 'onclick' => 'deletedDoacao('.$d->doa_id.', '.$d->doa_ddr_id.')']) }}</td>
+												<td style="text-align: center;">
+													{{ Form::button('<span class="glyphicon glyphicon-edit"></span>', ['class'=>'btn btn-ss btn-primary', 'id' => 'alteracaoDoa', 'name' => 'alteracaoDoa', 'onclick' => 'alteracaoDoacao('.$d->doa_id.', '.$d->doa_ddr_id.', "'.$d->doa_data.'", '.$d->doa_valor_mensal.')', 'style' => 'margin-right: 8px;', 'data-toggle'=>'tooltip', 'title'=>'Alterar Doação']) }}
+													{{ Form::button('<span class="glyphicon glyphicon-remove"></span>', ['class'=>'btn btn-ss btn-danger', 'id' => 'deletedDoa', 'name' => 'deletedDoa', 'onclick' => 'deletedDoacao('.$d->doa_id.', '.$d->doa_ddr_id.')', 'data-toggle'=>'tooltip', 'title'=>'Excluir Doação']) }}
+												</td>
 											</tr>
 										@endforeach
 									</tbody>
@@ -229,6 +238,7 @@ Cadastro de Doador e suas Doações
 @include('doador.modal_doacao')
 @include('doador.modal_fone')
 @include('doador.modal_deleted_doacao')
+@include('doador.modal_alterar_doacao')
 @include('doador.modal_pes_cartao')
 
 <script src="{{ asset('js/doador.js') }}"></script>

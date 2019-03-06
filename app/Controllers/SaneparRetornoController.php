@@ -181,69 +181,73 @@ class SaneparRetornoController extends Controller
                     //pesquisa doadores
                     $data['matricula'] = intval($data['matricula']);
 
-                    $ddr = $this->doador->findWhere('ddr_matricula',$data['matricula'])->get();
-                    //pesquisa doacao
-                    if(count($ddr) > 0){
+                    //verifica se linha nao esta vazia
+                    if($data['matricula'] != '' && $data['nome'] != ''){
 
-                        //verifica se tem doacao
-                        if(!$ddr[0]->doacao){
-                            $doa_id = '';
+                        $ddr = $this->doador->findWhere('ddr_matricula',$data['matricula'])->get();
+                        //pesquisa doacao
+                        if(count($ddr) > 0){
+
+                            //verifica se tem doacao
+                            if(!$ddr[0]->doacao){
+                                $doa_id = '';
+                            } else {
+                                $doa_id = $ddr[0]->doacao->doa_id;
+                            }
+
+                            $ddr[0]->doacao;
+                            $dataCad[] = [
+                                'rto_ddr_id' => $ddr[0]->ddr_id,
+                                'rto_doa_id' => $doa_id,
+                                'rto_data' => Carbon::now()->toDateString(),
+                                'rto_ur' => $data->ur,
+                                'rto_local' => $data->local,
+                                'rto_cidade' => $data->cidade,
+                                'rto_matricula' => $data->matricula,
+                                'rto_nome' => $data->nome,
+                                'rto_cpf_cnpj' => $data->cpf_cnpj,
+                                'rto_rg' => $data->rg,
+                                'rto_uf' => $data->uf,
+                                'rto_logr_cod' => $data->logr_cod,
+                                'rto_logradouro' => $data->logradouro,
+                                'rto_num' => $data->num,
+                                'rto_complemento' => $data->complemento,
+                                'rto_bai_cod' => $data->bai_cod,
+                                'rto_bairro' => $data->bairro,
+                                'rto_cep' => $data->cep,
+                                'rto_categoria' => $data->categoria,
+                                'rto_cod_servico' => $data->cod_servico,
+                                'rto_vlr_servico' => $data->vlr_servico,
+                                'rto_referencia_arr' => $data->referencia_arr
+                            ];
                         } else {
-                            $doa_id = $ddr[0]->doacao->doa_id;
+                            $dataError[] = [
+                                'error' => 'Matricula/Doador não encontrado!',
+                                'rto_ddr_id' => 0,
+                                'rto_doa_id' => 0,
+                                'rto_data' => Carbon::now()->toDateString(),
+                                'rto_ur' => $data->ur,
+                                'rto_local' => $data->local,
+                                'rto_cidade' => $data->cidade,
+                                'rto_matricula' => $data->matricula,
+                                'rto_nome' => $data->nome,
+                                'rto_cpf_cnpj' => $data->cpf_cnpj,
+                                'rto_rg' => $data->rg,
+                                'rto_uf' => $data->uf,
+                                'rto_logr_cod' => $data->logr_cod,
+                                'rto_logradouro' => $data->logradouro,
+                                'rto_num' => $data->num,
+                                'rto_complemento' => $data->complemento,
+                                'rto_bai_cod' => $data->bai_cod,
+                                'rto_bairro' => $data->bairro,
+                                'rto_cep' => $data->cep,
+                                'rto_categoria' => $data->categoria,
+                                'rto_cod_servico' => $data->cod_servico,
+                                'rto_vlr_servico' => $data->vlr_servico,
+                                'rto_referencia_arr' => $data->referencia_arr,
+                                'msg_erro' => 'Não foi encontrado o doador no sistema, verifique a matricula!'
+                            ];
                         }
-
-                        $ddr[0]->doacao;
-                        $dataCad[] = [
-                            'rto_ddr_id' => $ddr[0]->ddr_id,
-                            'rto_doa_id' => $doa_id,
-                            'rto_data' => Carbon::now()->toDateString(),
-                            'rto_ur' => $data->ur,
-                            'rto_local' => $data->local,
-                            'rto_cidade' => $data->cidade,
-                            'rto_matricula' => $data->matricula,
-                            'rto_nome' => $data->nome,
-                            'rto_cpf_cnpj' => $data->cpf_cnpj,
-                            'rto_rg' => $data->rg,
-                            'rto_uf' => $data->uf,
-                            'rto_logr_cod' => $data->logr_cod,
-                            'rto_logradouro' => $data->logradouro,
-                            'rto_num' => $data->num,
-                            'rto_complemento' => $data->complemento,
-                            'rto_bai_cod' => $data->bai_cod,
-                            'rto_bairro' => $data->bairro,
-                            'rto_cep' => $data->cep,
-                            'rto_categoria' => $data->categoria,
-                            'rto_cod_servico' => $data->cod_servico,
-                            'rto_vlr_servico' => $data->vlr_servico,
-                            'rto_referencia_arr' => $data->referencia_arr
-                        ];
-                    } else {
-                        $dataError[] = [
-                            'error' => 'Matricula/Doador não encontrado!',
-                            'rto_ddr_id' => 0,
-                            'rto_doa_id' => 0,
-                            'rto_data' => Carbon::now()->toDateString(),
-                            'rto_ur' => $data->ur,
-                            'rto_local' => $data->local,
-                            'rto_cidade' => $data->cidade,
-                            'rto_matricula' => $data->matricula,
-                            'rto_nome' => $data->nome,
-                            'rto_cpf_cnpj' => $data->cpf_cnpj,
-                            'rto_rg' => $data->rg,
-                            'rto_uf' => $data->uf,
-                            'rto_logr_cod' => $data->logr_cod,
-                            'rto_logradouro' => $data->logradouro,
-                            'rto_num' => $data->num,
-                            'rto_complemento' => $data->complemento,
-                            'rto_bai_cod' => $data->bai_cod,
-                            'rto_bairro' => $data->bairro,
-                            'rto_cep' => $data->cep,
-                            'rto_categoria' => $data->categoria,
-                            'rto_cod_servico' => $data->cod_servico,
-                            'rto_vlr_servico' => $data->vlr_servico,
-                            'rto_referencia_arr' => $data->referencia_arr,
-                            'msg_erro' => 'Não foi encontrado o doador no sistema, verifique a matricula!'
-                        ];
                     }
                 }
             }
@@ -264,13 +268,13 @@ class SaneparRetornoController extends Controller
     //Salva arquivo sanepar na base de dados
     public function storeReturnSanepar(Request $request){
         $data = $request->all();
-
+        $data['sucesso'] = json_decode($data['sucesso'], true);
         if(isset($data['sucesso'])){      
             foreach ($data['sucesso'] as $dt){
                 try{
                     $cadSanepar = $this->sanepar->store($dt);
                     if(!$cadSanepar){
-                        dd("Não Gravou-Errror!".$dt['cre_ddr_nome']);
+                        dd("Não Gravou-Error!".$dt['cre_ddr_nome']);
                     } else {
                         $dataStore[] = $cadSanepar;
                     }
@@ -336,6 +340,7 @@ class SaneparRetornoController extends Controller
     public function storeReturnSaneparError(Request $request){
         // Retorna valores para pesquisa
         $pesq = $request->all();
+        $pesq['error'] = json_decode($pesq['error'], true);
 
         $arq = $pesq['error'];
 

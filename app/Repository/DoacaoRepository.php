@@ -16,6 +16,14 @@ class DoacaoRepository{
         }
     }
 
+    //pesquisa doacoes
+    public function find($doa_id){
+        try{
+            return doacao::find($doa_id);
+        } catch(\Exception $e){
+            return $e;
+        }
+    }
     //pesquisa doacoes do paciaente
     public function findDdr($ddr_id){
         try{
@@ -37,7 +45,7 @@ class DoacaoRepository{
                     } else {
                         return "Error";
                     }
-                } catch(zException $e){
+                } catch(\Exception $e){
                     return $e;
                 }
             } else {

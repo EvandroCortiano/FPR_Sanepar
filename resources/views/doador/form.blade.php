@@ -50,20 +50,20 @@ Cadastrar novo doador!
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-sm-7 formLabelInput2">
+							<div class="col-sm-9 formLabelInput2">
 								{{ Form::label('ddrEndereco', 'Endereço') }}
 								{{ Form::text('ddr_endereco', '', ['class' => 'form-control', 'id' => 'ddr_endereco']) }}
 							</div>
-							<div class="col-sm-2 formLabelInput2">
+							<div class="col-sm-3 formLabelInput2">
 								{{ Form::label('ddrNumero', 'Numero') }}
 								{{ Form::text('ddr_numero', '', ['class' => 'form-control', 'id' => 'ddr_numero']) }}
 							</div>
-							<div class="col-sm-3 formLabelInput2">
+						</div>
+						<div class="row">
+							<div class="col-sm-4 formLabelInput2">
 								{{ Form::label('ddrComplemento', 'Complemento') }}
 								{{ Form::text('ddr_complemento', '', ['class' => 'form-control', 'id' => 'ddr_complemento']) }}
 							</div>
-						</div>
-						<div class="row">
 							<div class="col-sm-4 formLabelInput2">
 								{{ Form::label('ddrCep', 'Cep') }}
 								{{ Form::text('ddr_cep', '', ['class' => 'form-control', 'id' => 'ddr_cep', 'data-mask-type' => 'cep']) }}
@@ -72,9 +72,15 @@ Cadastrar novo doador!
 								{{ Form::label('ddrBairro', 'Bairro') }}
 								{{ Form::text('ddr_bairro', '', ['class' => 'form-control', 'id' => 'ddr_bairro']) }}
 							</div>
+						</div>
+						<div class="row">
 							<div class="col-sm-4 formLabelInput2">
 								{{ Form::label('ddrCidade', 'Cidade - Estado') }}
 								{{ Form::text('ddr_cidade', '', ['class' => 'form-control', 'id' => 'ddr_cidade']) }}
+							</div>
+							<div class="col-sm-8 formLabelInput2">
+								{{ Form::label('ddremail', 'E-mail') }}
+								{{ Form::text('ddr_email', '', ['class' => 'form-control', 'id' => 'ddr_email']) }}
 							</div>
 						</div>
 						{{-- <div class="row">

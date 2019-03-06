@@ -205,6 +205,7 @@ class DoadorController extends Controller
         $data = $request->all();
         $data['deleted_at'] = Carbon::now()->toDateTimeString();
         $data['deleted_user_id'] = Auth::user()->id;
+        $data['doa_smt_id'] = 4;
         
         $updDoa = $this->doacao->updDoa($data, $data['doa_id']);
         try{
@@ -273,10 +274,10 @@ class DoadorController extends Controller
     public function listNomesCar($ccp_ddr_id){
         $ccps = $this->cartao->findPesCartao($ccp_ddr_id)->get();
         foreach($ccps as $cc){
-            $cc['acao'] = "<button class='btn btn-ss btn-primary' name='editCcps' onclick='editCcps($cc->ccp_id)' type='button'>
+            $cc['acao'] = "<button class='btn btn-ss btn-primary' name='editCcps' onclick='editCcps($cc->ccp_id)' type='button' data-toggle='tooltip' title='Editar Nome Cartão'>
                             <span class='glyphicon glyphicon-edit'></span>
                            </button>
-                           <button style='margin-left:9px' class='btn btn-ss btn-danger' name='deletedCcps' onclick='deletedCcps($cc->ccp_id)' type='button'>
+                           <button style='margin-left:9px' class='btn btn-ss btn-danger' name='deletedCcps' onclick='deletedCcps($cc->ccp_id)' type='button' data-toggle='tooltip' title='Excluir Nome Cartão'>
                             <span class='glyphicon glyphicon-remove'></span>
                            </button>";
         }
@@ -301,5 +302,47 @@ class DoadorController extends Controller
         $data = $request->all();
         $upd = $this->cartao->destroyCcps($data['ccp_id']);
         return $data;
+    }
+
+    // Alterar doacoes
+    public function alterarDoacao(Request $request){
+        //recebe os valores
+        $data = $request->all();
+        $doaAtual = $this->doacao->find($data['doa_id']);
+
+        //cria nova doacao
+        $doa_valor = floatval(str_replace(",", ".", $data['doa_valor_mensal'])) * $doaAtual->doa_qtde_parcela;
+        $doa_valor = number_format($doa_valor,2,',','');
+        $newDoa = [
+            'doa_data' => $doaAtual->doa_data,
+            'doa_data_final' => $doaAtual->doa_data_final,
+            'doa_qtde_parcela' => $doaAtual->doa_qtde_parcela,
+            'doa_smt_id' => 3,
+            'doa_valor' => (string) $doa_valor,
+            'doa_valor_mensal' => $data['doa_valor_mensal'],
+            'doa_ddr_id' => $data['doa_ddr_id'],
+            'doa_motivo' => 'Alteração'
+        ];
+        $newDoa = $this->doacao->store($newDoa);
+        if($newDoa){
+            //edita doacao antual
+            $updAtual = [
+                'deleted_at' => Carbon::now()->toDateTimeString(),
+                'deleted_user_id' => Auth::user()->id,
+                'doa_justifica_cancelamento' => $data['doa_justifica_cancelamento'],
+                'doa_motivo' => "Alterado",
+                'doa_smt_id' => 3,
+                'doa_novadoa_id' => $newDoa->doa_id
+            ];
+            $updAtual = $this->doacao->updDoa($updAtual, $doaAtual->doa_id);
+
+            if($updAtual){
+                return [ 'doa_ddr_id' => $data['doa_ddr_id'], 'msg' => ''];
+            } else {
+                return [ 'doa_ddr_id' => $data['doa_ddr_id'], 'msg' => '<h4>Erro ao alterar Doação.<br> Ao excluir doação atual!<br/> Favor comunicar ao desenvolvedor do sistema, informando o erro!</h4>'];
+            }
+        } else {
+            return [ 'doa_ddr_id' => $data['doa_ddr_id'], 'msg' => '<h4>Erro ao alterar Doação.<br> Criar Nova Doação!<br/> Favor comunicar ao desenvolvedor do sistema, informando o erro!</h4>'];
+        }
     }
 }

@@ -21,6 +21,7 @@ class doacao extends Model
         'doa_qtde_parcela',
         'doa_motivo',
         'doa_smt_id',
+        'doa_novadoa_id',
         'doa_valor_mensal',
         'doa_justifica_cancelamento',
         'deleted_at',

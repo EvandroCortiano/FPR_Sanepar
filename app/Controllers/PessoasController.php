@@ -152,6 +152,7 @@ class PessoasController extends Controller
                 $dtDdr['ddr_cidade'] = $pes['pes_cidade'] . " - " . $pes['pes_estado'];
                 $dtDdr['ddr_cid_id'] = 0;
                 $dtDdr['ddr_pes_id'] = $pes['pes_id'];
+                $dtDdr['ddr_email'] = $pes['pes_email'];
                 
                 // realiza o cadastro do doador
                 $ddr = $this->doador->store($dtDdr);

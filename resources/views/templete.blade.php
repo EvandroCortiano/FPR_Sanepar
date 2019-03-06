@@ -145,5 +145,8 @@
             </div>
         </div>
     </footer>
+    <script type="text/javascript">
+     $('[data-toggle="tooltip"]').tooltip();
+    </script>
 </body>
 </html>

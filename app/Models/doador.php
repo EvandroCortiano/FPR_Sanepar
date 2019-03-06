@@ -24,6 +24,7 @@ class doador extends Model
         'ddr_nascimento',
         'ddr_cpf',
         'ddr_cidade',
+        'ddr_email',
         'ddr_pes_id'
     ];
 
