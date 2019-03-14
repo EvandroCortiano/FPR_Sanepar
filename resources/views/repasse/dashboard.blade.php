@@ -81,8 +81,8 @@
                     </div>
                 </div>
 
-                {{-- Tabela com os cancelados no sistema --}}
                 <div class="col-md-6" style="padding-right: 8px;">
+                    {{-- Tabela com os cancelados no sistema --}}
                     <div class="panel panel-danger">
                         <div class="panel-heading">
                             <div class="row">
@@ -132,6 +132,63 @@
                                         <th>Nome Titular</th>
                                         <th>Data Cancelamento</th>
                                         <th>Info</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                    {{-- Tabela com os Alterados no sistema --}}
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <b style="font-size:11pt">Alterados</b>
+                                </div>
+                            {{ Form::open(['id' => 'formFiltroAlterados']) }}
+                                <div class="col-sm-8" style="padding-left: 35px;">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-sm-1" style="padding:0px">
+                                                    de
+                                                </div>
+                                                <div class="col-sm-11" style="padding: 0px 10px 0px 5px;">
+                                                    {{ Form::date('dataIni', '', ['class' => 'form-control', 'id' => 'dataIni']) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-sm-1" style="padding:0px">
+                                                    até
+                                                </div>
+                                                <div class="col-sm-11" style="padding: 0px 10px 0px 7px;">
+                                                    {{ Form::date('dataFim', \Carbon\Carbon::now(), ['class' => 'form-control', 'id' => 'dataFim']) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2" style="padding: 0px 10px 0px 0px;">
+                                    <div style="float:right; margin-left:20px">
+                                        {{ Form::button('<span class="fas fa-file-excel"></span>', ['class' => 'btn btn-md btn-success pull-right', 'id' => 'btnExcelAlterados', 'name' => 'btnModalBack']) }}
+                                    </div>
+                                    <div style="float:right">
+                                        {{ Form::button('<span class="fa fa-search"></span>', ['class' => 'btn btn-md btn-default pull-right', 'id' => 'btnFiltroAlterados', 'name' => 'btnModalBack']) }}
+                                    </div>
+                                </div>
+                            {{ Form::close() }}
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <table id="tableAlterados" class="table table-striped" style="margin-bottom:0px;">
+                                <thead>
+                                    <tr>
+                                        <th>Nome Titular</th>
+                                        <th>Data Alteração</th>
+                                        <th>Novo Valor</th>
+                                        <th>info</th>
                                     </tr>
                                 </thead>
                             </table>

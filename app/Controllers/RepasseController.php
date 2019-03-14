@@ -191,11 +191,16 @@ class RepasseController extends Controller
         $dataExc = array();
         $where = '';
 
+        //ajusta data
+        $dtFimArq = $pesq['dataFim'];
+        $pesq['dataFim'] = $pesq['dataFim'] . ' 23:59:59';
+
         // Cria/utiliza filtros
         if($pesq['dataFim']){
             // cria where's
             // $where .= " deleted_at is not null and cad_doacao.deleted_at > '" . $pesq['dataFim'] . "'";
-            $where .= " cad_doacao.deleted_at is not null and cad_doacao.deleted_at between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."'";
+            $where .= " cad_doacao.deleted_at is not null and cad_doacao.deleted_at between '" . 
+                        $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."' and doa_novadoa_id is null ";
             $on = " on ddr_id = doa_ddr_id ";
 
             //realiza a pesquisa
@@ -227,7 +232,7 @@ class RepasseController extends Controller
             //     return get_object_vars($dt);
             // });
 
-            $nomeArq = 'Cancelados_FPR_Sanepar_' . $pesq['dataIni'] . "_" . $pesq['dataFim'];
+            $nomeArq = 'Cancelados_FPR_Sanepar_' . $pesq['dataIni'] . "_" . $dtFimArq;
 
             return Excel::create($nomeArq, function($excel) use ($data) {
                 $excel->sheet('mySheet', function($sheet) use ($data)
@@ -394,12 +399,15 @@ class RepasseController extends Controller
         // cria variaveis
         $data = array();
         $where = '';
+
+        $pesq['dataFim'] = $pesq['dataFim'] . ' 23:59:59';
         
         // Cria/utiliza filtros
         if($pesq['dataIni'] && $pesq['dataFim']){
             // cria where's
             // $where .= " cad_doacao.deleted_at is not null and cad_doacao.deleted_at > '" . $pesq['dataFim'] . "'";
-            $where .= " cad_doacao.deleted_at is not null and cad_doacao.deleted_at between '" . $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."'";
+            $where .= " cad_doacao.deleted_at is not null and cad_doacao.deleted_at between '" . 
+                        $pesq['dataIni'] . "' and '" . $pesq['dataFim'] ."' and doa_novadoa_id is null ";
             $on = " on ddr_id = doa_ddr_id ";
 
             //realiza a pesquisa
@@ -469,5 +477,93 @@ class RepasseController extends Controller
 
         return $pesq;
     }
+
+    //Pesquisa e retorna as doacoes alteradas
+    public function findFilterAlteracao(Request $request){
+        $pesq = $request->all();
+
+        //ajusta data final
+        $pesq['dataFim'] = $pesq['dataFim'] . ' 23:59:59';
+        
+        // Cria/utiliza filtros
+        if($pesq['dataIni'] && $pesq['dataFim']){
+            //realiza a pesquisa dos alterados
+            $doa = $this->repasse->findAlteracao($pesq['dataIni'], $pesq['dataFim']);
+
+            if(count($doa) > 0){
+                foreach($doa as $d){
+                    $d->created_at = date('d/m/Y', strtotime($d->created_at));
+                    //Cria lista nome
+                    if(!$d->ddr_titular_conta){
+                        $d->ddr_nometitular = $d->ddr_nome;
+                    } else {
+                        $d->ddr_nometitular = $d->ddr_titular_conta;
+                    }
+                    // $d->info = $d->doa_justifica_cancelamento;
+                    $d->info = "<a class='text-danger' data-toggle='tooltip' title='".$d->doa_justifica_cancelamento."'>
+                        <i class='fas fa-info-circle' style='font-size:1.5em;'></i></a>";
+                }
+            }
+
+            return $doa;
+
+        } else{
+            return $data[] = ['status'=>'Error','msg'=>'Favor selecionar uma data Inicio e/ou Final valida!'];
+        }
+
+        return $pesq;
+    }
+    // Salva arquivo com as doacoes alteradas
+    public function downloadExcelAlteracao(Request $request){
+        $pesq = $request->all();
+
+        // cria variaveis
+        $data = array();
+        $dataExc = array();
+        
+        //ajusta data final
+        $dtFinal = $pesq['dataFim'];
+        $pesq['dataFim'] = $pesq['dataFim'] . ' 23:59:59';
+
+        if($pesq['dataIni'] && $pesq['dataFim']){
+            //realiza a pesquisa dos alterados
+            $doa = $this->repasse->findAlteracao($pesq['dataIni'], $pesq['dataFim']);
+
+            if(count($doa) > 0){
+                foreach($doa as $d){
+                    $d->created_at = date('d/m/Y', strtotime($d->created_at));
+                    //Cria lista nome
+                    if(!$d->ddr_titular_conta){
+                        $d->ddr_nometitular = $d->ddr_nome;
+                    } else {
+                        $d->ddr_nometitular = $d->ddr_titular_conta;
+                    }
+                    $dataExc[] = [
+                        'Nome_titular' => $d->ddr_nometitular,
+                        'Matricula' => $d->ddr_matricula,
+                        'Novo_Valor_Doacao' => $d->doa_valor_mensal,
+                        'Data_da_alteracao' => $d->created_at,
+                        'CPF' => $d->ddr_cpf,
+                        'CEP' => $d->ddr_cep,
+                        'Status' => $d->doa_motivo,
+                        'Motivo' => $d->doa_justifica_cancelamento
+                    ];
+                }
+            }       
+            
+            $data = collect($dataExc);
+            $nomeArq = 'Alterados_FPR_Sanepar_' . $pesq['dataIni'] . "_" . $dtFinal;
+
+            return Excel::create($nomeArq, function($excel) use ($data) {
+                $excel->sheet('mySheet', function($sheet) use ($data)
+                {
+                    $sheet->fromArray($data);
+                });
+            })->store('xls', 'filesExport/', true);;
+
+        } else{
+            return $data[] = ['status'=>'Error','msg'=>'Favor selecionar uma data Inicio e/ou Final valida!'];
+        }
+    }    
 
 }

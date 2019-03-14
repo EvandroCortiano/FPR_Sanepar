@@ -67,11 +67,13 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/findFilterProducao', ['as' => 'findFilterProducao', 'uses' => 'RepasseController@findFilterProducao']);
         Route::get('/findFilterCancelados', ['as' => 'findFilterCancelados', 'uses' => 'RepasseController@findFilterCancelados']);
         Route::get('/findFilterVencer', ['as' => 'findFilterVencer', 'uses' => 'RepasseController@findFilterVencer']);
+        Route::get('/findFilterAlteracao', ['as' => 'findFilterAlteracao', 'uses' => 'RepasseController@findFilterAlteracao']);
         //gera arquivo
         Route::get('/downloadExcelProducao', ['as' => 'downloadExcelProducao', 'uses' => 'RepasseController@downloadExcelProducao']);
         Route::get('/downloadExcelFiltro', ['as' => 'downloadExcelFiltro', 'uses' => 'RepasseController@downloadExcelFiltro']);
         Route::get('/downloadExcelCancelados', ['as' => 'downloadExcelCancelados', 'uses' => 'RepasseController@downloadExcelCancelados']);
         Route::get('/downloadExcelVencer', ['as' => 'downloadExcelVencer', 'uses' => 'RepasseController@downloadExcelVencer']);
+        Route::get('/downloadExcelAlteracao', ['as' => 'downloadExcelAlteracao', 'uses' => 'RepasseController@downloadExcelAlteracao']);
     });
 
     //Cartao + pro renal

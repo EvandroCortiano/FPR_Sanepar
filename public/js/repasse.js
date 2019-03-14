@@ -17,11 +17,13 @@ $(document).ready(function(){
     $("#formFiltroVencer #dataIni").val(primeiroDia);
     // $("#formFiltroVencer #dataIni").val(menosDoisMeses);
     $("#formFiltroProducaoSanepar #dataIni").val(primeiroDia);
-
+    $("#formFiltroAlterados #dataIni").val(primeiroDia);
+    
     //chama funcoes
     filterProduction();
     filterCancel();
     filterVencer();
+    filterAlterados();
 });
 
 /***********************/
@@ -293,5 +295,68 @@ function filterVencer(){
     }).fail(function(){
         // toastr.remove();
         toastr.error("Erro ao carregar À vencer!");
+    });
+}
+
+/*******************************/
+/* Filtros para os a Alterados */
+/*******************************/
+$("#formFiltroAlterados #btnExcelAlterados").click(function(){
+    pesquisa = $("form#formFiltroAlterados").serialize();
+
+    $.ajax({
+        type: 'get',
+        url: '../../repasse/downloadExcelAlteracao',
+        cache: false,
+        data: pesquisa
+    }).done(function(response){
+        toastr.remove();
+        toastr.success("Arquivo com as doações alteradas, gerado com sucesso!");
+        window.location.href = response.full;
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("Erro ao gerar Arquivo de doações Alteradas!");
+    });
+});
+$("#formFiltroAlterados #btnFiltroAlterados").click(function(){
+    filterAlterados();
+});
+function filterAlterados(){
+    pesquisa = $("form#formFiltroAlterados").serialize();
+
+    $.ajax({
+        type: 'get',
+        url: '../../repasse/findFilterAlteracao',
+        data: pesquisa,
+        dataType: 'json',
+    }).done(function(data){
+        $('#tableAlterados').DataTable({
+            destroy: true,
+            paging: true,
+            searching: false,
+            pageLength: 10,
+            info: true,
+            dom: "<'row'<'col-sm-12'<'pull-left'f><'pull-left'T>r<'clearfix'>>>t<'row'<'col-sm-12'<'pull-left'i><'pull-right'p><'clearfix'>>>",
+            language: {
+                info: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                infoEmpty: " ",
+                zeroRecords:  "Sistema não retornou nenhum doador!",
+                lengthMenu: "_MENU_",
+                searchPlaceholder: "Pesquisar...",
+                paginate: {
+                    "previous":"Anterior",
+                    "next":"Próximo"
+                }
+            },
+            data: data,
+            columns: [
+                { data: 'ddr_nome' },
+                { data: 'created_at' },
+                { data: 'doa_valor_mensal' },
+                { data: 'info' },
+            ]
+        });
+    }).fail(function(){
+        toastr.error("Erro ao carregar alterados!");
     });
 }

@@ -321,8 +321,10 @@ class DoadorController extends Controller
             'doa_valor' => (string) $doa_valor,
             'doa_valor_mensal' => $data['doa_valor_mensal'],
             'doa_ddr_id' => $data['doa_ddr_id'],
-            'doa_motivo' => 'Alteração'
+            'doa_motivo' => 'Alteração',
+            'created_user_id' => Auth::user()->id
         ];
+        
         $newDoa = $this->doacao->store($newDoa);
         if($newDoa){
             //edita doacao antual

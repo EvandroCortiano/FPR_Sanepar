@@ -139,4 +139,23 @@ class RepasseRepository{
         }       
     }
 
+    //retorna as doacoes alteradas
+    public function findAlteracao($dtIni, $dtFim){
+        try{
+            $sql = "select dr.ddr_nome, dr.ddr_matricula, dr.ddr_cpf, dr.ddr_cep, dr.ddr_titular_conta,
+                        nv.doa_valor_mensal, nv.doa_motivo, nv.created_at, an.doa_justifica_cancelamento
+                    from cad_doacao as nv
+                        left join cad_doacao as an
+                            on an.doa_novadoa_id = nv.doa_id
+                        left join cad_doador as dr
+                            on dr.ddr_id = nv.doa_ddr_id
+                    where nv.doa_smt_id = 3
+                      and nv.created_at between '" . $dtIni . "' and '" . $dtFim . "';";
+            $date = DB::select($sql);
+            return $date;
+        } catch(\Exception $e){
+            return $e;
+        }
+    }
+
 }
