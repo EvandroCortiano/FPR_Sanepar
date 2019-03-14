@@ -143,7 +143,7 @@ class RepasseRepository{
     public function findAlteracao($dtIni, $dtFim){
         try{
             $sql = "select dr.ddr_nome, dr.ddr_matricula, dr.ddr_cpf, dr.ddr_cep, dr.ddr_titular_conta,
-                        nv.doa_valor_mensal, nv.doa_motivo, nv.created_at, an.doa_justifica_cancelamento
+                        nv.doa_valor_mensal, nv.doa_motivo, nv.created_at, an.doa_justifica_cancelamento, an.doa_valor_mensal as an_valor_anterior
                     from cad_doacao as nv
                         left join cad_doacao as an
                             on an.doa_novadoa_id = nv.doa_id

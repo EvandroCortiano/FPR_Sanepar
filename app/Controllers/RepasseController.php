@@ -543,6 +543,7 @@ class RepasseController extends Controller
                         'Matricula' => $d->ddr_matricula,
                         'Novo_Valor_Doacao' => $d->doa_valor_mensal,
                         'Data_da_alteracao' => $d->created_at,
+                        'Valor_Anterior' => $d->an_valor_anterior,
                         'CPF' => $d->ddr_cpf,
                         'CEP' => $d->ddr_cep,
                         'Status' => $d->doa_motivo,
