@@ -31,6 +31,7 @@
                             <th>Endereço</th>
                             <th>Cidade</th>
                             <th>Telefone</th>
+                            <th>Observações</th>
                             <th>Ações</th>
                             <th>Informações</th>
                         </tr>

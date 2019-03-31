@@ -63,14 +63,15 @@ function tdListPessoas(){
         },
         "data" :   [],   
         "columns": [
-            {data: 'flag',"width": "6%" },
-            {data: 'pes_nome',"width": "16%" },
+            {data: 'flag',"width": "4%" },
+            {data: 'pes_nome',"width": "15%" },
             {data: 'pes_mae',"width": "11%"},
-            {data: 'pes_nascimento',"width": "10%"},
-            {data: 'pes_endereco',"width": "11%"},
-            {data: 'pes_cidade',"width": "9%"},
-            {data: 'telefones',"width": "11%"},
-            {data: 'link',"width": "11%"},
+            {data: 'pes_nascimento',"width": "8%"},
+            {data: 'pes_endereco',"width": "10%"},
+            {data: 'pes_cidade',"width": "8%"},
+            {data: 'telefones',"width": "10%"},
+            {data: 'pes_obs',"width": "11%"},
+            {data: 'link',"width": "8%"},
             {data: 'info',"width": "12%" },
             ]
     });
