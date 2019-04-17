@@ -317,11 +317,22 @@ class SaneparRetornoController extends Controller
     public function findRecebidosSaneparList(Request $request){
         // Retorna valores para pesquisa
         $pesq = $request->all();
-
+        $soma = 0;
+        $data = array();
         if($pesq['rto_referencia_arr']){
             $arq = $this->sanepar->findArquivoSanepar($pesq);
 
-            return $arq;
+            foreach($arq as $a){
+                $soma += $a['rto_vlr_servico'];
+                $a['rto_vlr_servico'] = number_format($a['rto_vlr_servico'],2,",","");
+            }
+
+            $data = [
+                "arq" => $arq,
+                "soma" => number_format($soma,2,"","")
+            ];
+
+            return $data;
         } else {
             return false;
         }

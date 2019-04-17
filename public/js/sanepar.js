@@ -164,11 +164,12 @@ function filterProducaoSaneparListar(){
                 data: data,
                 columns: [
                     { data: 'ddr_titular_conta' },
-                    { data: 'ddr_nome' },
-                    { data: 'ddr_nascimento' },
-                    { data: 'ddr_endereco' },
+                    // { data: 'ddr_nome' },
+                    // { data: 'ddr_nascimento' },
+                    // { data: 'ddr_endereco' },
                     { data: 'ddr_cep' },
-                    { data: 'ddr_cidade' }
+                    // { data: 'ddr_cidade' }
+                    { data: 'ddr_matricula'}
                 ]
             });
         }
@@ -363,6 +364,7 @@ function filterRecebidoSaneparListar(){
             toastr.remove();
             toastr.error(data.msg);
         } else {
+            $("#infoValorRepasses").html("<p>Valor Total recebido no mês de Referencia: <span style='font-size:12pt;font-weight:bold;'>R$ "+formatReal(data.soma)+"</span></p>");
             // toastr.remove();
             toastr.success("Repasse para Sanepar, retornado com Sucesso!");
             $('#tableListRecebidos').DataTable({
@@ -383,7 +385,7 @@ function filterRecebidoSaneparListar(){
                         "next":"Próximo"
                     }
                 },
-                data: data,
+                data: data.arq,
                 columns: [
                     { data: 'rto_nome' },
                     { data: 'rto_matricula' },
@@ -398,4 +400,14 @@ function filterRecebidoSaneparListar(){
         toastr.remove();
         toastr.error("Erro ao carregar Repasse para Sanepar!");
     });
+}
+
+function formatReal( int )
+{
+        var tmp = int+'';
+        tmp = tmp.replace(/([0-9]{2})$/g, ",$1");
+        if( tmp.length > 6 )
+                tmp = tmp.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+
+        return tmp;
 }
