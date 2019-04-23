@@ -105,6 +105,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/downloadExcelRecebidosList', ['as' => 'downloadExcelRecebidosList', 'uses' => 'SaneparRetornoController@downloadExcelRecebidosList']);
         Route::get('/findRecebidosSaneparList', ['as' => 'findRecebidosSaneparList', 'uses' => 'SaneparRetornoController@findRecebidosSaneparList']);
         //Route::get('/findSaneparDate', ['as' => 'findSaneparDate', 'uses' => 'SaneparRetornoController@findSaneparDate']);
+        Route::get('/inadiSanepar', ['as' => 'inadiSanepar', 'uses' => 'SaneparRetornoController@inadiSanepar']);
     });
 
     // Auth::routes();

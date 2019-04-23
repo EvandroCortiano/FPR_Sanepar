@@ -34,4 +34,16 @@ class SaneparRepository{
             return $e;
         }
     }
+
+    // Retorna doadores inadiplentes ou sem retorno da sanepar
+    public function inadiSanepar($data){
+        try{
+            $arq = sanepar_retorno::where('rto_referencia_arr','>',$data['dara_ref'])
+                                  ->whereNull('rto_referencia_arr')
+                                  ->get();
+            return $arq;
+        } catch(\Exception $e){
+            return $e;
+        }
+    }
 }

@@ -24,6 +24,7 @@ $(document).ready(function(){
 
     //chama funcoes
     filterProducaoSanepar();
+    filterInadiSanepar();
 });
 
 /********************************************/
@@ -410,4 +411,55 @@ function formatReal( int )
                 tmp = tmp.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
 
         return tmp;
+}
+
+/**
+ * Retornar os inadiplentes ou sem retorna da doacao pela sanepar
+ */
+function filterInadiSanepar(){
+    pesquisa = $("form#formInadiSanepar").serialize();
+
+    $.ajax({
+        type: 'get',
+        url: '../../sanepar/inadiSanepar',
+        data: pesquisa,
+        dataType: 'json',
+    }).done(function(data){
+        // toastr.remove();
+        // toastr.success("Repasse para Sanepar, retornado com Sucesso!");
+        $('#tableInadiSanepar').DataTable({
+            destroy: true,
+            paging: true,
+            searching: false,
+            pageLength: 10,
+            info: true,
+            dom: "<'row'<'col-sm-12'<'pull-left'f><'pull-left'T>r<'clearfix'>>>t<'row'<'col-sm-12'<'pull-left'i><'pull-right'p><'clearfix'>>>",
+            language: {
+                info: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                infoEmpty: " ",
+                zeroRecords:  "Sistema não retornou nenhum doador!",
+                lengthMenu: "_MENU_",
+                searchPlaceholder: "Pesquisar...",
+                paginate: {
+                    "previous":"Anterior",
+                    "next":"Próximo"
+                }
+            },
+            data: data,
+            columns: [
+                { data: 'ddr_id' },
+                { data: 'ddr_matricula' },
+                { data: 'ddr_nome' },
+                { data: 'doa_valor_mensal' },
+                { data: 'doa_qtde_parcela' },
+                { data: 'smt_nome' },
+                { data: 'doa_valor' },
+            ]
+        });
+        // $("#tableAllDoacao_wrapper").parent().css("overflow-x","hidden");
+        // $("#tableAllDoacao_paginate").css("margin","-25px 0px 0px 0px");
+    }).fail(function(){
+        // toastr.remove();
+        toastr.error("Erro ao carregar Repasse para Sanepar!");
+    });
 }

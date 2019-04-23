@@ -38,7 +38,6 @@ $("#modalCadDoacao #submitStoreDoacao").on('click', function(){
 });
 $("#formDoadorDoador #submitStoreDoacao").on('click', function(){
     data = $("form#formStoreDoadorDoacao").serialize();
-console.log(data);
     $.ajax({
         type: 'post',
         data: data,

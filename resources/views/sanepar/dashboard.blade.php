@@ -178,8 +178,51 @@
                     </div>
                 </div>
 
-            </div>
+                <div class="row">
+                    {{-- Tabela com os inadiplentes ou sem recebidos da sanepar --}}
+                    <div class="col-md-12">
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">
+                                <div class="row">
+                                        <div class="col-sm-4">
+                                            <b>Doadores sem repasse Sanepar</b>
+                                        </div>
+                                    {{ Form::open(['id' => 'formInadiSanepar']) }}
+                                        <div class="col-sm-3">
+                                            <span class="pull-right" style="font-size: 14px;">Mês de Referência:</span>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            {{ Form::select('rto_referencia_arr', ['201901'=>'201901'], '', ['class' => 'form-control', 'id' => 'rto_referencia_arr', 'placeholder' => 'Selecione referência...']) }}
+                                        </div>
+                                        <div class="col-sm-1">
+                                            {{ Form::button('<span class="fa fa-search"></span>', ['class' => 'btn btn-md btn-default pull-right', 'id' => 'btnListRecebidos', 'name' => 'btnModalBack']) }}
+                                        </div>
+                                        <div class="col-sm-1">
+                                            {{ Form::button('<span class="fas fa-file-excel"></span>', ['class' => 'btn btn-md btn-success pull-right', 'id' => 'btnExcelListRecebidos', 'name' => 'btnModalBack']) }}
+                                        </div>
+                                    {{ Form::close() }}
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <table id="tableInadiSanepar" class="table table-striped" style="margin-bottom:0px;">
+                                    <thead>
+                                        <tr>
+                                            <th>Titular da Conta</th>
+                                            <th>Matricula</th>
+                                            <th>Cidade</th>
+                                            <th>Estado</th>
+                                            <th>CEP</th>
+                                            <th>Valor</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <div id="infoValorRepasses"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+            </div>
         </div>
     
     
