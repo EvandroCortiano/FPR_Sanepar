@@ -209,10 +209,10 @@
                                         <tr>
                                             <th>Titular da Conta</th>
                                             <th>Matricula</th>
-                                            <th>Cidade</th>
-                                            <th>Estado</th>
                                             <th>CEP</th>
-                                            <th>Valor</th>
+                                            <th>Data Inicio</th>
+                                            <th>Valor Parcela</th>
+                                            <th>Qtde Parcelas</th>
                                         </tr>
                                     </thead>
                                 </table>

@@ -447,13 +447,12 @@ function filterInadiSanepar(){
             },
             data: data,
             columns: [
-                { data: 'ddr_id' },
+                { data: 'ddr_titular_conta' },
                 { data: 'ddr_matricula' },
-                { data: 'ddr_nome' },
+                { data: 'doa_data' },
+                { data: 'ddr_cep' },
                 { data: 'doa_valor_mensal' },
                 { data: 'doa_qtde_parcela' },
-                { data: 'smt_nome' },
-                { data: 'doa_valor' },
             ]
         });
         // $("#tableAllDoacao_wrapper").parent().css("overflow-x","hidden");
