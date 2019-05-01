@@ -364,4 +364,17 @@ class SaneparRetornoController extends Controller
             });
         })->store('xls', 'filesExport/', true);
     }
+
+    // Retorna Inadiplemente ou sem o retorno da sanepar
+    public function findInadiSanepar(Request $request){
+        $pesq = $request->all();
+
+        $data = array();
+        $data["dtRef1"] = '201810';
+        $data["dtRef2"] = '201809';
+
+        $data = $this->sanepar->inadiSanepar($data);
+
+        return $data;
+    }
 }

@@ -23,10 +23,40 @@ class PessoasRepository{
         }
     }
 
+    public function findPesContato($ccs_pes_id){
+        try{
+            return contato_status::where("ccs_pes_id","=",$ccs_pes_id)->orderBy('ccs_id','desc')->first();
+        } catch(\Exception $e){
+            return $e;
+        }
+    }
+
     //Cadastra contato com o possivel doador
     public function contatoStorePessoas($data){
         try{
             return contato_status::create($data);
+        } catch(\Exception $e){
+            return $e;
+        }
+    }
+
+    //Atualiza contato com o possivek doador
+    public function contatoUpdatePessoas($data){
+        try{
+            $updCcs = contato_status::find($data['ccs_id']);
+            if($updCcs){
+                try{
+                    $upd = $updCcs->update($data);
+                    if ($upd) {
+                        return pessoas::find($data['ccs_pes_id']);
+                    } else {
+                        return 'Error';
+                    }
+                    
+                } catch(\Exception $e){
+                    return $e;
+                }
+            }
         } catch(\Exception $e){
             return $e;
         }

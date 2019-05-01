@@ -7,6 +7,7 @@
             </div>
             {{ Form::open(['id' => 'formStoreContatoPessoas']) }}
                 {{ Form::hidden('ccs_pes_id','',['id'=> 'ccs_pes_id']) }}
+                {{ Form::hidden('ccs_id','',['id'=> 'ccs_id']) }}
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-12">
