@@ -16,11 +16,14 @@ $(document).ready(function(){
     primeiroDia = datenew.getFullYear() + '-' + ("0" + datenew.getMonth()).substr(-2) + '-' + "01";
     // primeiroDia = datenew.getFullYear() + '-' + ("0" + (datenew.getMonth()+1)).substr(-2) + '-' + "01";
     menosDoisMeses = datenew.getFullYear() + '-' + ("0" + (datenew.getMonth()-1)).substr(-2) + '-' + "01";
+    menosTresMeses = datenew.getFullYear() + '-' + ("0" + (datenew.getMonth()-2)).substr(-2) + '-' + "01";
+    
     $("#formFiltroDoaRepasse #dataIni").val(primeiroDia);
     $("#formFiltroProducao #dataIni").val(primeiroDia);
     $("#formFiltroCancelados #dataFim").val(primeiroDia);
     $("#formFiltroVencer #dataIni").val(menosDoisMeses);
     $("#formFiltroProducaoSanepar #dataIni").val(primeiroDia);
+    $("#formInadiSanepar #rto_referencia_arr").val(menosTresMeses);
 
     //chama funcoes
     filterProducaoSanepar();
@@ -416,6 +419,9 @@ function formatReal( int )
 /**
  * Retornar os inadiplentes ou sem retorna da doacao pela sanepar
  */
+$("#formInadiSanepar #btnListInadi").click(function(){
+    filterInadiSanepar();
+});
 function filterInadiSanepar(){
     pesquisa = $("form#formInadiSanepar").serialize();
 
@@ -449,8 +455,8 @@ function filterInadiSanepar(){
             columns: [
                 { data: 'ddr_titular_conta' },
                 { data: 'ddr_matricula' },
-                { data: 'doa_data' },
                 { data: 'ddr_cep' },
+                { data: 'doa_data' },
                 { data: 'doa_valor_mensal' },
                 { data: 'doa_qtde_parcela' },
             ]
@@ -462,3 +468,20 @@ function filterInadiSanepar(){
         toastr.error("Erro ao carregar Repasse para Sanepar!");
     });
 }
+$("#formInadiSanepar #btnExcelListInadi").click(function(){
+    pesquisa = $("form#formInadiSanepar").serialize();
+
+    $.ajax({
+        type: 'get',
+        url: '../../sanepar/downloadExcelInadiSanepar',
+        cache: false,
+        data: pesquisa
+    }).done(function(response){
+        toastr.remove();
+        toastr.success("Arquivo sem repasse para Sanepar, gerado com sucesso!");
+        window.location.href = response.full;
+    }).fail(function(){
+        toastr.remove();
+        toastr.error("Erro ao gerar Arquivo sem repasse para Sanepar!");
+    });
+});

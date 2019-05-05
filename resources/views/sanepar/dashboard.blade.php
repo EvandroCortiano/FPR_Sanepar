@@ -185,20 +185,20 @@
                             <div class="panel-heading">
                                 <div class="row">
                                         <div class="col-sm-4">
-                                            <b>Doadores sem repasse Sanepar</b>
+                                            <b>Doadores sem repasse para Sanepar</b>
                                         </div>
                                     {{ Form::open(['id' => 'formInadiSanepar']) }}
                                         <div class="col-sm-3">
                                             <span class="pull-right" style="font-size: 14px;">Mês de Referência:</span>
                                         </div>
                                         <div class="col-sm-3">
-                                            {{ Form::select('rto_referencia_arr', ['201901'=>'201901'], '', ['class' => 'form-control', 'id' => 'rto_referencia_arr', 'placeholder' => 'Selecione referência...']) }}
+                                            {{ Form::date('rto_referencia_arr', '', ['class' => 'form-control', 'id' => 'rto_referencia_arr']) }}                                            
                                         </div>
                                         <div class="col-sm-1">
-                                            {{ Form::button('<span class="fa fa-search"></span>', ['class' => 'btn btn-md btn-default pull-right', 'id' => 'btnListRecebidos', 'name' => 'btnModalBack']) }}
+                                            {{ Form::button('<span class="fa fa-search"></span>', ['class' => 'btn btn-md btn-default pull-right', 'id' => 'btnListInadi', 'name' => 'btnModalBack']) }}
                                         </div>
                                         <div class="col-sm-1">
-                                            {{ Form::button('<span class="fas fa-file-excel"></span>', ['class' => 'btn btn-md btn-success pull-right', 'id' => 'btnExcelListRecebidos', 'name' => 'btnModalBack']) }}
+                                            {{ Form::button('<span class="fas fa-file-excel"></span>', ['class' => 'btn btn-md btn-success pull-right', 'id' => 'btnExcelListInadi', 'name' => 'btnModalBack']) }}
                                         </div>
                                     {{ Form::close() }}
                                 </div>

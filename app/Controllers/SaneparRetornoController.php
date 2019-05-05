@@ -368,13 +368,63 @@ class SaneparRetornoController extends Controller
     // Retorna Inadiplemente ou sem o retorno da sanepar
     public function findInadiSanepar(Request $request){
         $pesq = $request->all();
-
         $data = array();
-        $data["dtRef1"] = '201810';
-        $data["dtRef2"] = '201809';
+        
+        if($pesq['rto_referencia_arr']){
+            $data["dtRef1"] = substr(str_replace("-", "", $pesq['rto_referencia_arr']), 0, -2);
+            $data["dtRef2"] = substr(str_replace("-", "", Carbon::now()->toDateString()), 0, -2);
 
-        $data = $this->sanepar->inadiSanepar($data);
+            $data = $this->sanepar->inadiSanepar($data);
 
-        return $data;
+            foreach($data as $dt){
+                $dt->doa_data = date('d/m/Y', strtotime($dt->doa_data));
+            }
+
+            return $data;
+        } else {
+            return false;
+        }
+    }
+
+    // Imprime Retorna Inadiplemente ou sem o retorno da sanepar
+    public function downloadExcelInadiSanepar(Request $request){
+        // Retorna valores para pesquisa
+        $pesq = $request->all();
+        $data = array();
+        $arq = array();
+
+        if($pesq['rto_referencia_arr']){
+            $data["dtRef1"] = substr(str_replace("-", "", $pesq['rto_referencia_arr']), 0, -2);
+            $data["dtRef2"] = substr(str_replace("-", "", Carbon::now()->toDateString()), 0, -2);
+            
+            $dt = $this->sanepar->inadiSanepar($data);
+
+            foreach($dt as $d){
+                $arq[] = [
+                    "Nome Doador" => $d->ddr_nome,
+                    "Nome Titular Conta" => $d->ddr_titular_conta,
+                    "Matrícula" => $d->ddr_matricula,
+                    "CEP" => $d->ddr_cep,
+                    "Data Cadastro Doador" => date('d/m/Y', strtotime($d->ddr_datainclusao)),
+                    "Data Doação" => date('d/m/Y', strtotime($d->doa_data)),
+                    "Data Ultima Doação" => date('d/m/Y', strtotime($d->doa_data_final)),
+                    "Valor Mês Doação" => $d->doa_valor_mensal,
+                    "Qtde de Meses" => $d->doa_qtde_parcela,
+                    "Valor Total Doação" => $d->doa_valor
+                ];
+            }
+
+            $nomeArq = 'Arquivo_Sanepar_' . $pesq['rto_referencia_arr'];
+
+            return Excel::create($nomeArq, function($excel) use ($arq) {
+                $excel->sheet('mySheet', function($sheet) use ($arq)
+                {
+                    $sheet->fromArray($arq);
+                });
+            })->store('xls', 'filesExport/', true);
+
+        } else {
+            return false;
+        }
     }
 }
