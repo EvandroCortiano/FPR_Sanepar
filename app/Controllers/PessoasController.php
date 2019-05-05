@@ -10,6 +10,7 @@ use App\Repository\DoadorRepository;
 use App\Repository\DoacaoRepository;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\pessoas;
 
 class PessoasController extends Controller
 {
@@ -29,8 +30,10 @@ class PessoasController extends Controller
         $stc = status_contato::pluck('stc_nome','stc_id');
         //Motivo
         $mtdoa = status_motivo::pluck('smt_nome','smt_id');
+        //Mailing
+        $pes_campanha = pessoas::groupBy('pes_campanha')->orderBy('created_at','desc')->pluck('pes_campanha', 'pes_campanha');
 
-        return view('pessoas.pessoas')->with(compact('stc','mtdoa'));
+        return view('pessoas.pessoas')->with(compact('stc','mtdoa','pes_campanha'));
     }
 
     // Pesquisa os dados da pessoa

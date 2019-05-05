@@ -12,6 +12,8 @@
                 <h1 class="page-head-line" style="margin-bottom:20px;">Lista para contato!</h1>
                 <div class="pull-right" style="margin-top: -70px;">
                     {{ Form::open(['id' => 'formNumberPessoasWhere']) }}
+                        Lista de contato {{ Form::select('pes_campanha', $pes_campanha,'', ['class' => 'inputSelect']) }}
+                        &nbsp;&nbsp;
                         Selecionar do {{ Form::number('numberInicial', 1, ["min" => "1", "id" => "numberInicial", "class" => "inputNumber"]) }} ao {{ Form::number('numberFinal', 50, ["max" => "99999", "id" => "numberFinal", "class" => "inputNumber"]) }}
                         {!! Form::button('<span class="glyphicon glyphicon-refresh"></span>', ['class'=>'btn btn-sm btn-primary', 'id' => 'wherePessoasDT', 'name' => 'wherePessoasDT']) !!}
                     {{ Form::close() }}

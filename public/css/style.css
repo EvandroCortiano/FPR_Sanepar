@@ -337,6 +337,13 @@ footer {
     border-radius: 5px;
     border: solid 1px #999;
 }
+.inputSelect{
+    width: 180px;
+    padding: 0px 8px;
+    height: 30px;
+    border-radius: 5px;
+    border: solid 1px #999;
+}
 .btn-danger2{
     color: #fff;
     background-color: #800000;
