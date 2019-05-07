@@ -28,7 +28,12 @@ class pessoas extends Model
         'pes_tel3',
         'pes_tel4',
         'pes_tel5',
-        'pes_email'
+        'pes_email',
+        'pes_campanha',
+        'pes_id_campanha',
+        'pes_obs',
+        'created_at',
+        'updated_at'
     ];
 
     public function contato(){

@@ -30,6 +30,7 @@ $(document).ajaxStart(function() {
 function tdListPessoas(){
     inicial = $("form#formNumberPessoasWhere #numberInicial").val();
     final = $("form#formNumberPessoasWhere #numberFinal").val();
+    mailing = $("form#formNumberPessoasWhere [name=pes_campanha]").val();
 
 	//Datatable Modal List Ddv
     tablePessoas = $('#tablePessoas').DataTable({
@@ -53,7 +54,7 @@ function tdListPessoas(){
         "ajax": {      
             "type":'GET',
             "url": '../../pessoas/show',
-            "data": {"inicial":inicial,"final":final},
+            "data": {"inicial":inicial,"final":final,'mailing':mailing},
             "dataSrc": function(json) {
                 return json;
             },

@@ -7,9 +7,12 @@ use App\Models\contato_status;
 
 class PessoasRepository{
 
-    public function show($numberInicial, $numberFinal){
+    public function show($numberInicial, $numberFinal, $mailing){
         try{
-            return pessoas::whereBetween('pes_id',[$numberInicial, $numberFinal])->get();
+            return pessoas::where('pes_campanha','=',$mailing)
+                          ->whereBetween('pes_id_campanha',[$numberInicial, $numberFinal])
+                          ->get();
+            // return pessoas::whereBetween('pes_id',[$numberInicial, $numberFinal])->get();
         } catch(\Exception $e){
             return $e;
         }

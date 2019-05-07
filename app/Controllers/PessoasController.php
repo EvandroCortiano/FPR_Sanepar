@@ -48,7 +48,7 @@ class PessoasController extends Controller
     {
         $data = $request->all();  
 
-        $pessoas = $this->pessoas->show($data['inicial'], $data['final']);
+        $pessoas = $this->pessoas->show($data['inicial'], $data['final'], $data['mailing']);
 
         foreach($pessoas as $pes){
             $pes['pes_nascimento'] = date('d/m/Y', strtotime($pes['pes_nascimento']));
