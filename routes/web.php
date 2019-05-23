@@ -109,6 +109,16 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/downloadExcelInadiSanepar', ['as' => 'downloadExcelInadiSanepar', 'uses' => 'SaneparRetornoController@downloadExcelInadiSanepar']);
     });
 
+    //Usuarios do sistema
+    Route::group(['prefix' => 'user', 'as' => 'user'], function () {
+        Route::get('users/', ['as' => 'index', 'uses' => 'UsersController@index']);
+        Route::get('users/create', ['as' => 'create', 'uses' => 'UsersController@create']);
+        Route::get('users/edit/{id}', ['as' => 'edit', 'uses' => 'UsersController@edit']);
+        Route::get('users/destroy/{id}', ['as' => 'destroy', 'uses' => 'UsersController@destroy']);
+        Route::post('users/store', ['as' => 'store', 'uses' => 'UsersController@store']);
+        Route::put('users/update/{id}', ['as' => 'store', 'uses' => 'UsersController@store']);
+    });
+
     // Auth::routes();
     Route::get('/home', 'HomeController@index')->name('welcome');
 });

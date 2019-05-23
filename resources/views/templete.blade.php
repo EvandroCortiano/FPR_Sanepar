@@ -93,6 +93,12 @@
                                 {{-- <h5><strong>Personal Bio : </strong></h5>
                                 Anim pariatur cliche reprehen derit.
                                 <hr /> --}}
+                                @can('administrador', Auth::user())
+                                    <a href="../../user/users" class="btn btn-primary btn-sm">
+                                        Cadastrar Usuário
+                                    </a>
+                                    <hr />
+                                @endcan
                                 <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="btn btn-danger btn-sm">
                                     Sair do Sistema
                                 </a>
